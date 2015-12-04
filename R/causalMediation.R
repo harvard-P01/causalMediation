@@ -22,7 +22,7 @@ causalMediation <- function(data = df, outcome = 'death', treatment = 'smoking',
     outcome.formula  <- paste(outcome.basic,  paste(covariates, collapse = " + "), sep = ' + ')
   }
   
-  if(debug){
+  if (debug) {
     print(paste("MEDIATION FORMULA", mediator.formula, sep = ' : '))
     print(paste("  OUTCOME FORMULA", outcome.formula,  sep = ' : '))
   }
