@@ -12,4 +12,5 @@ Depends:
     msm,
     survival,
     Matrix,
-    MASS
+    MASS,
+    boot

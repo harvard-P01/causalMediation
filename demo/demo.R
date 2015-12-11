@@ -14,23 +14,23 @@ df <- data.frame('smoking'    = c(0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0
                  'agebelow20' = c(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 )
 
-result <- causalMediation::causalMediation(nbootstraps = 1000, interaction = TRUE, debug = TRUE)
+result <- causalMediation::causalMediation(nbootstraps = 10, interaction = TRUE, yreg = "binary", mreg = "binary")
 print(result)
 
+# result <- causalMediation::causalMediation(nbootstraps = 1, interaction = TRUE)
 
 ### second example
 df     <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 head(df)
 
 
-result <- causalMediation::causalMediation(data = df, 
-                                           outcome = 'satis', 
-                                           treatment = 'therapy',
-                                           mediator = 'attrib',
-                                           covariates = c(),
-                                           nbootstraps = 0, 
-                                           interaction = FALSE, 
-                                           debug = TRUE)
+result <- causalMediation(data = df, 
+                          outcome = 'satis', 
+                          treatment = 'therapy',
+                          mediator = 'attrib',
+                          covariates = c(),
+                          nbootstraps = 0, 
+                          interaction = FALSE)
 print(result)
 
 

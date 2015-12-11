@@ -1,112 +1,8 @@
-causalMediationDelta <- function() {
-  
-}
-
-causalMediationOneStep <- function(data, outcome, treatment, mediator, covariates, 
-                                   interaction = TRUE,
-                                   mreg = c("linear", "logistic"),
-                                   yreg = c("linear", "logistic", "loglinear", "poisson",
-                                            "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
-                                   event,
-                                   casecontrol = FALSE, baseline = 0, 
-                                   indices) {
-  # data <- data[indices, ]
-  # print(head(data))
-  ### Perform regressions (http://www.statmethods.net/stats/regression.html)
-  #   Build formulas for mediator and outcome regression
-  mediator.basic <- paste(mediator, treatment, sep=' ~ ')
-  outcome.basic  <- paste(paste(outcome, treatment, sep=' ~ '), mediator, sep=' + ')
-  
-  if (interaction == TRUE) {
-    outcome.basic <- paste(outcome.basic, paste(treatment, mediator, sep = '*'), sep = ' + ')
-  }
-  
-  if (length(covariates) == 0) {
-    mediator.formula <- mediator.basic
-    outcome.formula  <- outcome.basic
-  } else {
-    mediator.formula <- paste(mediator.basic, paste(covariates, collapse = " + "), sep = ' + ')
-    outcome.formula  <- paste(outcome.basic,  paste(covariates, collapse = " + "), sep = ' + ')
-  }
-  
-  ### FIXME: hardcode to validate with SAS macro
-#   mediator.binary <- all(unique(data[, mediator]) %in% 0:1)
-#   outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
-  
-  
-  if (mreg == "linear") {
-    mediator.regression <- lm(mediator.formula, data = data)
-  } else {
-    if (casecontrol == TRUE) {
-      data <- data[data[[outcome]] == baseline, ]
-    }
-    mediator.regression <- glm(mediator.formula, family = binomial(), data = data)
-  }
-  
-  if (yreg == "linear") {
-    outcome.regression  <- lm(outcome.formula, data = data)
-  }
-  if (yreg == "logistic") {
-    outcome.regression  <- glm(outcome.formula, family = binomial(), data = data)
-  }
-  if (yreg == "loglinear") {
-    outcome.regression  <- glm(outcome.formula, family = binomial("log"), data = data)
-  }
-  if (yreg == "poisson") {
-    outcome.regression  <- glm(outcome.formula, family = poisson(), data = data)
-  }
-  if (yreg == "quasipoisson") {
-    outcome.regression  <- glm(outcome.formula, family = quasipoisson(), data = data)
-  }
-  if (yreg == "negbin") {
-    outcome.regression  <- glm.nb(outcome.formula, data = data)
-  }
-  #   if (yreg == "coxph"){
-  #     form <- formula(outcome.formula)
-  #     form[[2]] <- Surv(outcome, event)
-  #     outcome.regression  <<- coxph(form, data = data)
-  #   }
-  
-  ## Store coefficients from regression
-  betas  <- coefficients(mediator.regression)
-  thetas <- coefficients(outcome.regression)
-  
-  print(betas)
-  
-  variance <- (summary(mediator.regression)$sigma)^2
-  
-  if (mreg != "linear" & yreg != "linear") {
-    cde <- CDE_bin(thetas, treatment, mediator, interaction = interaction)
-    nde <- NDE_binbin(betas, thetas, treatment, mediator, covariates, interaction = interaction)
-    nie <- NIE_binbin(betas, thetas, treatment, mediator, covariates, interaction = interaction)
-    tde <- nde * nie
-  } else if (mreg != "linear" & yreg == "linear") {
-    cde <- CDE_cont(thetas, treatment, mediator, interaction = interaction)
-    nde <- NDE_bincont(betas, thetas, treatment, mediator, covariates, interaction = interaction)
-    nie <- NIE_bincont(betas, thetas, treatment, mediator, covariates, interaction = interaction)
-    tde <- nde + nie
-  } else if (mreg == "linear" & yreg != "linear") {
-    cde <- CDE_bin(thetas, treatment, mediator, interaction = interaction)
-    nde <- NDE_contbin(betas, thetas, treatment, mediator, covariates, variance, interaction = interaction)
-    nie <- NIE_contbin(betas, thetas, treatment, mediator, covariates, interaction = interaction)
-    tde <- nde * nie
-  } else if (mreg == "linear" & yreg == "linear") {
-    cde <- CDE_cont(thetas, treatment, mediator, interaction = interaction)
-    nde <- NDE_contcont(betas, thetas, treatment, mediator, covariates, interaction = interaction)
-    nie <- NIE_contcont(betas, thetas, treatment, mediator, covariates, interaction = interaction)
-    tde <- nde + nie
-  }
-  
-  return(c(cde, nde, nie, tde))
-}
-
-
-causalMediation <- function(data = df, outcome, treatment, mediator, covariates,
-                            interaction = TRUE,
+causalMediation <- function(data = df, outcome = 'death', treatment = 'smoking', mediator = 'lbw',
+                            covariates = c('drinking', 'agebelow20'), interaction = TRUE, nbootstraps = 100, debug = FALSE,
                             mreg = c("linear", "logistic"),
                             yreg = c("linear", "logistic", "loglinear", "poisson", "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
                             event,
-                            nbootstraps = 100,
                             casecontrol = FALSE, baseline = 0,
                             seed = 1234){
   ### Perform regressions (http://www.statmethods.net/stats/regression.html)
@@ -126,9 +22,19 @@ causalMediation <- function(data = df, outcome, treatment, mediator, covariates,
     outcome.formula  <- paste(outcome.basic,  paste(covariates, collapse = " + "), sep = ' + ')
   }
   
+  if (debug) {
+    print(paste("MEDIATION FORMULA", mediator.formula, sep = ' : '))
+    print(paste("  OUTCOME FORMULA", outcome.formula,  sep = ' : '))
+  }
+  
   ### FIXME: hardcode to validate with SAS macro
   mediator.binary <- all(unique(data[, mediator]) %in% 0:1)
   outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
+  
+  if (debug) {
+    print(paste("MEDIATOR BINARY = ", mediator.binary, sep = ""))
+    print(paste(" OUTCOME BINARY = ", outcome.binary, sep = ""))
+  }
   
   ### Output vectors
   cdes      <- vector()

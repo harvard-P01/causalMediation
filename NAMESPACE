@@ -1,3 +1,3 @@
-import(msm, survival, Matrix, MASS)
+import(msm, survival, Matrix, MASS, boot)
 
 exportPattern("^[[:alpha:]]+")
