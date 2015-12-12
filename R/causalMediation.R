@@ -66,7 +66,18 @@ causalMediationOneStep <- function(data, outcome, treatment, mediator, covariate
     outcome.formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
     outcome.regression <- coxph(as.formula(outcome.formula), data = data)
   }
-  
+  if (yreg == "aft_exp") {
+    l <- strsplit(outcome.formula, split = "~")
+    l[[1]][1] <- paste0("Surv(", outcome, ", ", event, ")")
+    outcome.formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
+    outcome.regression <- survreg(as.formula(outcome.formula), dist = "exponential", data = data)
+  }
+  if (yreg == "aft_weibull") {
+    l <- strsplit(outcome.formula, split = "~")
+    l[[1]][1] <- paste0("Surv(", outcome, ", ", event, ")")
+    outcome.formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
+    outcome.regression <- survreg(as.formula(outcome.formula), dist = "weibull", data = data)
+  }
   ## Store coefficients from regression
   betas  <- coefficients(mediator.regression)
   thetas <- coefficients(outcome.regression)
