@@ -30,3 +30,12 @@ boot(data= df, statistic = causalMediationOneStep, R = 10,
      interaction = FALSE,
      yreg = "linear", mreg = "linear")
 
+causalMediation(data = df, outcome = 'y', 
+                treatment = 'x',
+                mediator = 'm',
+                covariates = 'c',
+                interaction = FALSE,
+                yreg = "linear", mreg = "linear",
+                boot = TRUE,
+                nboot = 1000)
+
