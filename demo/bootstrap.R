@@ -10,12 +10,12 @@ head(df)
 
 debug(causalMediationOneStep)
 result <- causalMediationOneStep(data = df, 
-                          outcome = 'satis', 
-                          treatment = 'therapy',
-                          mediator = 'attrib',
-                          covariates = NULL,
-                          interaction = FALSE,
-                          yreg = "linear", mreg = "linear")
+                                 outcome = 'satis', 
+                                 treatment = 'therapy',
+                                 mediator = 'attrib',
+                                 covariates = NULL,
+                                 interaction = FALSE,
+                                 yreg = "linear", mreg = "linear")
 result
 is.vector(result)
 library(boot)
@@ -30,12 +30,14 @@ boot(data= df, statistic = causalMediationOneStep, R = 10,
      interaction = FALSE,
      yreg = "linear", mreg = "linear")
 
-causalMediation(data = df, outcome = 'y', 
-                treatment = 'x',
-                mediator = 'm',
-                covariates = 'c',
-                interaction = FALSE,
-                yreg = "linear", mreg = "linear",
-                boot = TRUE,
-                nboot = 1000)
+r <- causalMediation(data = df, outcome = 'y', 
+                     treatment = 'x',
+                     mediator = 'm',
+                     covariates = 'c',
+                     interaction = FALSE,
+                     yreg = "linear", mreg = "linear",
+                     boot = TRUE,
+                     nboot = 10)
+
+print(r)
 
