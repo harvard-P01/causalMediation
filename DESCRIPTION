@@ -2,12 +2,11 @@ Package: causalMediation
 Type: Package
 Title: Causal Mediation Analysis
 Version: 0.1
-Date: 2015-11-20
+Date: 2015-12-12
 Author: Egge van der Poel
 Maintainer: Egge van der Poel <e.vanderpoel@erasmusmc.nl>
 Description: Implementation of Causal Mediation Analysis as published by Valeri and VanderWeele (2013, doi: 10.1037/a0031034)
 License: GPL-2
-Packaged: 2015-12-04 12:51:11 UTC; egge
 Depends:
     msm,
     survival,

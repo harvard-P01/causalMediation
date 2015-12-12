@@ -22,17 +22,16 @@ causalMediationOneStep <- function(data, outcome, treatment, mediator, covariate
   }
   
   if (length(covariates) == 0) {
-    mediator.formula <- mediator.basic
-    outcome.formula  <- outcome.basic
+    mediator.formula <<- mediator.basic
+    outcome.formula  <<- outcome.basic
   } else {
-    mediator.formula <- paste(mediator.basic, paste(covariates, collapse = " + "), sep = ' + ')
-    outcome.formula  <- paste(outcome.basic,  paste(covariates, collapse = " + "), sep = ' + ')
+    mediator.formula <<- paste(mediator.basic, paste(covariates, collapse = " + "), sep = ' + ')
+    outcome.formula  <<- paste(outcome.basic,  paste(covariates, collapse = " + "), sep = ' + ')
   }
   
   ### FIXME: hardcode to validate with SAS macro
 #   mediator.binary <- all(unique(data[, mediator]) %in% 0:1)
 #   outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
-  
   
   if (mreg == "linear") {
     mediator.regression <- lm(mediator.formula, data = data)
@@ -61,11 +60,12 @@ causalMediationOneStep <- function(data, outcome, treatment, mediator, covariate
   if (yreg == "negbin") {
     outcome.regression  <- glm.nb(outcome.formula, data = data)
   }
-  #   if (yreg == "coxph"){
-  #     form <- formula(outcome.formula)
-  #     form[[2]] <- Surv(outcome, event)
-  #     outcome.regression  <<- coxph(form, data = data)
-  #   }
+  if (yreg == "coxph") {
+    l <- strsplit(outcome.formula, split = "~")
+    l[[1]][1] <- paste0("Surv(", outcome, ", ", event, ")")
+    outcome.formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
+    outcome.regression <- coxph(as.formula(outcome.formula), data = data)
+  }
   
   ## Store coefficients from regression
   betas  <- coefficients(mediator.regression)
@@ -127,8 +127,8 @@ causalMediation <- function(data = df, outcome, treatment, mediator, covariates,
   }
   
   ### FIXME: hardcode to validate with SAS macro
-  mediator.binary <- all(unique(data[, mediator]) %in% 0:1)
-  outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
+#   mediator.binary <- all(unique(data[, mediator]) %in% 0:1)
+#   outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
   
   ### Output vectors
   cdes      <- vector()
