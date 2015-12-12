@@ -23,4 +23,24 @@ result2 <- causalMediationOneStep(data = df,
                            mreg = 'linear')
 result2
 
-debug(causalMediationOneStep)
+causalMediationOneStep(data = df, 
+                       outcome = 'y', 
+                       treatment = 'x',
+                       mediator = 'm',
+                       covariates = 'c',
+                       # nbootstraps = 100, 
+                       interaction = FALSE,
+                       event = 'cens',
+                       yreg = 'aft_exp',
+                       mreg = 'linear')
+
+causalMediationOneStep(data = df, 
+                       outcome = 'y', 
+                       treatment = 'x',
+                       mediator = 'm',
+                       covariates = 'c',
+                       # nbootstraps = 100, 
+                       interaction = FALSE,
+                       event = 'cens',
+                       yreg = 'aft_weibull',
+                       mreg = 'linear')
