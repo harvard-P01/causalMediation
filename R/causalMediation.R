@@ -2,15 +2,14 @@ causalMediationDelta <- function() {
   
 }
 
-causalMediationOneStep <- function(data, outcome, treatment, mediator, covariates, cval = NULL,
+causalMediationOneStep <- function(data, indices, outcome, treatment, mediator, covariates, cval = NULL,
                                    interaction = TRUE,
                                    mreg = c("linear", "logistic"),
                                    yreg = c("linear", "logistic", "loglinear", "poisson",
                                             "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
                                    event,
-                                   casecontrol = FALSE, baseline = 0, 
-                                   indices) {
-  # data <- data[indices, ]
+                                   casecontrol = FALSE, baseline = 0) {
+  data <- data[indices, ]
   # print(head(data))
   ### Perform regressions (http://www.statmethods.net/stats/regression.html)
   #   Build formulas for mediator and outcome regression

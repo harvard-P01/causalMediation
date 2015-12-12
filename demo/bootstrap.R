@@ -20,11 +20,13 @@ result
 is.vector(result)
 library(boot)
 
+df <- read.table("data/simdatasurv.csv", header = TRUE)
+
 boot(data= df, statistic = causalMediationOneStep, R = 10,
-     outcome = 'satis', 
-     treatment = 'therapy',
-     mediator = 'attrib',
-     covariates = NULL,
+     outcome = 'y', 
+     treatment = 'x',
+     mediator = 'm',
+     covariates = 'c',
      interaction = FALSE,
      yreg = "linear", mreg = "linear")
 
