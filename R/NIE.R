@@ -27,6 +27,8 @@ NIE_binbin_delta <- function(betas, thetas, vecc, treatment, mediator, a_star = 
   for (i in 1:length(vecc))
     assign(paste("vecc", i, sep = "_"), vecc[i])
   
+  ### FIXME: it seems that only X2 differs with/without interaction 
+  ###        shall we get the other terms out of the if/else statement?
   if (interaction) {
     X1 <- paste0("x", k + 1:2, collapse = " + ")
     X2 <- paste0("x3 +x",k)
@@ -115,6 +117,7 @@ NIE_contcont_delta <- function(betas, thetas, treatment, mediator, covariates, a
   if (interaction) {
     # s <- "(x3 * x_{k + 2} + x_{k} * x_{k + 2}*a_star)*(a-a_star)"
     s <- paste0("~ (x3 * x", length(thetas) + 2, " + x", length(thetas), " * x", length(thetas) + 2, " * a_star) * (a - a_star)")
+    ### FIXME: why is the '+2' necessary?
   } else {
     # s <- "(x3 * x_{k + 2})*(a-a_star)"
     s <- paste0("~ (x3 * x", length(thetas) + 2, " * a_star) * (a - a_star)")
