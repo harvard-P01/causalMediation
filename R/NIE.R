@@ -20,36 +20,6 @@ NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, cval,
   unname(ORnie)
 }
 
-NIE_binbin_delta <- function(betas, thetas, vecc, treatment, mediator, a_star = 0, a = 1, interaction = TRUE) {
-  j <- length(vecc)
-  k <- length(thetas)
-
-  for (i in 1:length(vecc))
-    assign(paste("vecc", i, sep = "_"), vecc[i])
-  
-  ### FIXME: it seems that only X2 differs with/without interaction 
-  ###        shall we get the other terms out of the if/else statement?
-  if (interaction) {
-    X1 <- paste0("x", k + 1:2, collapse = " + ")
-    X2 <- paste0("x3 +x",k)
-    XC <- paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + ")
-    s1 <- paste0("((1 + exp(", X1, " * a_star + ", XC, "))")
-    s2 <- paste0("(1 + exp(", X2, " * a + ", X1, " * a +", XC, ")))")
-    s3 <- paste0("((1 + exp(", X1, " * a + ", XC, "))")
-    s4 <- paste0("(1 + exp(", X2, " * a + ", X1, " * a_star +", XC, ")))")
-    s <- paste0("~ ", s1, "*", s2, "/", s3, "*", s4)
-  } else {
-    X1 <- paste0("x", k + 1:2, collapse = " + ")
-    X2 <- paste0("x3")
-    XC <- paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + ")
-    s1 <- paste0("((1 + exp(", X1, " * a_star + ", XC, "))")
-    s2 <- paste0("(1 + exp(", X2, " + ", X1, " * a +", XC, ")))")
-    s3 <- paste0("((1 + exp(", X1, " * a + ", XC, "))")
-    s4 <- paste0("(1 + exp(", X2, " + ", X1, " * a_star +", XC, ")))")
-    s <- paste0("~ ", s1, "*", s2,"/", s3,"*", s4)
-  }
-  return(as.formula(s))
-}
 
 NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, cval,
                         a_star = 0, a = 1, interaction = TRUE) {
@@ -113,14 +83,157 @@ NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, cval,
   unname(nie)
 }
 
-NIE_contcont_delta <- function(betas, thetas, treatment, mediator, covariates, a_star = 0, a = 1, interaction = TRUE) {
-  if (interaction) {
-    # s <- "(x3 * x_{k + 2} + x_{k} * x_{k + 2}*a_star)*(a-a_star)"
-    s <- paste0("~ (x3 * x", length(thetas) + 2, " + x", length(thetas), " * x", length(thetas) + 2, " * a_star) * (a - a_star)")
-    ### FIXME: why is the '+2' necessary?
-  } else {
-    # s <- "(x3 * x_{k + 2})*(a-a_star)"
-    s <- paste0("~ (x3 * x", length(thetas) + 2, " * a_star) * (a - a_star)")
+NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+  ### DEBUG: for testing purposes
+  #thetas <- c(1,2,3,4)
+  #interaction=FALSE
+  
+  k <- length(thetas)
+  
+  F1 <- paste0("~ (x3 * x", k+2)
+  F2 <- ")"
+  F3 <- " * (a-a_star)"
+  
+  if(interaction){
+    F2 <- paste0(" + x", k, " * x", k+2, " * a)")
   }
-  return(as.formula(s))
+
+  f = paste0(F1, F2, F3)
+
+  ### DEBUG: for testing purposes
+  if(debug){
+    print("DEBUG: NIE_contcont_delta")
+    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
+    print(paste0("DEBUG: formula = ", f))
+  }  
+  
+  return(as.formula(f)
+}
+
+NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+  ### DEBUG: for testing purposes
+  #thetas <- c(1,2,3,4)
+  #interaction=TRUE
+  
+  k <- length(thetas)
+  
+  F1 <- paste0("~ exp((x3 * x", k+2)
+  F2 <- ")"
+  F3 <- " * (a-a_star))"
+  
+  if(interaction){
+    F2 <- paste0(" + x", k, " * x", k+2, " * a)")
+  }
+  
+  f = paste0(F1, F2, F3)
+  
+  ### DEBUG: for testing purposes
+  if(debug){
+    print("DEBUG: NIE_contbin_delta")
+    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
+    print(paste0("DEBUG: formula = ", f))
+  }
+  
+  
+  return(as.formula(f)
+}
+
+NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+  ### vecc = vector of covariates
+  ### DEBUG: for testing purposes
+  #thetas <- c(1,2,3,4)
+  #vecc   <- c(1,2)
+  #interaction=FALSE
+  
+  j <- length(vecc)
+  k <- length(thetas)
+  
+  for (i in 1:j){
+    assign(paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  F1 <- paste0("(x3 + x", k, "*a)")
+  
+  # First numerator
+  N1 <- paste0("x", k+1:2, collapse = " + " )
+  N1 <- paste0("exp(", N1, "*a + ")
+  N1 <- paste(N1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+
+  # Second numerator
+  N2 <- paste0("x", k+1:2, collapse = " + " )
+  N2 <- paste0("exp(", N2, "*a_star + ")
+  N2 <- paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  
+  # First denominator
+  D1 <- paste0("x", k+1:2, collapse = " + " )
+  D1 <- paste0("1 + exp(", D1, "*a + ")
+  D1 <- paste(D1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  D1 <- paste0("(", D1, ")")
+  
+  # Second denominator
+  D2 <- paste0("x", k+1:2, collapse = " + " )
+  D2 <- paste0("1 + exp(", D2, "*a_star + ")
+  D2 <- paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  D2 <- paste0("(", D2, ")")
+  
+  # Construct formula
+  f <- paste0(F1, " * ( (", N1, "/", D1, ") - (", N2, "/", D2, ") )")
+  
+  ### DEBUG: for testing purposes
+  if(debug){
+    print("DEBUG: NIE_bincont_delta")
+    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
+    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
+    print(paste0("DEBUG: formula = ", f))
+  }
+  
+  return(as.formula(f))
+}
+
+
+NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+  ### vecc = vector of covariates
+  ### DEBUG: for testing purposes
+  #thetas <- c(1,2,3,4)
+  #vecc   <- c(1,2)
+  #interaction=FALSE
+  
+  j <- length(vecc)
+  k <- length(thetas)
+  
+  ### FIXME: it seems that only X2 differs with/without interaction 
+  ###        shall we get the other terms out of the if/else statement?
+  
+  ### QUESTION: Why do we need to specify xk all the time and x3 can remain like that? 
+  ###           Doesn't it matter if extra terms are added to the thetas vector?
+  
+  for (i in 1:j){
+    assign(paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  X1 <- paste0("x", k + 1:2, collapse = " + ")
+  XC <- paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + ")
+  s1 <- paste0("(1 + exp(", X1, " * a_star + ", XC, "))")
+  s3 <- paste0("(1 + exp(", X1, " * a + ", XC, "))")
+  s4 <- paste0("(1 + exp(", X2, " + ", X1, " * a_star +", XC, "))")
+  
+  if (interaction) {
+    X2 <- paste0("x3 +x",k)
+    s2 <- paste0("(1 + exp(", X2, " * a + ", X1, " * a +", XC, "))")
+  } else {
+    X2 <- paste0("x3")
+    s2 <- paste0("(1 + exp(", X2, " + ", X1, " * a +", XC, "))")
+  }
+
+  f <- paste0("~ (", s1, "*", s2, ")/(", s3, "*", s4, ")")
+  
+  ### DEBUG: for testing purposes
+  if(debug){
+      print("DEBUG: NIE_binbin_delta")
+    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
+    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
+    print(paste0("DEBUG: formula = ", f))
+  }
+  
+  return(as.formula(f))
 }
