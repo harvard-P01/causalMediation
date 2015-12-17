@@ -170,10 +170,10 @@ NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
 NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
-  thetas <- c(1,2,3,4)
-  vecc   <- c(1,2)
-  interaction=FALSE
-  debug=TRUE
+  #thetas <- c(1,2,3,4)
+  #vecc   <- c(1,2)
+  #interaction=FALSE
+  #debug=TRUE
   
   j <- length(vecc)
   k <- length(thetas)
