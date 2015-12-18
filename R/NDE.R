@@ -106,7 +106,7 @@ NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
     
     f <- paste0(f, fc, ")")
   }
-  f <- paste0(f, "*(a-a_star)")
+  f <- paste0(" ~ ", f, "*(a-a_star)")
   
   ### DEBUG: for testing purposes
   if(debug){
@@ -119,7 +119,57 @@ NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   return(as.formula(f))
 }
 
-### FIXME: NDE_contbin_delta is a though one...
+### FIXME: NDE_contbin_delta is a though one... ongoing work
+NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=FALSE) {
+  ### vecc = vector of covariates
+  ### DEBUG: for testing purposes
+  thetas <- c(1,2,3,4)
+  vecc   <- c(1,2)
+  variance
+  interaction=TRUE
+  debug=TRUE
+  
+  j <- length(vecc)
+  k <- length(thetas)
+  
+  for (i in 1:j){
+    assign(paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  f <- "exp("
+  
+  
+  
+  f <- "x2 * (a-a_star)"
+  if(interaction){
+    f <- paste0(f, " + (x",k," * (a-a_star)")
+    
+    # Numerator
+    N2 <- paste0("x", k+1:2, collapse = " + " )
+    N2 <- paste0("exp(", N2, "*a_star + ")
+    N2 <- paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+    # Denominator
+    D2 <- paste0("x", k+1:2, collapse = " + " )
+    D2 <- paste0("1 + exp(", D2, "*a_star + ")
+    D2 <- paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+    D2 <- paste0("(", D2, ")")
+    
+    F2 <- paste0("(",N2,"/",D2,")")
+    
+    f <- paste0(" ~ ", f,"*",F2, ")")
+    
+  }
+  
+  ### DEBUG: for testing purposes
+  if(debug){
+    print("DEBUG: NDE_bincont_delta")
+    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
+    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
+    print(paste0("DEBUG: formula = ", f))
+  }
+  
+  return(as.formula(f))
+}
 
 NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   ### vecc = vector of covariates
@@ -136,7 +186,7 @@ NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
     assign(paste("vecc", i, sep = "_"), vecc[i])
   }
   
-  f <- "x2 * (a-a_star)"
+  f <- "~ x2 * (a-a_star)"
   if(interaction){
     f <- paste0(f, " + (x",k," * (a-a_star)")
     
@@ -209,7 +259,7 @@ NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   D <- paste(D1, D2, sep="*")
   
   # Construct formula
-  f <- paste0("(",N,"/",D,")")
+  f <- paste0(" ~ (",N,"/",D,")")
   
   ### DEBUG: for testing purposes
   if(debug){

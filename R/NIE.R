@@ -90,7 +90,7 @@ NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   
   k <- length(thetas)
   
-  F1 <- paste0("~ (x3 * x", k+2)
+  F1 <- paste0("(x3 * x", k+2)
   F2 <- ")"
   F3 <- " * (a-a_star)"
   
@@ -98,7 +98,7 @@ NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
     F2 <- paste0(" + x", k, " * x", k+2, " * a)")
   }
 
-  f = paste0(F1, F2, F3)
+  f = paste0(" ~ ", F1, F2, F3)
 
   ### DEBUG: for testing purposes
   if(debug){
@@ -117,7 +117,7 @@ NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   
   k <- length(thetas)
   
-  F1 <- paste0("~ exp((x3 * x", k+2)
+  F1 <- paste0("exp((x3 * x", k+2)
   F2 <- ")"
   F3 <- " * (a-a_star))"
   
@@ -125,7 +125,7 @@ NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
     F2 <- paste0(" + x", k, " * x", k+2, " * a)")
   }
   
-  f = paste0(F1, F2, F3)
+  f = paste0(" ~ ", F1, F2, F3)
   
   ### DEBUG: for testing purposes
   if(debug){
@@ -177,7 +177,7 @@ NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   D2 <- paste0("(", D2, ")")
   
   # Construct formula
-  f <- paste0(F1, " * ( (", N1, "/", D1, ") - (", N2, "/", D2, ") )")
+  f <- paste0(" ~ ", F1, " * ( (", N1, "/", D1, ") - (", N2, "/", D2, ") )")
   
   ### DEBUG: for testing purposes
   if(debug){
@@ -225,7 +225,7 @@ NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
     s2 <- paste0("(1 + exp(", X2, " + ", X1, " * a +", XC, "))")
   }
 
-  f <- paste0("~ (", s1, "*", s2, ")/(", s3, "*", s4, ")")
+  f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
   
   ### DEBUG: for testing purposes
   if(debug){
