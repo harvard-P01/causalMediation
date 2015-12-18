@@ -119,13 +119,12 @@ NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   return(as.formula(f))
 }
 
-### FIXME: NDE_contbin_delta is a though one... ongoing work
 NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=FALSE) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
   thetas <- c(1,2,3,4)
   vecc   <- c(1,2)
-  variance
+  variance=3
   interaction=TRUE
   debug=TRUE
   
@@ -138,16 +137,18 @@ NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=
   
   f <- "exp((x2"
   if(interaction){
-    f <- paste0(f,)
-    f <- paste0(f, "*(a-a_star))")
-    f <- paste0(f, "+") ### FIXME: add terms
+    f <- paste0(f," + x",k,"*(x",k+1," + x",k+2,"*a_star", " + ",
+                paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), " + ",
+                "x3*", variance,
+                ")",")")
+    f <- paste0(f, "*(a-a_star)")
+    f <- paste0(f, " + 0.5*x",k,"*x",k,"*",variance,"*(a*a-a_star*a_star))")
   }else{
     f <- paste0(f,")")
     f <- paste0(f, "*(a-a_star))")
   }
   
   f <- paste0(" ~ ", f)
-  f
   
   ### DEBUG: for testing purposes
   if(debug){
