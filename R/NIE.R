@@ -107,7 +107,7 @@ NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
     print(paste0("DEBUG: formula = ", f))
   }  
   
-  return(as.formula(f)
+  return(as.formula(f))
 }
 
 NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
@@ -135,7 +135,7 @@ NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   }
   
   
-  return(as.formula(f)
+  return(as.formula(f))
 }
 
 NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
