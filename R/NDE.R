@@ -136,33 +136,22 @@ NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=
     assign(paste("vecc", i, sep = "_"), vecc[i])
   }
   
-  f <- "exp("
-  
-  
-  
-  f <- "x2 * (a-a_star)"
+  f <- "exp((x2"
   if(interaction){
-    f <- paste0(f, " + (x",k," * (a-a_star)")
-    
-    # Numerator
-    N2 <- paste0("x", k+1:2, collapse = " + " )
-    N2 <- paste0("exp(", N2, "*a_star + ")
-    N2 <- paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
-    # Denominator
-    D2 <- paste0("x", k+1:2, collapse = " + " )
-    D2 <- paste0("1 + exp(", D2, "*a_star + ")
-    D2 <- paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
-    D2 <- paste0("(", D2, ")")
-    
-    F2 <- paste0("(",N2,"/",D2,")")
-    
-    f <- paste0(" ~ ", f,"*",F2, ")")
-    
+    f <- paste0(f,)
+    f <- paste0(f, "*(a-a_star))")
+    f <- paste0(f, "+") ### FIXME: add terms
+  }else{
+    f <- paste0(f,")")
+    f <- paste0(f, "*(a-a_star))")
   }
+  
+  f <- paste0(" ~ ", f)
+  f
   
   ### DEBUG: for testing purposes
   if(debug){
-    print("DEBUG: NDE_bincont_delta")
+    print("DEBUG: NDE_contbin_delta")
     print(paste0("DEBUG: length(thetas) = ", length(thetas)))
     print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
     print(paste0("DEBUG: formula = ", f))
