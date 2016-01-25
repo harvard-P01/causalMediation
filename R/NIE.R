@@ -63,6 +63,26 @@ NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, cval,
   unname(ORnie)
 }
 
+pure_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, cval,
+                        a_star = 0, a = 1, interaction = TRUE) {
+  covariatesTerm <- 0
+  if (is.null(cval)) {
+    for (c in covariates){
+      covariatesTerm <- covariatesTerm + betas[c] * apply(df[c], 2, mean, na.rm=TRUE)
+    }
+  } else {
+    for (i in 1:length(covariates)) {
+      covariatesTerm <- covariatesTerm + betas[covariates[i]] * cval[i]
+    }
+  }
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
+                            0,
+                            thetas[paste(treatment, mediator, sep = ':')])
+  
+  ORnie <- exp((thetas[mediator] * betas[treatment] + interactionTerm * betas[treatment] * a_star) * (a - a_star))
+  unname(ORnie)
+}
+
 NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, cval,
                          a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
@@ -123,6 +143,34 @@ NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   
   if(interaction){
     F2 <- paste0(" + x", k, " * x", k+2, " * a)")
+  }
+  
+  f = paste0(" ~ ", F1, F2, F3)
+  
+  ### DEBUG: for testing purposes
+  if(debug){
+    print("DEBUG: NIE_contbin_delta")
+    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
+    print(paste0("DEBUG: formula = ", f))
+  }
+  
+  
+  return(as.formula(f))
+}
+
+pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+  ### DEBUG: for testing purposes
+  #thetas <- c(1,2,3,4)
+  #interaction=TRUE
+  
+  k <- length(thetas)
+  
+  F1 <- paste0("exp((x3 * x", k+2)
+  F2 <- ")"
+  F3 <- " * (a-a_star))"
+  
+  if(interaction){
+    F2 <- paste0(" + x", k, " * x", k+2, " * a_star)")
   }
   
   f = paste0(" ~ ", F1, F2, F3)

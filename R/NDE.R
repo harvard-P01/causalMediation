@@ -62,6 +62,28 @@ NDE_contbin <- function(betas, thetas, treatment, mediator, covariates, cval,
   unname(ORnde)
 }
 
+total_NDE_contbin <- function(betas, thetas, treatment, mediator, covariates, cval,
+                        variance, a_star = 0, a = 1, interaction = TRUE){
+  covariatesTerm <- 0
+  if (is.null(cval)) {
+    for (c in covariates){
+      covariatesTerm <- covariatesTerm + betas[c] * apply(df[c], 2, mean, na.rm=TRUE)
+    }
+  } else {
+    for (i in 1:length(covariates)) {
+      covariatesTerm <- covariatesTerm + betas[covariates[i]] * cval[i]
+    }
+  }
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
+                            0,
+                            thetas[paste(treatment, mediator, sep=':')])  
+  
+  ORnde <- exp((thetas[treatment]+interactionTerm * (betas[1] + betas[treatment]*a+covariatesTerm+thetas[mediator]*variance))*(a-a_star)+
+                 0.5 * interactionTerm ^ 2 * variance*(a ^ 2 - a_star ^ 2))
+  
+  unname(ORnde)
+}
+
 NDE_contcont <- function(betas, thetas, treatment, mediator, covariates, cval,
                          a_star = 1, a = 0, interaction = TRUE){
   covariatesTerm <- 0
@@ -138,6 +160,48 @@ NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=
   f <- "exp((x2"
   if(interaction){
     f <- paste0(f," + x",k,"*(x",k+1," + x",k+2,"*a_star", " + ",
+                paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), " + ",
+                "x3*", variance,
+                ")",")")
+    f <- paste0(f, "*(a-a_star)")
+    f <- paste0(f, " + 0.5*x",k,"*x",k,"*",variance,"*(a*a-a_star*a_star))")
+  }else{
+    f <- paste0(f,")")
+    f <- paste0(f, "*(a-a_star))")
+  }
+  
+  f <- paste0(" ~ ", f)
+  
+  ### DEBUG: for testing purposes
+  if(debug){
+    print("DEBUG: NDE_contbin_delta")
+    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
+    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
+    print(paste0("DEBUG: formula = ", f))
+  }
+  
+  return(as.formula(f))
+}
+
+total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=FALSE) {
+  ### vecc = vector of covariates
+  ### DEBUG: for testing purposes
+  thetas <- c(1,2,3,4)
+  vecc   <- c(1,2)
+  variance=3
+  interaction=TRUE
+  debug=TRUE
+  
+  j <- length(vecc)
+  k <- length(thetas)
+  
+  for (i in 1:j){
+    assign(paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  f <- "exp((x2"
+  if(interaction){
+    f <- paste0(f," + x",k,"*(x",k+1," + x",k+2,"*a", " + ",
                 paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), " + ",
                 "x3*", variance,
                 ")",")")
