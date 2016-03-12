@@ -101,14 +101,14 @@ causalMediationDelta <- function(data, indices, outcome, treatment, mediator, co
     tde <- nde * nie
   } else if (mreg == "linear" & yreg == "linear") {
     cde <- CDE_cont_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    # nde <- total_NDE_contcont_delta(betas = betas, thetas = thetas, treatment = treatment,
-    #                     mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    # nie <- NIE_contcont_delta(betas = betas, thetas = thetas, treatment = treatment,
-    #                     mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    # tde <-  nie
+    nde <- NDE_contcont_delta(betas = betas, thetas = thetas, treatment = treatment,
+                        mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+    nie <- NIE_contcont_delta(betas = betas, thetas = thetas, treatment = treatment,
+                        mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+    tde <- nde + nie
   }
   
-  return(c(cde))
+  return(c(cde, nde, nie, tde))
 }
 
 causalMediationOneStep <- function(data, indices, outcome, treatment, mediator, covariates, cval = NULL,
