@@ -65,11 +65,14 @@ vcov_thetas <- vcov(outcome.regression)
 vcov_block <- bdiag(vcov_betas, vcov_thetas)
 
 cde <- CDE_cont(thetas, treatment, mediator)
+cde
 s <- CDE_cont_delta(thetas, treatment, mediator, interaction = FALSE)
 s
 a <- 1
 a_star <- 0
 deltamethod(s, thetas, vcov_thetas)
+
+s
 
 s_test <- CDE_cont_delta(thetas, treatment, mediator, interaction = FALSE)
 s_test

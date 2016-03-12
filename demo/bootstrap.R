@@ -20,6 +20,9 @@ result
 is.vector(result)
 library(boot)
 
+fit <- lm(satis ~ therapy + attrib, data = df)
+summary(fit)
+
 result_delta <- causalMediationDelta(data = df, 
                                      outcome = 'satis', 
                                      treatment = 'therapy',

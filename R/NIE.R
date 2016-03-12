@@ -1,4 +1,4 @@
-NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, cval,
+total_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, cval,
                        a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(cval)) {
@@ -43,7 +43,7 @@ pure_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, cval
 }
 
 
-NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, cval,
+total_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, cval,
                         a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(cval)) {
@@ -87,7 +87,7 @@ pure_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, cva
   unname(nie)
 }
 
-NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, cval,
+total_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, cval,
                         a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(cval)) {
@@ -127,7 +127,7 @@ pure_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, cva
   unname(ORnie)
 }
 
-NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, cval,
+total_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, cval,
                          a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(cval)) {
@@ -167,7 +167,7 @@ pure_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, cv
   unname(nie)
 }
 
-NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+total_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
   #interaction=FALSE
@@ -191,7 +191,8 @@ NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
     print(paste0("DEBUG: formula = ", f))
   }  
   
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }
 
 pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
@@ -203,7 +204,7 @@ pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   
   F1 <- paste0("(x3 * x", k+2)
   F2 <- ")"
-  F3 <- " * (a-a_star)"
+  F3 <- " * (a - a_star)"
   
   if(interaction){
     F2 <- paste0(" + x", k, " * x", k+2, " * a_star)")
@@ -217,11 +218,11 @@ pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
     print(paste0("DEBUG: length(thetas) = ", length(thetas)))
     print(paste0("DEBUG: formula = ", f))
   }  
-  
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }
 
-NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+total_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
   #interaction=TRUE
@@ -245,8 +246,8 @@ NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
     print(paste0("DEBUG: formula = ", f))
   }
   
-  
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }
 
 pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
@@ -272,12 +273,12 @@ pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
     print(paste0("DEBUG: length(thetas) = ", length(thetas)))
     print(paste0("DEBUG: formula = ", f))
   }
-  
-  
-  return(as.formula(f))
+
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }
 
-NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
@@ -326,7 +327,8 @@ NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
     print(paste0("DEBUG: formula = ", f))
   }
   
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }
 
 pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
@@ -378,11 +380,12 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     print(paste0("DEBUG: formula = ", f))
   }
   
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }
 
 
-NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
@@ -426,7 +429,8 @@ NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
     print(paste0("DEBUG: formula = ", f))
   }
   
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }
 
 pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
@@ -473,5 +477,6 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE)
     print(paste0("DEBUG: formula = ", f))
   }
   
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  return(as.formula(s))
 }

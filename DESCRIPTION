@@ -12,4 +12,5 @@ Depends:
     survival,
     Matrix,
     MASS,
-    boot
+    boot,
+    stringr
