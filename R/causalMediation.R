@@ -76,7 +76,7 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates,
   vcov_betas <<- vcov(mediator.regression)
   vcov_thetas <<- vcov(outcome.regression)
   ## Build block diagonal matrix
-  vcov_block <<- bdiag(vcov_betas, vcov_thetas)
+  vcov_block <<- bdiag(vcov_thetas, vcov_betas)
   
   # print(betas)
   
@@ -174,8 +174,6 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates,
                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
     tnie <<- total_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment,
                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    
-    
       # te <- pnde + tnie
   }
   
@@ -187,7 +185,7 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates,
   
   return(c(cded = cded, cde = cde, se.cde = se.cde, pnded = pnded, pnde = pnde, 
            se.pnde = se.pnde, tnded = tnded, tnde = tnde, se.tnde = se.tnde,
-           pnied = 0, pnie = pnie, se.pnie = 0, tnied = tnied, tnie = tnie, se.tnie = se.tnie))
+           pnied = pnied, pnie = pnie, se.pnie = se.pnie, tnied = tnied, tnie = tnie, se.tnie = se.tnie))
 }
 
 causalMediationOneStep <- function(data, indices, outcome, treatment, mediator, covariates, cval = NULL,
