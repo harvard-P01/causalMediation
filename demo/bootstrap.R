@@ -2,10 +2,10 @@ library(causalMediation)
 ### first example
 df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 
-result <- causalMediationOneStep(df, interaction = TRUE, debug = TRUE, yreg = "binary", mreg = "binary",
-                                 outcome = "satis", mediator = "attrib", treatment = "therapy")
+# result <- causalMediationOneStep(df, interaction = TRUE, yreg = "binary", mreg = "binary",
+#                                  outcome = "satis", mediator = "attrib", treatment = "therapy")
 
-df     <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
+df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 head(df)
 
 debug(causalMediationOneStep)
@@ -19,6 +19,26 @@ result <- causalMediationOneStep(data = df,
 result
 is.vector(result)
 library(boot)
+
+result_delta <- causalMediationDelta(data = df, 
+                                     outcome = 'satis', 
+                                     treatment = 'therapy',
+                                     mediator = 'attrib',
+                                     covariates = NULL,
+                                     interaction = FALSE,
+                                     yreg = "linear", mreg = "linear")
+result_delta
+
+r <- causalMediation(data = df, 
+                     outcome = 'satis', 
+                     treatment = 'therapy',
+                     mediator = 'attrib',
+                     covariates = NULL,
+                     interaction = FALSE,
+                     yreg = "linear", mreg = "linear",
+                     boot = FALSE)
+                     # nboot = 10)
+r
 
 df <- read.table("data/simdatasurv.csv", header = TRUE)
 

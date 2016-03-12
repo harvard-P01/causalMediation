@@ -5,9 +5,9 @@ df <- data.frame('smoking'    = c(0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0
                  'agebelow20' = c(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 )
 
-df <- read.csv("~/Downloads/Linda-duplicated.csv", sep = ";")
-names(df)
-data = df
+# df <- read.csv("~/Downloads/Linda-duplicated.csv", sep = ";")
+# names(df)
+# data = df
 #outcome = 'satis'
 #treatment = 'therapy'
 #mediator = 'attrib'
@@ -42,13 +42,13 @@ outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
 
 ##----- Delta method
 if (! mediator.binary) {
-  mediator.regression <<- lm(mediator.formula, data = data)
+  mediator.regression <<- lm(mediator.formula, data = df)
 }else{
   mediator.regression <<- glm(mediator.formula, family = binomial(), data = data)
 }
 
 if(!outcome.binary) {
-  outcome.regression  <<- lm(outcome.formula, data = data)
+  outcome.regression  <<- lm(outcome.formula, data = df)
 }else{
   outcome.regression  <<- glm(outcome.formula, family = binomial(), data = data)
 }
@@ -64,12 +64,14 @@ vcov_thetas <- vcov(outcome.regression)
 ## Build block diagonal matrix
 vcov_block <- bdiag(vcov_betas, vcov_thetas)
 
-cde <- CDE_bin(thetas, treatment, mediator)
+cde <- CDE_cont(thetas, treatment, mediator)
 s <- CDE_cont_delta(thetas, treatment, mediator, interaction = FALSE)
 s
+a <- 1
+a_star <- 0
 deltamethod(s, thetas, vcov_thetas)
 
-s_test <- CDE_cont_delta_test(thetas, treatment, mediator, interaction = FALSE)
+s_test <- CDE_cont_delta(thetas, treatment, mediator, interaction = FALSE)
 s_test
 deltamethod(s_test, c(thetas, betas), vcov_block)
 

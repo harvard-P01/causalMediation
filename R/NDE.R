@@ -127,7 +127,7 @@ total_NDE_contbin <- function(betas, thetas, treatment, mediator, covariates, cv
 }
 
 NDE_contcont <- function(betas, thetas, treatment, mediator, covariates, cval,
-                         a_star = 1, a = 0, interaction = TRUE){
+                         a_star = 0, a = 1, interaction = TRUE){
   covariatesTerm <- 0
   if (is.null(cval)) {
     for (c in covariates){
