@@ -27,8 +27,8 @@ result_delta <- causalMediationDelta(data = df,
                                      outcome = 'satis', 
                                      treatment = 'therapy',
                                      mediator = 'attrib',
-                                     covariates = NULL,
-                                     interaction = FALSE,
+                                     covariates = 'cov',
+                                     interaction = TRUE,
                                      yreg = "linear", mreg = "linear")
 result_delta
 
