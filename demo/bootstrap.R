@@ -7,8 +7,9 @@ df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 
 df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 head(df)
+df$cov <- sample(df$Yint) + runif(1)
 
-debug(causalMediationOneStep)
+# debug(causalMediationOneStep)
 result <- causalMediationOneStep(data = df, 
                                  outcome = 'satis', 
                                  treatment = 'therapy',
@@ -28,6 +29,7 @@ result_delta <- causalMediationDelta(data = df,
                                      treatment = 'therapy',
                                      mediator = 'attrib',
                                      covariates = 'cov',
+                                     # cval = 5,
                                      interaction = TRUE,
                                      yreg = "linear", mreg = "linear")
 result_delta

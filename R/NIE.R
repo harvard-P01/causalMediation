@@ -167,7 +167,7 @@ pure_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, cv
   unname(nie)
 }
 
-total_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+total_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
   #interaction=FALSE
@@ -195,7 +195,7 @@ total_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   return(as.formula(s))
 }
 
-pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
   #interaction=FALSE
@@ -222,7 +222,7 @@ pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   return(as.formula(s))
 }
 
-total_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+total_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
   #interaction=TRUE
@@ -250,7 +250,7 @@ total_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   return(as.formula(s))
 }
 
-pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
+pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
   #interaction=TRUE
@@ -278,7 +278,7 @@ pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE){
   return(as.formula(s))
 }
 
-total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
@@ -328,10 +328,15 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   }
   
   s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
-  return(as.formula(s))
+  
+  for (i in 1:j){
+    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  return(as.formula(ss))
 }
 
-pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
@@ -381,11 +386,16 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   }
   
   s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
-  return(as.formula(s))
+  
+  for (i in 1:j){
+    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  return(as.formula(ss))
 }
 
 
-total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
@@ -430,10 +440,15 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   }
   
   s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
-  return(as.formula(s))
+  
+  for (i in 1:j){
+    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  return(as.formula(ss))
 }
 
-pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE) {
+pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
   ### vecc = vector of covariates
   ### DEBUG: for testing purposes
   #thetas <- c(1,2,3,4)
@@ -478,5 +493,10 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE)
   }
   
   s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
-  return(as.formula(s))
+  
+  for (i in 1:j){
+    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  return(as.formula(ss))
 }
