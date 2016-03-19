@@ -1,4 +1,4 @@
-causalMediationOneStep <- function(data, indices, outcome, treatment, mediator, covariates, cval = NULL,
+causalMediationOneStep <- function(data, indices, outcome, treatment, mediator, covariates, vecc = NULL,
                                    interaction = TRUE,
                                    mreg = c("linear", "logistic"),
                                    yreg = c("linear", "logistic", "loglinear", "poisson",
@@ -85,49 +85,49 @@ causalMediationOneStep <- function(data, indices, outcome, treatment, mediator, 
   if (mreg != "linear" & yreg != "linear") {
     cde <- CDE_bin(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
     pnde <- pure_NDE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                            mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                            mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     
     tnde <- total_NDE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                             mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     pnie <- pure_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                            mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                            mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     tnie <- total_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                             mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     te <- pnde * tnie
   } else if (mreg != "linear" & yreg == "linear") {
     cde <- CDE_cont(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
     pnde <- pure_NDE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                             mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     tnde <- total_NDE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                              mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     pnie <- pure_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                             mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     tnie <- total_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                              mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     te <- pnde + tnie
   } else if (mreg == "linear" & yreg != "linear") {
     cde <- CDE_bin(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
     pnde <- pure_NDE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, 
+                             mediator = mediator, covariates = covariates, vecc = vecc, 
                              variance = variance, interaction = interaction)
     tnde <- total_NDE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, 
+                              mediator = mediator, covariates = covariates, vecc = vecc, 
                               variance = variance, interaction = interaction)
     pnie <- pure_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                             mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     tnie <- total_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                              mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     te <- pnde * tnie
   } else if (mreg == "linear" & yreg == "linear") {
     cde <- CDE_cont(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
     pnde <- pure_NDE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                              mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     tnde <- total_NDE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                               mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                               mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     pnie <- pure_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                              mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     tnie <- total_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                               mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+                               mediator = mediator, covariates = covariates, vecc = vecc, interaction = interaction)
     te <- pnde + tnie
   }
   

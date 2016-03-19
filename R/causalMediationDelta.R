@@ -1,16 +1,17 @@
-causalMediationDelta <- function(data, outcome, treatment, mediator, covariates = NULL, cval = NULL,
+causalMediationDelta <- function(data, outcome, treatment, mediator, covariates = NULL, vecc = NULL,
                                  interaction = TRUE,
                                  mreg = c("linear", "logistic"),
                                  yreg = c("linear", "logistic", "loglinear", "poisson",
                                           "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
                                  event = NULL,
                                  m = 0,
+                                 a_star = 0, a = 1,
                                  casecontrol = FALSE, baseline = 0) {
   
-  if (is.null(covariates) & !is.null(cval)) {
+  if (is.null(covariates) & !is.null(vecc)) {
     warning("Incompatible arguments")
-  } else if (!is.null(covariates) & is.null(cval)) {
-    cval <- colMeans(as.data.frame(data[, covariates]))
+  } else if (!is.null(covariates) & is.null(vecc)) {
+    vecc <- colMeans(as.data.frame(data[, covariates]))
   }
   
   mediator.basic <- paste(mediator, treatment, sep=' ~ ')
@@ -95,17 +96,19 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
   cded <- CDE_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
                     m = m, a_star = a_star, a = a)
   
-  nde <- NDE_estimate(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+  nde <- NDE_estimate(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, covariates = covariates,
+                      vecc = vecc,
+                      interaction = interaction, mreg = mreg, yreg = yreg,
                       m = m, a_star = a_star, a = a, variance = variance)
   nded <- NDE_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
-                    m = m, a_star = a_star, a = a, variance = variance)
+                    m = m, vecc = vecc, a_star = a_star, a = a, variance = variance)
   
-  
-  
-  nie <- NIE_estimate(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+  nie <- NIE_estimate(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, covariates = covariates,
+                      vecc = vecc,
+                      interaction = interaction, mreg = mreg, yreg = yreg,
                       m = m, a_star = a_star, a = a)
   nied <- NIE_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
-                    m = m, a_star = a_star, a = a)
+                    m = m, vecc = vecc, a_star = a_star, a = a)
   
   
   pnde <- nde$pnde
@@ -128,11 +131,11 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
     
   } else if (mreg != "linear" & yreg == "linear") {
 
-    ted <- total_effect_delta(ycont = TRUE)
-    pmd <- proportion_mediated_delta(ycont = TRUE)
+    ted <<- total_effect_delta(ycont = TRUE)
+    pmd <<- proportion_mediated_delta(ycont = TRUE)
     
-    te <- total_effect(pnde, tnie, ycont = TRUE)
-    pm <- proportion_mediated(pnde, tnie, te, ycont = TRUE)
+    te <<- total_effect(pnde, tnie, ycont = TRUE)
+    pm <<- proportion_mediated(pnde, tnie, te, ycont = TRUE)
     
   } else if (mreg == "linear" & yreg != "linear") {
 
@@ -154,7 +157,7 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
   
   se.cde <- deltamethod(cded, thetas, vcov_thetas)
   se.pnde <- deltamethod(pnded, c(thetas, betas), vcov_block)
-  se.tnde <- deltamethod(tnded,  c(thetas, betas), vcov_block)
+  se.tnde <- deltamethod(tnied,  c(thetas, betas), vcov_block)
   se.pnie <- deltamethod(pnied,  c(thetas, betas), vcov_block)
   se.tnie <- deltamethod(tnied,  c(thetas, betas), vcov_block)
   se.te <- deltamethod(ted, c(pnde, tnie), bdiag(se.pnde, se.tnie))

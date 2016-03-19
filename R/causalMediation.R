@@ -1,4 +1,4 @@
-causalMediation <- function(data, outcome, treatment, mediator, covariates, cval = NULL,
+causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc = NULL,
                             interaction = TRUE, boot = TRUE, nboot = 100,
                             mreg = c("linear", "logistic"),
                             yreg = c("linear", "logistic", "loglinear", "poisson",
@@ -12,7 +12,7 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, cval
                     treatment = treatment,
                     mediator = mediator,
                     covariates = covariates,
-                    cval = cval,
+                    vecc = vecc,
                     interaction = interaction,
                     yreg = yreg, mreg = mreg)
   } else {
