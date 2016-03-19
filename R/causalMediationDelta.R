@@ -7,16 +7,6 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
                                  m = 0,
                                  casecontrol = FALSE, baseline = 0) {
   
-  # if (is.null(cval) & !is.null(covariates)) {
-  #   for (c in covariates){
-  #     vecc <- apply(df[c], 2, mean, na.rm=TRUE)
-  #   }
-  # } else {
-  #   for (i in 1:length(covariates)) {
-  #     covariatesTerm <- covariatesTerm + betas[covariates[i]] * cval[i]
-  #   }
-  # }
-  
   if (is.null(covariates) & !is.null(cval)) {
     warning("Incompatible arguments")
   } else if (!is.null(covariates) & is.null(cval)) {
@@ -100,109 +90,63 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
   
   variance <- (summary(mediator.regression)$sigma)^2
   
+  cde <- CDE_estimate(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+                      m = m, a_star = a_star, a = a)
+  cded <- CDE_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+                    m = m, a_star = a_star, a = a)
+  
+  nde <- NDE_estimate(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+                      m = m, a_star = a_star, a = a, variance = variance)
+  nded <- NDE_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+                    m = m, a_star = a_star, a = a, variance = variance)
+  
+  
+  
+  nie <- NIE_estimate(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+                      m = m, a_star = a_star, a = a)
+  nied <- NIE_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, mreg = mreg, yreg = yreg,
+                    m = m, a_star = a_star, a = a)
+  
+  
+  pnde <- nde$pnde
+  pnded <- nded$pnded
+  tnde <- nde$tnde
+  tnded <- nded$tnde
+  
+  pnie <- nie$pnie
+  pnied <- nied$pnied
+  tnie <- nie$tnie
+  tnied <- nied$tnie
+  
   if (mreg != "linear" & yreg != "linear") {
-    cded <- CDE_bin_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    pnded <- pure_NDE_binbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                   mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnded <- total_NDE_binbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                    mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    pnied <- pure_NIE_binbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                   mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnied <- total_NIE_binbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                    mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+    
     ted <- total_effect_delta(ycont = FALSE)
     pmd <- proportion_mediated_delta(ycont = FALSE)
     
-    
-    cde <- CDE_bin(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    pnde <- pure_NDE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                            mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnde <- total_NDE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    pnie <- pure_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                            mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnie <- total_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
     te <- total_effect(pnde, tnie, ycont = FALSE)
     pm <- proportion_mediated(pnde, tnie, te, ycont = FALSE)
     
-    te <- pnde * tnie
   } else if (mreg != "linear" & yreg == "linear") {
-    cded <- CDE_cont_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    pnded <- pure_NDE_bincont_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                    mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnded <- total_NDE_bincont_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                     mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    pnied <- pure_NIE_bincont_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                    mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnied <- total_NIE_bincont_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                     mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+
     ted <- total_effect_delta(ycont = TRUE)
     pmd <- proportion_mediated_delta(ycont = TRUE)
     
-    
-    cde <- CDE_cont(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    pnde <- pure_NDE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnde <- total_NDE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    pnie <- pure_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnie <- total_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
     te <- total_effect(pnde, tnie, ycont = TRUE)
     pm <- proportion_mediated(pnde, tnie, te, ycont = TRUE)
     
-    # te <- pnde + tnie
   } else if (mreg == "linear" & yreg != "linear") {
-    cded <- CDE_bin_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    pnded <- pure_NDE_contbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                    mediator = mediator, covariates = covariates, cval = cval, 
-                                    variance = variance, interaction = interaction)
-    tnded <- total_NDE_contbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                     mediator = mediator, covariates = covariates, cval = cval, 
-                                     variance = variance, interaction = interaction)
-    pnied <- pure_NIE_contbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                    mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnied <- total_NIE_contbin_delta(betas = betas, thetas = thetas, treatment = treatment,
-                                     mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
+
     ted <- total_effect_delta(ycont = FALSE)
     pmd <- proportion_mediated_delta(ycont = FALSE)
     
-    
-    cde <- CDE_bin(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    pnde <- pure_NDE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, 
-                             variance = variance, interaction = interaction)
-    tnde <- total_NDE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, 
-                              variance = variance, interaction = interaction)
-    pnie <- pure_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                             mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)    
-    tnie <- total_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment,
-                              mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
     te <- total_effect(pnde, tnie, ycont = FALSE)
     pm <- proportion_mediated(pnde, tnie, te, ycont = FALSE)
     
-    #   te <- pnde * tnie
   } else if (mreg == "linear" & yreg == "linear") {
-    cded <<- CDE_cont_delta(thetas = thetas, interaction = interaction)
-    pnded <<- pure_NDE_contcont_delta(thetas = thetas, vecc = cval, interaction = interaction)
-    tnded <<- total_NDE_contcont_delta( thetas = thetas, vecc = cval, interaction = interaction)
-    pnied <- pure_NIE_contcont_delta(thetas = thetas, interaction = interaction)
-    tnied <<- total_NIE_contcont_delta( thetas = thetas, interaction = interaction)
+
     ted <<- total_effect_delta(ycont = TRUE)
     pmd <<- proportion_mediated_delta(ycont = TRUE)
     
-    cde <<- CDE_cont(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction)
-    pnde <<- pure_NDE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                               mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnde <<- total_NDE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                                mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    pnie <<- pure_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                               mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
-    tnie <<- total_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment,
-                                mediator = mediator, covariates = covariates, cval = cval, interaction = interaction)
     te <<- total_effect(pnde, tnie, ycont = TRUE)
     pm <<- proportion_mediated(pnde, tnie, te, ycont = TRUE)
     

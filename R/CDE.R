@@ -1,4 +1,4 @@
- CDE_bin <- function(thetas, treatment, mediator, m = 0, a_star = 0, a = 1, interaction = TRUE) { 
+CDE_bin <- function(thetas, treatment, mediator, m = 0, a_star = 0, a = 1, interaction = TRUE) { 
   ORcde <- exp(thetas[treatment] + ifelse(interaction, thetas[paste(treatment, mediator, sep = ':')] * m, 0) * (a - a_star))
   unname(ORcde)
 }
@@ -24,3 +24,28 @@ CDE_cont_delta <- function(thetas, treatment, mediator, m = 0, a_star = 0, a = 1
   return(as.formula(s))
 }
 
+CDE_estimate <- function(thetas, treatment, mediator, m = 0, a_star = 0, a = 1, interaction = TRUE,
+                      mreg = "linear", yreg = "linear") {
+  if (mreg != "linear" & yreg != "linear")
+    cde <- CDE_bin(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  else if (mreg != "linear" & yreg == "linear")
+    cde <- CDE_cont(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  else if (mreg == "linear" & yreg != "linear")
+    cde <- CDE_bin(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  else if (mreg == "linear" & yreg == "linear")
+    cde <- CDE_cont(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  return(list(cde = cde))
+}
+
+CDE_delta <- function(thetas, treatment, mediator, m = 0, a_star = 0, a = 1, interaction = TRUE,
+                      mreg = "linear", yreg = "linear") {
+  if (mreg != "linear" & yreg != "linear")
+    cded <- CDE_bin_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  else if (mreg != "linear" & yreg == "linear")
+    cded <- CDE_cont_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  else if (mreg == "linear" & yreg != "linear")
+    cded <- CDE_bin_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  else if (mreg == "linear" & yreg == "linear")
+    cded <- CDE_cont_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
+  return(list(cded = cded))
+}

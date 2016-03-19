@@ -29,10 +29,22 @@ result_delta <- causalMediationDelta(data = df,
                                      treatment = 'therapy',
                                      mediator = 'attrib',
                                      covariates = 'cov',
-                                     # cval = 5,
+                                     cval = 5,
                                      interaction = TRUE,
                                      yreg = "linear", mreg = "linear")
 result_delta
+
+
+result_delta_bin <- causalMediationDelta(data = df, 
+                                     outcome = 'death', 
+                                     treatment = 'smoking',
+                                     mediator = 'lbw',
+                                     covariates = 'drinking',
+                                     cval = 1,
+                                     interaction = FALSE,
+                                     yreg = "logistic", mreg = "logistic")
+result_delta_bin
+
 
 r <- causalMediation(data = df, 
                      outcome = 'satis', 

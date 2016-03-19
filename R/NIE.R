@@ -21,7 +21,7 @@ total_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, cva
 }
 
 pure_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, cval,
-                       a_star = 0, a = 1, interaction = TRUE) {
+                            a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(cval)) {
     for (c in covariates){
@@ -500,3 +500,59 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
   
   return(as.formula(ss))
 }
+
+NIE_estimate <- function(betas, thetas, treatment, mediator, m = 0, interaction = TRUE, a_star = 0, a = 1,
+                         mreg = "linear", yreg = "linear") {
+  if (mreg != "linear" & yreg != "linear") {
+    # betas, thetas, treatment, mediator, covariates, cval,
+    # a_star = 0, a = 1, interaction = TRUE
+    pnie <- pure_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                            covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+    tnie <- total_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                             covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+  } else if (mreg != "linear" & yreg == "linear") {
+    # betas, thetas, treatment, mediator, covariates, cval,
+    # a_star = 0, a = 1, interaction = TRUE
+    pnie <- pure_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                             covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+    tnie <- total_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                              covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+  } else if (mreg == "linear" & yreg != "linear") {
+    # betas, thetas, treatment, mediator, covariates, cval,
+    # a_star = 0, a = 1, interaction = TRUE
+    pnie <- pure_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                             covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+    tnie <- total_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                              covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+  } else if (mreg == "linear" & yreg == "linear") {
+    # betas, thetas, treatment, mediator, covariates, cval,
+    # a_star = 0, a = 1, interaction = TRUE
+    pnie <- pure_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                              covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+    tnie <- total_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
+                               covariates = covariates, cval = cval, interaction = interaction, a_star = a_star, a = a)
+  }
+  return(list(pnie = pnie, tnie = tnie))
+}
+
+NIE_delta <- function(thetas, treatment, mediator, m = 0, interaction = TRUE, a_star = 0, a = 1,
+                      mreg = "linear", yreg = "linear") {
+  if (mreg != "linear" & yreg != "linear") {
+    # thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1
+    pnied <- pure_NIE_binbin_delta(thetas = thetas, vecc = cval, interaction = interaction, a_star = a_star, a = a)
+    tnied <- total_NIE_binbin_delta(thetas = thetas, vecc = cval, interaction = interaction, a_star = a_star, a = a)
+  } else if (mreg != "linear" & yreg == "linear") {
+    # thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1
+    pnied <- pure_NIE_bincont_delta(thetas = thetas, vecc = cval, interaction = interaction, a_star = a_star, a = a)
+    tnied <- total_NIE_bincont_delta(thetas = thetas, vecc = cval, interaction = interaction, a_star = a_star, a = a)
+  } else if (mreg == "linear" & yreg != "linear") {
+    # thetas, interaction = TRUE, debug=FALSE, a_star = 0, a = 1
+    pnied <- pure_NIE_contbin_delta(thetas = thetas, interaction = interaction, a_star = a_star, a = a)
+    tnied <- total_NIE_contbin_delta(thetas = thetas, interaction = interaction, a_star = a_star, a = a)
+  } else if (mreg == "linear" & yreg == "linear") {
+    # thetas,  variance, interaction = TRUE, debug=FALSE, a_star = 0, a = 1
+    pnied <- pure_NIE_contcont_delta(thetas = thetas, interaction = interaction, a_star = a_star, a = a)
+    tnied <- total_NIE_contcont_delta(thetas = thetas, interaction = interaction, a_star = a_star, a = a)
+  }
+  return(list(pnied = pnied, tnied = tnied))
+  }
