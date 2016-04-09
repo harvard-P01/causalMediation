@@ -7,18 +7,19 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                             casecontrol = FALSE, baseline = 0) {
   
   if (boot) {
-    result <-  boot(data = data, statistic = causalMediationOneStep, R = nboot,
+    result <-  boot(data = data, statistic = causalMediationAll, R = nboot,
                     outcome = outcome, 
                     treatment = treatment,
                     mediator = mediator,
                     covariates = covariates,
                     vecc = vecc,
                     interaction = interaction,
-                    yreg = yreg, mreg = mreg)
+                    yreg = yreg, mreg = mreg, boot = boot)
+    class(result) <- "causmed"
+    
   } else {
       return("'causalMediationDelta' not implemented yet!")
     }
-  class(result) <- "causmed"
   return(result)
 }
 

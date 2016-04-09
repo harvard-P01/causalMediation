@@ -2,6 +2,16 @@ library(causalMediation)
 ### first example
 df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 
+set.seed(123)
+boot(data = df, statistic = causalMediationAll, R = 10,
+     outcome = 'satis', 
+     treatment = 'therapy',
+     mediator = 'attrib',
+     covariates = NULL,
+     interaction = FALSE,
+     yreg = "linear", mreg = "linear",
+     boot = TRUE)
+
 # result <- causalMediationOneStep(df, interaction = TRUE, yreg = "binary", mreg = "binary",
 #                                  outcome = "satis", mediator = "attrib", treatment = "therapy")
 
@@ -42,7 +52,7 @@ r <- causalMediation(data = df,
                      covariates = NULL,
                      interaction = FALSE,
                      yreg = "linear", mreg = "linear",
-                     boot = FALSE)
+                     boot = TRUE)
                      # nboot = 10)
 r
 
