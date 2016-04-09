@@ -42,15 +42,15 @@ outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
 
 ##----- Delta method
 if (! mediator.binary) {
-  mediator.regression <<- lm(mediator.formula, data = df)
+  mediator.regression <- lm(mediator.formula, data = df)
 }else{
-  mediator.regression <<- glm(mediator.formula, family = binomial(), data = data)
+  mediator.regression <- glm(mediator.formula, family = binomial(), data = data)
 }
 
 if(!outcome.binary) {
-  outcome.regression  <<- lm(outcome.formula, data = df)
+  outcome.regression  <- lm(outcome.formula, data = df)
 }else{
-  outcome.regression  <<- glm(outcome.formula, family = binomial(), data = data)
+  outcome.regression  <- glm(outcome.formula, family = binomial(), data = data)
 }
 
 ## Store coefficients from regression

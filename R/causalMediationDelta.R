@@ -79,13 +79,13 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
     outcome.regression <- survreg(as.formula(outcome.formula), dist = "weibull", data = data)
   }
   ## Store coefficients from regression
-  betas  <<- coefficients(mediator.regression)
-  thetas <<- coefficients(outcome.regression)
+  betas  <- coefficients(mediator.regression)
+  thetas <- coefficients(outcome.regression)
   ## Store covariances from regression
-  vcov_betas <<- vcov(mediator.regression)
-  vcov_thetas <<- vcov(outcome.regression)
+  vcov_betas <- vcov(mediator.regression)
+  vcov_thetas <- vcov(outcome.regression)
   ## Build block diagonal matrix
-  vcov_block <<- bdiag(vcov_thetas, vcov_betas)
+  vcov_block <- bdiag(vcov_thetas, vcov_betas)
   
   # print(betas)
   
@@ -131,11 +131,11 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
     
   } else if (mreg != "linear" & yreg == "linear") {
 
-    ted <<- total_effect_delta(ycont = TRUE)
-    pmd <<- proportion_mediated_delta(ycont = TRUE)
+    ted <- total_effect_delta(ycont = TRUE)
+    pmd <- proportion_mediated_delta(ycont = TRUE)
     
-    te <<- total_effect(pnde, tnie, ycont = TRUE)
-    pm <<- proportion_mediated(pnde, tnie, te, ycont = TRUE)
+    te <- total_effect(pnde, tnie, ycont = TRUE)
+    pm <- proportion_mediated(pnde, tnie, te, ycont = TRUE)
     
   } else if (mreg == "linear" & yreg != "linear") {
 
@@ -147,11 +147,11 @@ causalMediationDelta <- function(data, outcome, treatment, mediator, covariates 
     
   } else if (mreg == "linear" & yreg == "linear") {
 
-    ted <<- total_effect_delta(ycont = TRUE)
-    pmd <<- proportion_mediated_delta(ycont = TRUE)
+    ted <- total_effect_delta(ycont = TRUE)
+    pmd <- proportion_mediated_delta(ycont = TRUE)
     
-    te <<- total_effect(pnde, tnie, ycont = TRUE)
-    pm <<- proportion_mediated(pnde, tnie, te, ycont = TRUE)
+    te <- total_effect(pnde, tnie, ycont = TRUE)
+    pm <- proportion_mediated(pnde, tnie, te, ycont = TRUE)
     
   }
   

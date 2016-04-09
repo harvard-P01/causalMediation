@@ -484,7 +484,7 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
     s4 <- paste0("(1 + exp(", X2, " + ", X1, " * a_star +", XC, "))")
   }
   
-  f <<- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
+  f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
   
   ### DEBUG: for testing purposes
   if(debug){
@@ -494,10 +494,10 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <<- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
-    ss <<- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
   }
   
   return(as.formula(ss))
@@ -541,7 +541,7 @@ NIE_delta <- function(thetas, treatment, mediator, m = 0, vecc, interaction = TR
                       mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear") {
     # thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1
-    pnied <<- pure_NIE_binbin_delta(thetas = thetas, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
+    pnied <- pure_NIE_binbin_delta(thetas = thetas, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnied <- total_NIE_binbin_delta(thetas = thetas, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
   } else if (mreg != "linear" & yreg == "linear") {
     # thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1

@@ -48,36 +48,36 @@ causalMediation <- function(data = df, outcome = 'death', treatment = 'smoking',
   
   ##----- Delta method
   if (mreg == "linear"){
-    mediator.regression <<- lm(mediator.formula, data = data)
+    mediator.regression <- lm(mediator.formula, data = data)
   } else {
     if (casecontrol == TRUE) {
       data <- data[data[[outcome]] == baseline, ]
     }
-    mediator.regression <<- glm(mediator.formula, family = binomial(), data = data)
+    mediator.regression <- glm(mediator.formula, family = binomial(), data = data)
   }
   
   if (yreg == "linear"){
-    outcome.regression  <<- lm(outcome.formula, data = data)
+    outcome.regression  <- lm(outcome.formula, data = data)
   }
   if (yreg == "logistic"){
-    outcome.regression  <<- glm(outcome.formula, family = binomial(), data = data)
+    outcome.regression  <- glm(outcome.formula, family = binomial(), data = data)
   }
   if (yreg == "loglinear"){
-    outcome.regression  <<- glm(outcome.formula, family = binomial("log"), data = data)
+    outcome.regression  <- glm(outcome.formula, family = binomial("log"), data = data)
   }
   if (yreg == "poisson"){
-    outcome.regression  <<- glm(outcome.formula, family = poisson(), data = data)
+    outcome.regression  <- glm(outcome.formula, family = poisson(), data = data)
   }
   if (yreg == "quasipoisson"){
-    outcome.regression  <<- glm(outcome.formula, family = quasipoisson(), data = data)
+    outcome.regression  <- glm(outcome.formula, family = quasipoisson(), data = data)
   }
   if (yreg == "negbin"){
-    outcome.regression  <<- glm.nb(outcome.formula, data = data)
+    outcome.regression  <- glm.nb(outcome.formula, data = data)
   }
   #   if (yreg == "coxph"){
   #     form <- formula(outcome.formula)
   #     form[[2]] <- Surv(outcome, event)
-  #     outcome.regression  <<- coxph(form, data = data)
+  #     outcome.regression  <- coxph(form, data = data)
   #   }
   
   ## Store coefficients from regression
@@ -136,15 +136,15 @@ causalMediation <- function(data = df, outcome = 'death', treatment = 'smoking',
     
     ### Perform regression
     if (! mediator.binary){
-      mediator.regression <<- lm(mediator.formula, data = data)
+      mediator.regression <- lm(mediator.formula, data = data)
     }else{
-      mediator.regression <<- glm(mediator.formula, family = binomial(), data = data)
+      mediator.regression <- glm(mediator.formula, family = binomial(), data = data)
     }
     
     if(!outcome.binary){
-      outcome.regression  <<- lm(outcome.formula, data = data)
+      outcome.regression  <- lm(outcome.formula, data = data)
     }else{
-      outcome.regression  <<- glm(outcome.formula, family = binomial(), data = data)
+      outcome.regression  <- glm(outcome.formula, family = binomial(), data = data)
     }
     
     ### Store coefficients from regression
