@@ -12,7 +12,7 @@ CDE_bin_delta <- function(thetas, treatment, mediator, m = 0, a_star = 0, a = 1,
   s <- ifelse(interaction,
               paste0("~ exp((x2 + x", length(thetas), " * m) * (a - a_star))"),
               paste0(" ~exp(x2 * (a - a_star))"))
-  s <- stringr::str_replace_all(s, pattern = c("a_star" = a_star, "a" = a, "m" = m))
+  s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a, "\\bm\\b" = m))
   return(as.formula(s))
 }
 
@@ -20,7 +20,7 @@ CDE_cont_delta <- function(thetas, treatment, mediator, m = 0, a_star = 0, a = 1
   s <- ifelse(interaction,
               paste0("~ (x2 + x", length(thetas), " * m) * (a - a_star)"),
               paste0(" ~ x2 * (a - a_star)"))
-  s <- stringr::str_replace_all(s, pattern = c("a_star" = a_star, "a" = a, "m" = m))
+  s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a, "\\bm\\b" = m))
   return(as.formula(s))
 }
 

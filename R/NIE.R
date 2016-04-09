@@ -191,7 +191,7 @@ total_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_st
     print(paste0("DEBUG: formula = ", f))
   }  
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
@@ -218,7 +218,7 @@ pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_sta
     print(paste0("DEBUG: length(thetas) = ", length(thetas)))
     print(paste0("DEBUG: formula = ", f))
   }  
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
@@ -246,7 +246,7 @@ total_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_sta
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
@@ -274,7 +274,7 @@ pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star
     print(paste0("DEBUG: formula = ", f))
   }
 
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
@@ -327,7 +327,7 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -385,7 +385,7 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -440,7 +440,7 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -494,7 +494,7 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <<- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <<- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <<- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])

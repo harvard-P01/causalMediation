@@ -199,7 +199,7 @@ pure_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -243,7 +243,7 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FAL
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -291,7 +291,7 @@ pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, d
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a, "variance" = variance))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a, "\\bvariance\\b" = variance))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -339,7 +339,9 @@ total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, 
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a, "variance" = variance))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, 
+                                               "\\ba\\b" = a,
+                                               "\\bvariance\\b" = variance))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -374,7 +376,7 @@ pure_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     N2 <- paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
     # Denominator
     D2 <- paste0("x", k+1:2, collapse = " + " )
-    D2 <- paste0("1 + exp(", D2, "*a_astar + ")
+    D2 <- paste0("1 + exp(", D2, "*a_star + ")
     D2 <- paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
     D2 <- paste0("(", D2, ")")
     
@@ -392,7 +394,7 @@ pure_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -435,7 +437,7 @@ total_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
     
     f <- paste0(f,"*",F2, ")")
     
-    s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+    s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
     
     for (i in 1:j){
       ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -508,7 +510,7 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -569,7 +571,7 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     print(paste0("DEBUG: formula = ", f))
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("a_star" = a_star, "a" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
