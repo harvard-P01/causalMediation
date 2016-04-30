@@ -3,7 +3,7 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                             mreg = c("linear", "logistic"),
                             yreg = c("linear", "logistic", "loglinear", "poisson",
                                      "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
-                            event,
+                            event, m = 0, a_star = 0, a = 1,
                             casecontrol = FALSE, baseline = 0) {
   
   if (boot) {
@@ -18,7 +18,14 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
     # class(result) <- "causmed"
     return(result)
   } else {
-      return("'causalMediationDelta' not implemented yet!")
+      result <- causalMediationAll(data = data, outcome = outcome, treatment = treatment, mediator = mediator,
+                                   covariates = covariates, vecc = vecc,
+                                   interaction = interaction,
+                                   mreg = mreg, yreg = yreg,
+                                   m = m, event = event,
+                                   a_star = a_star, a = a, 
+                                   casecontrol = casecontrol, baseline = baseline, boot = boot
+                                   )
     }
   return(result)
 }

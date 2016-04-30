@@ -16,22 +16,22 @@ boot(data = df, statistic = causalMediationAll, R = 1000,
 set.seed(123)
 
 causalMediation(data = df,
-                     outcome = "satis",
-                     treatment = 'therapy',
-                     mediator = 'attrib',
-                     covariates = NULL,
-                     interaction = FALSE,
-                     yreg = "linear", mreg = "linear",
-                     boot = TRUE, nboot = 1000)
+                outcome = "satis",
+                treatment = 'therapy',
+                mediator = 'attrib',
+                covariates = NULL,
+                interaction = FALSE,
+                yreg = "linear", mreg = "linear",
+                boot = TRUE, nboot = 10000)
 
-causalMediationAll(data = df,
-                   outcome = "satis",
-                   treatment = 'therapy',
-                   mediator = 'attrib',
-                   covariates = NULL,
-                   interaction = TRUE,
-                   yreg = "linear", mreg = "linear",
-                   boot = FALSE)
+causalMediation(data = df,
+                outcome = "satis",
+                treatment = 'therapy',
+                mediator = 'attrib',
+                covariates = NULL,
+                interaction = FALSE,
+                yreg = "linear", mreg = "linear",
+                boot = FALSE)
 
 # result <- causalMediationOneStep(df, interaction = TRUE, yreg = "binary", mreg = "binary",
 #                                  outcome = "satis", mediator = "attrib", treatment = "therapy")
@@ -74,7 +74,7 @@ r <- causalMediation(data = df,
                      interaction = FALSE,
                      yreg = "linear", mreg = "linear",
                      boot = TRUE)
-                     # nboot = 10)
+# nboot = 10)
 r
 
 df <- read.table("data/simdatasurv.csv", header = TRUE)
