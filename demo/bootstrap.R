@@ -29,7 +29,7 @@ causalMediationAll(data = df,
                    treatment = 'therapy',
                    mediator = 'attrib',
                    covariates = NULL,
-                   interaction = FALSE,
+                   interaction = TRUE,
                    yreg = "linear", mreg = "linear",
                    boot = FALSE)
 

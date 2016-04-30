@@ -186,7 +186,7 @@ pure_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   if(interaction){
     f <- paste0("(", f, " + x", k, "*x", k+1, " + x", k, "*x", k+2, "*a_star + ")
     
-    fc <- ifelse(j > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "")
+    fc <- ifelse(j > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "0")
     fc <- paste0("x",k," *(", fc, ")")
     
     f <- paste0(f, fc, ")")
@@ -234,7 +234,7 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FAL
   if(interaction){
     f <- paste0("(", f, " + x", k, "*x", k+1, " + x", k, "*x", k+2, "*a + ")
     
-    fc <- ifelse(j > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "")
+    fc <- ifelse(j > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "0")
     fc <- paste0("x",k," *(", fc, ")")
     
     f <- paste0(f, fc, ")")
