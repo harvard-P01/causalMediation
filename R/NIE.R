@@ -1,5 +1,5 @@
 total_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
-                       a_star = 0, a = 1, interaction = TRUE) {
+                             a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
     for (c in covariates){
@@ -44,7 +44,7 @@ pure_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc
 
 
 total_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, vecc,
-                        a_star = 0, a = 1, interaction = TRUE) {
+                              a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
     for (c in covariates){
@@ -66,7 +66,7 @@ total_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, ve
 }
 
 pure_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, vecc,
-                        a_star = 0, a = 1, interaction = TRUE) {
+                             a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
     for (c in covariates){
@@ -88,7 +88,7 @@ pure_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, vec
 }
 
 total_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
-                        a_star = 0, a = 1, interaction = TRUE) {
+                              a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
     for (c in covariates){
@@ -108,7 +108,7 @@ total_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, ve
 }
 
 pure_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
-                        a_star = 0, a = 1, interaction = TRUE) {
+                             a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
     for (c in covariates){
@@ -128,7 +128,7 @@ pure_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, vec
 }
 
 total_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, vecc,
-                         a_star = 0, a = 1, interaction = TRUE) {
+                               a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
     for (c in covariates){
@@ -148,7 +148,7 @@ total_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, v
 }
 
 pure_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, vecc,
-                         a_star = 0, a = 1, interaction = TRUE) {
+                              a_star = 0, a = 1, interaction = TRUE) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
     for (c in covariates){
@@ -273,7 +273,7 @@ pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star
     print(paste0("DEBUG: length(thetas) = ", length(thetas)))
     print(paste0("DEBUG: formula = ", f))
   }
-
+  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
@@ -288,8 +288,10 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   j <- length(vecc)
   k <- length(thetas)
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {  
+    for (i in 1:j){
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   F1 <- paste0("(x3 + x", k, "*a)")
@@ -297,23 +299,23 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   # First numerator
   N1 <- paste0("x", k+1:2, collapse = " + " )
   N1 <- paste0("exp(", N1, "*a + ")
-  N1 <- paste(N1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  N1 <- ifelse(j > 0, paste(N1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N1)
   
   # Second numerator
   N2 <- paste0("x", k+1:2, collapse = " + " )
   N2 <- paste0("exp(", N2, "*a_star + ")
-  N2 <- paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  N2 <- ifelse(j > 0, paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N2)
   
   # First denominator
   D1 <- paste0("x", k+1:2, collapse = " + " )
   D1 <- paste0("1 + exp(", D1, "*a + ")
-  D1 <- paste(D1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  D1 <- ifelse(j > 0, paste(D1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D1)
   D1 <- paste0("(", D1, ")")
   
   # Second denominator
   D2 <- paste0("x", k+1:2, collapse = " + " )
   D2 <- paste0("1 + exp(", D2, "*a_star + ")
-  D2 <- paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  D2 <- ifelse(j > 0, paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D2)
   D2 <- paste0("(", D2, ")")
   
   # Construct formula
@@ -329,11 +331,13 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
@@ -346,8 +350,10 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   j <- length(vecc)
   k <- length(thetas)
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   F1 <- paste0("(x3 + x", k, "*a_star)")
@@ -355,23 +361,23 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   # First numerator
   N1 <- paste0("x", k+1:2, collapse = " + " )
   N1 <- paste0("exp(", N1, "*a + ")
-  N1 <- paste(N1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  N1 <- ifelse(paste(N1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N1)
   
   # Second numerator
   N2 <- paste0("x", k+1:2, collapse = " + " )
   N2 <- paste0("exp(", N2, "*a_star + ")
-  N2 <- paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  N2 <- ifelse(paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N2)
   
   # First denominator
   D1 <- paste0("x", k+1:2, collapse = " + " )
   D1 <- paste0("1 + exp(", D1, "*a + ")
-  D1 <- paste(D1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  D1 <- ifelse(paste(D1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D1)
   D1 <- paste0("(", D1, ")")
   
   # Second denominator
   D2 <- paste0("x", k+1:2, collapse = " + " )
   D2 <- paste0("1 + exp(", D2, "*a_star + ")
-  D2 <- paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")")
+  D2 <- ifelse(D2, paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D2)
   D2 <- paste0("(", D2, ")")
   
   # Construct formula
@@ -387,11 +393,13 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 
@@ -411,12 +419,14 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   ### QUESTION: Why do we need to specify xk all the time and x3 can remain like that? 
   ###           Doesn't it matter if extra terms are added to the thetas vector?
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   X1 <- paste0("x", k + 1:2, collapse = " + ")
-  XC <- paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + ")
+  XC <- ifelse(j  > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "0")
   s1 <- paste0("(1 + exp(", X1, " * a_star + ", XC, "))")
   s3 <- paste0("(1 + exp(", X1, " * a + ", XC, "))")
   
@@ -429,12 +439,12 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     s2 <- paste0("(1 + exp(", X2, " + ", X1, " * a +", XC, "))")
     s4 <- paste0("(1 + exp(", X2, " + ", X1, " * a_star +", XC, "))")
   }
-
+  
   f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
   
   ### DEBUG: for testing purposes
   if(debug){
-      print("DEBUG: NIE_binbin_delta")
+    print("DEBUG: NIE_binbin_delta")
     print(paste0("DEBUG: length(thetas) = ", length(thetas)))
     print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
     print(paste0("DEBUG: formula = ", f))
@@ -442,11 +452,13 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
@@ -465,12 +477,14 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
   ### QUESTION: Why do we need to specify xk all the time and x3 can remain like that? 
   ###           Doesn't it matter if extra terms are added to the thetas vector?
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   X1 <- paste0("x", k + 1:2, collapse = " + ")
-  XC <- paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + ")
+  XC <- ifelse(j > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "0")
   s1 <- paste0("(1 + exp(", X1, " * a_star + ", XC, "))")
   s3 <- paste0("(1 + exp(", X1, " * a + ", XC, "))")
   
@@ -496,11 +510,13 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 NIE_estimate <- function(betas, thetas, treatment, mediator, covariates, vecc = vecc, m = 0, interaction = TRUE, a_star = 0, a = 1,
@@ -557,4 +573,4 @@ NIE_delta <- function(thetas, treatment, mediator, m = 0, vecc, interaction = TR
     tnied <- total_NIE_contcont_delta(thetas = thetas, interaction = interaction, a_star = a_star, a = a)
   }
   return(list(pnied = pnied, tnied = tnied))
-  }
+}
