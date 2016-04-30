@@ -176,15 +176,17 @@ pure_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   j <- length(vecc)
   k <- length(thetas)
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   f <- "x2"
   if(interaction){
     f <- paste0("(", f, " + x", k, "*x", k+1, " + x", k, "*x", k+2, "*a_star + ")
     
-    fc <- paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + ")
+    fc <- ifelse(j > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "")
     fc <- paste0("x",k," *(", fc, ")")
     
     f <- paste0(f, fc, ")")
@@ -201,11 +203,13 @@ pure_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 
@@ -220,15 +224,17 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FAL
   j <- length(vecc)
   k <- length(thetas)
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   f <- "x2"
   if(interaction){
     f <- paste0("(", f, " + x", k, "*x", k+1, " + x", k, "*x", k+2, "*a + ")
     
-    fc <- paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + ")
+    fc <- ifelse(j > 0, paste0("x", k + 2 + 1:j, "  * ", "vecc_", 1:j, collapse = " + "), "")
     fc <- paste0("x",k," *(", fc, ")")
     
     f <- paste0(f, fc, ")")
@@ -245,11 +251,13 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FAL
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
@@ -264,8 +272,10 @@ pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, d
   j <- length(vecc)
   k <- length(thetas)
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   f <- "exp((x2"
@@ -293,11 +303,13 @@ pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, d
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a, "\\bvariance\\b" = variance))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
@@ -512,11 +524,13 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 total_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
@@ -530,18 +544,28 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   j <- length(vecc)
   k <- length(thetas)
   
-  for (i in 1:j){
-    assign(paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j) {
+      assign(paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
   # First term in nominator
   N1 <- "exp(x2*a)"
   
   # Second term in nominator
-  if(interaction){
-    N2 <- paste0("(1+exp(x3 + x",k,"*a + x",k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
-  }else{
-    N2 <- paste0("(1+exp(x3 + x",           k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
+  if (j > 0){
+    if(interaction){
+      N2 <- paste0("(1+exp(x3 + x",k,"*a + x",k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
+    }else{
+      N2 <- paste0("(1+exp(x3 + x",           k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
+    }
+  } else {
+    if(interaction){
+      N2 <- paste0("(1+exp(x3 + x",k,"*a + x",k+1," + x", k+2, "*a", "))")
+    }else{
+      N2 <- paste0("(1+exp(x3 + x",           k+1," + x", k+2, "*a", "))")
+    }
   }
   
   # Construct nominator
@@ -551,10 +575,18 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   D1 <- "exp(x2*a_star)"
   
   # Second term in denominator
-  if(interaction){
-    D2 <- paste0("(1+exp(x3 + x",k,"*a_star + x",k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
-  }else{
-    D2 <- paste0("(1+exp(x3 + x",                k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
+  if (j > 0) {
+    if(interaction){
+      D2 <- paste0("(1+exp(x3 + x",k,"*a_star + x",k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
+    }else{
+      D2 <- paste0("(1+exp(x3 + x",                k+1," + x", k+2, "*a + ", paste0("x", k + 2 + 1:j, "*", "vecc_", 1:j, collapse = " + "), "))")
+    }
+  } else {
+    if(interaction){
+      D2 <- paste0("(1+exp(x3 + x",k,"*a_star + x",k+1," + x", k+2, "*a", "))")
+    }else{
+      D2 <- paste0("(1+exp(x3 + x",                k+1," + x", k+2, "*a", "))")
+    }
   }
   
   # Construct denominator
@@ -573,11 +605,13 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
-  for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  if (j > 0) {
+    for (i in 1:j){
+      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    }
   }
   
-  return(as.formula(ss))
+  return(as.formula(s))
 }
 
 NDE_estimate <- function(betas, thetas, treatment, mediator, covariates, vecc, m = 0, interaction = TRUE, a_star = 0, a = 1, variance,

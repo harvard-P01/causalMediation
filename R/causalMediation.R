@@ -15,14 +15,14 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                     vecc = vecc,
                     interaction = interaction,
                     yreg = yreg, mreg = mreg, boot = boot)
-    class(result) <- "causmed"
-    
+    # class(result) <- "causmed"
+    return(result)
   } else {
       return("'causalMediationDelta' not implemented yet!")
     }
   return(result)
 }
 
-print.causmed <- function(x) {
-  boot.ci(x, type = "perc")
-}
+# print.causmed <- function(x) {
+#   boot.ci(x, type = "perc")
+# }

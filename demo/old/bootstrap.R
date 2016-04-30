@@ -3,8 +3,7 @@ library(causalMediation)
 df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 
 set.seed(123)
-
-boot(data = df, statistic = causalMediationAll, R = 1000,
+boot(data = df, statistic = causalMediationAll, R = 10,
      outcome = 'satis', 
      treatment = 'therapy',
      mediator = 'attrib',
@@ -12,26 +11,6 @@ boot(data = df, statistic = causalMediationAll, R = 1000,
      interaction = FALSE,
      yreg = "linear", mreg = "linear",
      boot = TRUE)
-
-set.seed(123)
-
-causalMediation(data = df,
-                     outcome = "satis",
-                     treatment = 'therapy',
-                     mediator = 'attrib',
-                     covariates = NULL,
-                     interaction = FALSE,
-                     yreg = "linear", mreg = "linear",
-                     boot = TRUE, nboot = 1000)
-
-causalMediationAll(data = df,
-                   outcome = "satis",
-                   treatment = 'therapy',
-                   mediator = 'attrib',
-                   covariates = NULL,
-                   interaction = FALSE,
-                   yreg = "linear", mreg = "linear",
-                   boot = FALSE)
 
 # result <- causalMediationOneStep(df, interaction = TRUE, yreg = "binary", mreg = "binary",
 #                                  outcome = "satis", mediator = "attrib", treatment = "therapy")
