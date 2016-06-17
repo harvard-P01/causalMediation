@@ -168,10 +168,6 @@ pure_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, ve
 }
 
 total_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #interaction=FALSE
-  
   k <- length(thetas)
   
   F1 <- paste0("(x3 * x", k+2)
@@ -184,23 +180,12 @@ total_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_st
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_contcont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: formula = ", f))
-  }  
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
 pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #interaction=FALSE
-  
-  k <- length(thetas)
+ k <- length(thetas)
   
   F1 <- paste0("(x3 * x", k+2)
   F2 <- ")"
@@ -212,21 +197,11 @@ pure_NIE_contcont_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_sta
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_contcont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: formula = ", f))
-  }  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
 total_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #interaction=TRUE
-  
   k <- length(thetas)
   
   F1 <- paste0("exp((x3 * x", k+2)
@@ -239,22 +214,11 @@ total_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_sta
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_contbin_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
 pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star = 0, a = 1){
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #interaction=TRUE
-  
   k <- length(thetas)
   
   F1 <- paste0("exp((x3 * x", k+2)
@@ -267,24 +231,11 @@ pure_NIE_contbin_delta <- function(thetas, interaction=TRUE, debug=FALSE, a_star
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_contbin_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
 
 total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=FALSE
-  
   j <- length(vecc)
   k <- length(thetas)
   
@@ -321,14 +272,6 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
   # Construct formula
   f <- paste0(" ~ ", F1, " * ( (", N1, "/", D1, ") - (", N2, "/", D2, ") )")
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_bincont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   if (j > 0) {
@@ -341,12 +284,6 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
 }
 
 pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=FALSE
-  
   j <- length(vecc)
   k <- length(thetas)
   
@@ -383,14 +320,6 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   # Construct formula
   f <- paste0(" ~ ", F1, " * ( (", N1, "/", D1, ") - (", N2, "/", D2, ") )")
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_bincont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   if (j > 0) {
@@ -404,20 +333,8 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
 
 
 total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=FALSE
-  
   j <- length(vecc)
   k <- length(thetas)
-  
-  ### FIXME: it seems that only X2 differs with/without interaction 
-  ###        shall we get the other terms out of the if/else statement?
-  
-  ### QUESTION: Why do we need to specify xk all the time and x3 can remain like that? 
-  ###           Doesn't it matter if extra terms are added to the thetas vector?
   
   if (j > 0) {
     for (i in 1:j){
@@ -441,15 +358,7 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   }
   
   f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
-  
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_binbin_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
+
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   if (j > 0) {
@@ -462,20 +371,8 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
 }
 
 pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=FALSE
-  
   j <- length(vecc)
   k <- length(thetas)
-  
-  ### FIXME: it seems that only X2 differs with/without interaction 
-  ###        shall we get the other terms out of the if/else statement?
-  
-  ### QUESTION: Why do we need to specify xk all the time and x3 can remain like that? 
-  ###           Doesn't it matter if extra terms are added to the thetas vector?
   
   if (j > 0) {
     for (i in 1:j){
@@ -499,14 +396,6 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
   }
   
   f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
-  
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NIE_binbin_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   

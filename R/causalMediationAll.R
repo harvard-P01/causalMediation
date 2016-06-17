@@ -1,5 +1,5 @@
-causalMediationAll <- function(data, indices, outcome, treatment, mediator, covariates = NULL, vecc = NULL,
-                               interaction = TRUE,
+causalMediationAll <- function(data, indices, outcome, treatment, mediator,
+                               covariates = NULL, vecc = NULL, interaction = TRUE,
                                mreg = c("linear", "logistic"),
                                yreg = c("linear", "logistic", "loglinear", "poisson",
                                         "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
@@ -90,8 +90,6 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator, cova
   vcov_thetas <- vcov(outcome.regression)
   ## Build block diagonal matrix
   vcov_block <- bdiag(vcov_thetas, vcov_betas)
-  
-  # print(betas)
   
   variance <- (summary(mediator.regression)$sigma)^2
   
@@ -185,5 +183,4 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator, cova
              pm = pm, se.pm = se.pm))
   else
     return(as.numeric(c(cde = cde, pnde = pnde, tnde = tnde, pnie = pnie, tnie = tnie, te = te, pm = pm)))
-    # return(as.numeric(c(cde = cde, pnde)))
 }

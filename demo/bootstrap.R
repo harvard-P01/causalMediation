@@ -22,7 +22,7 @@ causalMediation(data = df,
                 covariates = NULL,
                 interaction = FALSE,
                 yreg = "linear", mreg = "linear",
-                boot = TRUE, nboot = 10000)
+                boot = TRUE, nboot = 100)
 
 causalMediation(data = df,
                 outcome = "satis",

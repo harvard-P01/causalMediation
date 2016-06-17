@@ -214,13 +214,7 @@ pure_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
 
 
 total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=TRUE
-  #debug=TRUE
-  
+
   j <- length(vecc)
   k <- length(thetas)
   
@@ -241,14 +235,6 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FAL
   }
   f <- paste0(" ~ ", f, "*(a-a_star)")
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NDE_contcont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   if (j > 0) {
@@ -261,14 +247,6 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE, debug=FAL
 }
 
 pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  # thetas <- c(1,2,3,4)
-  # vecc   <- c(1,2)
-  # variance=3
-  # interaction=TRUE
-  # debug=TRUE
-  # 
   j <- length(vecc)
   k <- length(thetas)
   
@@ -286,20 +264,12 @@ pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, d
                 ")",")")
     f <- paste0(f, "*(a-a_star)")
     f <- paste0(f, " + 0.5*x",k,"*x",k,"*", "variance", "*(a*a-a_star*a_star))")
-  }else{
+  } else {
     f <- paste0(f,")")
     f <- paste0(f, "*(a-a_star))")
   }
   
   f <- paste0(" ~ ", f)
-  
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NDE_contbin_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a, "\\bvariance\\b" = variance))
   
@@ -313,8 +283,6 @@ pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, d
 }
 
 total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
   thetas <- c(1,2,3,4)
   vecc   <- c(1,2)
   variance=3
@@ -343,14 +311,6 @@ total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, 
   
   f <- paste0(" ~ ", f)
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NDE_contbin_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, 
                                                "\\ba\\b" = a,
                                                "\\bvariance\\b" = variance))
@@ -364,13 +324,6 @@ total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction = TRUE, 
 
 
 pure_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=TRUE
-  #debug=TRUE
-  
   j <- length(vecc)
   k <- length(thetas)
   
@@ -398,14 +351,6 @@ pure_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
     
   }
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NDE_bincont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   for (i in 1:j){
@@ -417,13 +362,7 @@ pure_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
 
 
 total_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=TRUE
-  #debug=TRUE
-  
+
   j <- length(vecc)
   k <- length(thetas)
   
@@ -459,25 +398,10 @@ total_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE, debug=FALS
     
   }
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NDE_bincont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   return(as.formula(f))
 }
 
 pure_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=FALSE
-  #debug=TRUE
-  
   j <- length(vecc)
   k <- length(thetas)
   
@@ -514,14 +438,6 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
   # Construct formula
   f <- paste0(" ~ (",N,"/",D,")")
   
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NDE_bincont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
-  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   if (j > 0) {
@@ -534,13 +450,6 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE,
 }
 
 total_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE, a_star = 0, a = 1) {
-  ### vecc = vector of covariates
-  ### DEBUG: for testing purposes
-  #thetas <- c(1,2,3,4)
-  #vecc   <- c(1,2)
-  #interaction=FALSE
-  #debug=TRUE
-  
   j <- length(vecc)
   k <- length(thetas)
   
@@ -594,14 +503,6 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction = TRUE, debug=FALSE
   
   # Construct formula
   f <- paste0(" ~ (",N,"/",D,")")
-  
-  ### DEBUG: for testing purposes
-  if(debug){
-    print("DEBUG: NDE_bincont_delta")
-    print(paste0("DEBUG: length(thetas) = ", length(thetas)))
-    print(paste0("DEBUG: length(vecc)   = ", length(vecc)))
-    print(paste0("DEBUG: formula = ", f))
-  }
   
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
@@ -662,7 +563,6 @@ NDE_delta <- function(thetas, treatment, mediator, m = 0, interaction = TRUE, ve
     tnded <- total_NDE_bincont_delta(thetas = thetas, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
   } else if (mreg == "linear" & yreg != "linear") {
     # thetas, vecc, variance, interaction = TRUE, debug=FALSE, a_star = 0, a = 1
-    # TODO: variance needed?
     pnded <- pure_NDE_contbin_delta(thetas = thetas, vecc = vecc, interaction = interaction, a_star = a_star, a = a, variance = variance)
     tnded <- total_NDE_contbin_delta(thetas = thetas, vecc = vecc, interaction = interaction, a_star = a_star, a = a, variance = variance)
   } else if (mreg == "linear" & yreg == "linear") {
