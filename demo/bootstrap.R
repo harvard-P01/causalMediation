@@ -4,14 +4,14 @@ df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 
 set.seed(123)
 
-boot(data = df, statistic = causalMediationAll, R = 1000,
-     outcome = 'satis', 
-     treatment = 'therapy',
-     mediator = 'attrib',
-     covariates = NULL,
-     interaction = FALSE,
-     yreg = "linear", mreg = "linear",
-     boot = TRUE)
+r <- boot(data = df, statistic = causalMediationAll, R = 1000,
+          outcome = 'satis', 
+          treatment = 'therapy',
+          mediator = 'attrib',
+          covariates = NULL,
+          interaction = FALSE,
+          yreg = "linear", mreg = "linear",
+          boot = TRUE)
 
 set.seed(123)
 

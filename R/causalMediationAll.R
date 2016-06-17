@@ -1,3 +1,6 @@
+g_mediator.regression <- NULL
+g_outcome.regression <- NULL
+
 causalMediationAll <- function(data, indices, outcome, treatment, mediator,
                                covariates = NULL, vecc = NULL, interaction = TRUE,
                                mreg = c("linear", "logistic"),
@@ -174,6 +177,9 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
     se.te <- deltamethod(ted, c(pnde, tnie), bdiag(se.pnde, se.tnie))
     se.pm <- deltamethod(pmd, c(pnde, tnie, te), bdiag(se.pnde, se.tnie, se.te))
   }
+  
+  g_mediator.regression <<- mediator.regression
+  g_outcome.regression <<- outcome.regression
   
   if (delta)
     return(c(cded = cded, cde = cde, se.cde = se.cde, pnded = pnded, pnde = pnde, 

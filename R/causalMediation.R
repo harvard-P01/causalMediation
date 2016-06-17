@@ -15,21 +15,22 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                     vecc = vecc,
                     interaction = interaction,
                     yreg = yreg, mreg = mreg, boot = boot)
-    # class(result) <- "causmed"
     return(result)
   } else {
-      result <- causalMediationAll(data = data, outcome = outcome, treatment = treatment, mediator = mediator,
-                                   covariates = covariates, vecc = vecc,
-                                   interaction = interaction,
-                                   mreg = mreg, yreg = yreg,
-                                   m = m, event = event,
-                                   a_star = a_star, a = a, 
-                                   casecontrol = casecontrol, baseline = baseline, boot = boot
-                                   )
-    }
+    result <- causalMediationAll(data = data, outcome = outcome, treatment = treatment, mediator = mediator,
+                                 covariates = covariates, vecc = vecc,
+                                 interaction = interaction,
+                                 mreg = mreg, yreg = yreg,
+                                 m = m, event = event,
+                                 a_star = a_star, a = a, 
+                                 casecontrol = casecontrol, baseline = baseline, boot = boot)
+    class(result) <- "causmed.delta"
+  }
   return(result)
 }
 
-# print.causmed <- function(x) {
-#   boot.ci(x, type = "perc")
-# }
+print.boot <- function(x) {
+  print(x)
+}
+r
+
