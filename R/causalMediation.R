@@ -1,5 +1,5 @@
 causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc = NULL,
-                            interaction = TRUE, boot = TRUE, nboot = 100,
+                            interaction = TRUE, boot = FALSE, nboot = 100,
                             mreg = c("linear", "logistic"),
                             yreg = c("linear", "logistic", "loglinear", "poisson",
                                      "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
