@@ -30,8 +30,7 @@ result <- causalMediation::causalMediation(data = df,
                                            mediator = 'attrib',
                                            covariates = c(),
                                            nbootstraps = 0, 
-                                           interaction = FALSE, 
-                                           debug = TRUE)
+                                           interaction = FALSE)
 print(result)
 
 
@@ -43,7 +42,6 @@ result <- causalMediation::causalMediation(data = df,
                                            mediator = 'attrib',
                                            covariates = c(),
                                            nbootstraps = 1000, 
-                                           interaction = FALSE, 
-                                           debug = TRUE)
+                                           interaction = FALSE)
 print(result)
 
