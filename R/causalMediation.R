@@ -32,5 +32,5 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
 print.boot <- function(x) {
   print(x)
 }
-r
+
 
