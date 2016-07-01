@@ -26,7 +26,7 @@ s <- causalMediation(data = df,
                 covariates = NULL,
                 interaction = FALSE,
                 yreg = "linear", mreg = "linear",
-                boot = TRUE, nboot = 100)
+                boot = TRUE, nboot = 50)
 
 s
 

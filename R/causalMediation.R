@@ -7,6 +7,10 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                             casecontrol = FALSE, baseline = 0) {
   
   if (boot) {
+    if (nboot < 2)
+      stop("Not enough bootstrap simulations, please specify a larger value for 'nboot'.")
+    if (nboot < 49)
+      warning("Low number of boostrap simulations 'nboot'.")
     result <-  boot(data = data, statistic = causalMediationAll, R = nboot,
                     outcome = outcome, 
                     treatment = treatment,
