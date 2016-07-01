@@ -33,4 +33,9 @@ print.boot <- function(x) {
   print(format_df_boot(x))
 }
 
+print.causmed.delta <- function(x) {
+  print(format_df_delta(x))
+}
+
+
 

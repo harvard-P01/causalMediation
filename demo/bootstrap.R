@@ -19,7 +19,7 @@ format_df_boot(r)
 
 set.seed(123)
 
-causalMediation(data = df,
+s <- causalMediation(data = df,
                 outcome = "satis",
                 treatment = 'therapy',
                 mediator = 'attrib',
@@ -28,14 +28,18 @@ causalMediation(data = df,
                 yreg = "linear", mreg = "linear",
                 boot = TRUE, nboot = 100)
 
-causalMediation(data = df,
-                outcome = "satis",
-                treatment = 'therapy',
-                mediator = 'attrib',
-                covariates = NULL,
-                interaction = FALSE,
-                yreg = "linear", mreg = "linear",
-                boot = FALSE)
+s
+
+d <- causalMediation(data = df,
+                     outcome = "satis",
+                     treatment = 'therapy',
+                     mediator = 'attrib',
+                     covariates = NULL,
+                     interaction = FALSE,
+                     yreg = "linear", mreg = "linear",
+                     boot = FALSE)
+
+d
 
 # result <- causalMediationOneStep(df, interaction = TRUE, yreg = "binary", mreg = "binary",
 #                                  outcome = "satis", mediator = "attrib", treatment = "therapy")

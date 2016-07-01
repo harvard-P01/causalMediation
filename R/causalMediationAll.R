@@ -1,6 +1,3 @@
-g_mediator.regression <- NULL
-g_outcome.regression <- NULL
-
 causalMediationRegressions <- function(data, indices, outcome, treatment, mediator,
                                        covariates = NULL, vecc = NULL, interaction = TRUE,
                                        mreg = c("linear", "logistic"),
@@ -100,6 +97,7 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
                                m = 0,
                                a_star = 0, a = 1,
                                casecontrol = FALSE, baseline = 0, boot = TRUE) {
+  
   delta <- !boot
   
   if (boot)
@@ -111,71 +109,25 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
     vecc <- colMeans(as.data.frame(data[, covariates]))
   }
   
-  mediator.basic <- paste(mediator, treatment, sep=' ~ ')
-  outcome.basic  <- paste(paste(outcome, treatment, sep=' ~ '), mediator, sep=' + ')
+  l.regressions <- causalMediationRegressions(data = data,
+                                              indices = indices,
+                                              outcome = outcome,
+                                              treatment = treatment,
+                                              mediator = mediator,
+                                              covariates = covariates, vecc = vecc, interaction = interaction,
+                                              mreg = mreg,
+                                              yreg = yreg,
+                                              event = event,
+                                              m = m,
+                                              a_star = a_star, a = a,
+                                              casecontrol = casecontrol, baseline = baseline, boot = boot)
   
-  if (interaction == TRUE) {
-    outcome.basic <- paste(outcome.basic, paste(treatment, mediator, sep = '*'), sep = ' + ')
-  }
-  
-  if (length(covariates) == 0) {
-    mediator.formula <- mediator.basic
-    outcome.formula  <- outcome.basic
-  } else {
-    mediator.formula <- paste(mediator.basic, paste(covariates, collapse = " + "), sep = ' + ')
-    outcome.formula  <- paste(outcome.basic,  paste(covariates, collapse = " + "), sep = ' + ')
-  }
-  
-  ### FIXME: hardcode to validate with SAS macro
-  #   mediator.binary <- all(unique(data[, mediator]) %in% 0:1)
-  #   outcome.binary <- all(unique(data[, outcome])  %in% 0:1)
-  
-  if (mreg == "linear") {
-    mediator.regression <- lm(mediator.formula, data = data)
-  } else {
-    if (casecontrol == TRUE) {
-      data <- data[data[[outcome]] == baseline, ]
-    }
-    mediator.regression <- glm(mediator.formula, family = binomial(), data = data)
-  }
-  
-  if (yreg == "linear") {
-    outcome.regression  <- lm(outcome.formula, data = data)
-  }
-  if (yreg == "logistic") {
-    outcome.regression  <- glm(outcome.formula, family = binomial(), data = data)
-  }
-  if (yreg == "loglinear") {
-    outcome.regression  <- glm(outcome.formula, family = binomial("log"), data = data)
-  }
-  if (yreg == "poisson") {
-    outcome.regression  <- glm(outcome.formula, family = poisson(), data = data)
-  }
-  if (yreg == "quasipoisson") {
-    outcome.regression  <- glm(outcome.formula, family = quasipoisson(), data = data)
-  }
-  if (yreg == "negbin") {
-    outcome.regression  <- glm.nb(outcome.formula, data = data)
-  }
-  if (yreg == "coxph") {
-    l <- strsplit(outcome.formula, split = "~")
-    l[[1]][1] <- paste0("Surv(", outcome, ", ", event, ")")
-    outcome.formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
-    outcome.regression <- coxph(as.formula(outcome.formula), data = data)
-  }
-  if (yreg == "aft_exp") {
-    l <- strsplit(outcome.formula, split = "~")
-    l[[1]][1] <- paste0("Surv(", outcome, ", ", event, ")")
-    outcome.formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
-    outcome.regression <- survreg(as.formula(outcome.formula), dist = "exponential", data = data)
-  }
-  if (yreg == "aft_weibull") {
-    l <- strsplit(outcome.formula, split = "~")
-    l[[1]][1] <- paste0("Surv(", outcome, ", ", event, ")")
-    outcome.formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
-    outcome.regression <- survreg(as.formula(outcome.formula), dist = "weibull", data = data)
-  }
-  ## Store coefficients from regression
+  mediator.formula <- l.regressions$mediator.formula
+  mediator.regression <- l.regressions$mediator.regression
+  outcome.formula <- l.regressions$outcome.formula
+  outcome.regression <- l.regressions$outcome.regression
+ 
+   ## Store coefficients from regression
   betas  <- coefficients(mediator.regression)
   thetas <- coefficients(outcome.regression)
   ## Store covariances from regression
@@ -267,9 +219,6 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
     se.te <- deltamethod(ted, c(pnde, tnie), bdiag(se.pnde, se.tnie))
     se.pm <- deltamethod(pmd, c(pnde, tnie, te), bdiag(se.pnde, se.tnie, se.te))
   }
-  
-  g_mediator.regression <<- mediator.regression
-  g_outcome.regression <<- outcome.regression
   
   if (delta)
     return(c(cded = cded, cde = cde, se.cde = se.cde, pnded = pnded, pnde = pnde, 
