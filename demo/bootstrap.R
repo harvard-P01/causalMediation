@@ -4,7 +4,7 @@ df <- read.table(file='~/Downloads/Linda.csv', header=TRUE, sep = ';')
 
 set.seed(123)
 
-r <- boot(data = df, statistic = causalMediationAll, R = 1000,
+r <- boot(data = df, statistic = causalMediationAll, R = 100,
           outcome = 'satis', 
           treatment = 'therapy',
           mediator = 'attrib',
@@ -12,6 +12,10 @@ r <- boot(data = df, statistic = causalMediationAll, R = 1000,
           interaction = FALSE,
           yreg = "linear", mreg = "linear",
           boot = TRUE)
+
+r
+
+format_df_boot(r)
 
 set.seed(123)
 

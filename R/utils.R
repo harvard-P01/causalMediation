@@ -19,4 +19,3 @@ format_df_boot <- function(boot.out) {
   return(d_all)
 }
 
-# format_df_boot(r)

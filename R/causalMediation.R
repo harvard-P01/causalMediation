@@ -30,7 +30,7 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
 }
 
 print.boot <- function(x) {
-  print(x)
+  print(format_df_boot(x))
 }
 
 
