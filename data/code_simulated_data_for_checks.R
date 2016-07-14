@@ -12,7 +12,7 @@ theta1 = 0.1
 theta2 = 0.1
 theta3 = 0.1
 theta4 = 0.1
-n=1000
+n=10000
 
 set.seed(100)
 #generate binary exposure and confounder
@@ -38,7 +38,7 @@ Y_cont_noint = rnorm(n,linpred,1)
 Y_bin_noint = rbinom(n,1,expit(linpred))
 Y_count_noint = rpois(n,abs(linpred))
 Mbin_noint_data = cbind(A,M_bin,Ycen_noint,Y_cont_noint,Y_bin_noint,Y_count_noint,cen,C,delta)
-write.table(Mbin_noint_data,file="Mbin_noint_data.txt")
+write.table(Mbin_noint_data,file="Mbin_noint_data_10000.txt")
 
 
 #linear combo for outcome regression
@@ -56,7 +56,7 @@ Y_cont_noint = rnorm(n,linpred,1)
 Y_bin_noint = rbinom(n,1,expit(linpred))
 Y_count_noint = rpois(n,abs(linpred))
 Mcont_noint_data = cbind(A,M_cont,Ycen_noint,Y_cont_noint,Y_bin_noint,Y_count_noint,cen,C,delta)
-write.table(Mcont_noint_data,file="Mcont_noint_data.txt")
+write.table(Mcont_noint_data,file="Mcont_noint_data_10000.txt")
 
 
 
@@ -78,7 +78,7 @@ Y_cont_int = rnorm(n,linpred,1)
 Y_bin_int = rbinom(n,1,expit(linpred))
 Y_count_int = rpois(n,abs(linpred))
 Mbin_int_data = cbind(A,M_bin,Ycen_int,Y_cont_int,Y_bin_int,Y_count_int,cen,C,delta)
-write.table(Mbin_int_data,file="Mbin_int_data.txt")
+write.table(Mbin_int_data,file="Mbin_int_data_10000.txt")
 
 
 
@@ -97,6 +97,6 @@ Y_cont_int = rnorm(n,linpred,1)
 Y_bin_int = rbinom(n,1,expit(linpred))
 Y_count_int = rpois(n,abs(linpred))
 Mcont_int_data = cbind(A,M_cont,Ycen_int,Y_cont_int,Y_bin_int,Y_count_int,cen,C,delta)
-write.table(Mcont_int_data,file="Mcont_int_data.txt")
+write.table(Mcont_int_data,file="Mcont_int_data_10000.txt")
 
 

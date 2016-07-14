@@ -216,8 +216,8 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
     se.tnde <- deltamethod(tnied,  c(thetas, betas), vcov_block)
     se.pnie <- deltamethod(pnied,  c(thetas, betas), vcov_block)
     se.tnie <- deltamethod(tnied,  c(thetas, betas), vcov_block)
-    se.te <- deltamethod(ted, c(pnde, tnie), bdiag(se.pnde, se.tnie))
-    se.pm <- deltamethod(pmd, c(pnde, tnie, te), bdiag(se.pnde, se.tnie, se.te))
+    se.te <- deltamethod(ted, c(pnde, tnie), bdiag(se.pnde^2, se.tnie^2))
+    se.pm <- deltamethod(pmd, c(pnde, tnie, te), bdiag(se.pnde^2, se.tnie^2, se.te^2))
   }
   
   if (delta)
