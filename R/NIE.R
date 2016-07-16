@@ -356,7 +356,7 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction,
   if (interaction) {
     X2 <- paste0("x3 +x",k)
     s2 <- paste0("(1 + exp(", X2, " * a + ", X1, " * a +", XC, "))")
-    s4 <- paste0("(1 + exp(", X2, " + ", X1, " * a_star +", XC, "))")
+    s4 <- paste0("(1 + exp(", X2, " * a + ", X1, " * a_star +", XC, "))")
   } else {
     X2 <- paste0("x3")
     s2 <- paste0("(1 + exp(", X2, " + ", X1, " * a +", XC, "))")
@@ -364,7 +364,7 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction,
   }
   
   f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
-
+  
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   
   if (j > 0) {
@@ -375,6 +375,7 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction,
   
   return(as.formula(s))
 }
+
 
 pure_NIE_binbin_delta <- function(thetas, vecc, interaction,
                                   a_star, a) {
@@ -395,7 +396,7 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction,
   if (interaction) {
     X2 <- paste0("x3 + x",k)
     s2 <- paste0("(1 + exp(", X2, " * a_star + ", X1, " * a +", XC, "))")
-    s4 <- paste0("(1 + exp(", X2, " + ", X1, " * a_star +", XC, "))")
+    s4 <- paste0("(1 + exp(", X2, " * a_star + ", X1, " * a_star +", XC, "))")
   } else {
     X2 <- paste0("x3")
     s2 <- paste0("(1 + exp(", X2, " + ", X1, " * a +", XC, "))")
@@ -414,6 +415,8 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction,
   
   return(as.formula(s))
 }
+
+
 
 NIE_estimate <- function(betas, thetas, treatment, mediator, covariates, vecc = vecc,
                          m, interaction, a_star, a,
