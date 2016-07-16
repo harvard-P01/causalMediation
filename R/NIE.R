@@ -304,23 +304,23 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction,
   # First numerator
   N1 <- paste0("x", k+1:2, collapse = " + " )
   N1 <- paste0("exp(", N1, "*a + ")
-  N1 <- ifelse(paste(N1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N1)
+  N1 <- ifelse(j > 0,paste(N1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N1)
   
   # Second numerator
   N2 <- paste0("x", k+1:2, collapse = " + " )
   N2 <- paste0("exp(", N2, "*a_star + ")
-  N2 <- ifelse(paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N2)
+  N2 <- ifelse(j > 0,paste(N2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), N2)
   
   # First denominator
   D1 <- paste0("x", k+1:2, collapse = " + " )
   D1 <- paste0("1 + exp(", D1, "*a + ")
-  D1 <- ifelse(paste(D1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D1)
+  D1 <- ifelse(j > 0,paste(D1, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D1)
   D1 <- paste0("(", D1, ")")
   
   # Second denominator
   D2 <- paste0("x", k+1:2, collapse = " + " )
   D2 <- paste0("1 + exp(", D2, "*a_star + ")
-  D2 <- ifelse(D2, paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D2)
+  D2 <- ifelse(j > 0, paste(D2, paste0("x", k + 2 + 1:j, " * ", "vecc_", 1:j, collapse = " + "), ")"), D2)
   D2 <- paste0("(", D2, ")")
   
   # Construct formula
@@ -336,7 +336,6 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction,
   
   return(as.formula(s))
 }
-
 
 total_NIE_binbin_delta <- function(thetas, vecc, interaction,
                                    a_star, a) {
