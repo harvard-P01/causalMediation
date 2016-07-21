@@ -14,7 +14,7 @@ total_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, vec
   interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
                             0,
                             thetas[paste(treatment, mediator, sep = ':')])
-  ORnie <- (1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm) *
+  ORnie <- ((1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm)) *
               (1 + exp(thetas[mediator] + interactionTerm * a + betas[1] + betas[treatment] * a + covariatesTerm)))/
     ((1 + exp(betas[1] + betas[treatment]*a+covariatesTerm))*(1 + exp(thetas[mediator] + interactionTerm * a + betas[1] + betas[treatment] * a_star + covariatesTerm)))
   unname(ORnie)
@@ -36,7 +36,7 @@ pure_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc
   interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
                             0,
                             thetas[paste(treatment, mediator, sep = ':')])
-  ORnie <- (1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm) *
+  ORnie <- ((1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm)) *
               (1 + exp(thetas[mediator] + interactionTerm * a_star + betas[1] + betas[treatment] * a + covariatesTerm)))/
     ((1 + exp(betas[1] + betas[treatment]*a+covariatesTerm))*(1 + exp(thetas[mediator] + interactionTerm * a_star + betas[1] + betas[treatment] * a_star + covariatesTerm)))
   unname(ORnie)
