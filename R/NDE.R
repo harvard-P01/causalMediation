@@ -1,4 +1,4 @@
-pure_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
+total_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                             a_star, a, interaction) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
@@ -19,7 +19,7 @@ pure_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc
   unname(ORnde)
 }
 
-total_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
+pure_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                              a_star, a, interaction) {
   covariatesTerm <- 0
   if (is.null(vecc)) {
