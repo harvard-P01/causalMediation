@@ -167,9 +167,9 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
   
   if (delta) {
     pnded <- nded$pnded
-    tnded <- nded$tnde
+    tnded <- nded$tnded
     pnied <- nied$pnied
-    tnied <- nied$tnie
+    tnied <- nied$tnied
   }
   
   if (mreg != "linear" & yreg != "linear") {
