@@ -30,7 +30,7 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                     boot = boot, regression_outputs = FALSE)
     return(result)
   } else {
-    result <- causalMediationAll(data = data, outcome = outcome, treatment = treatment, mediator = mediator,
+    o <- causalMediationAll(data = data, outcome = outcome, treatment = treatment, mediator = mediator,
                                  covariates = covariates, vecc = vecc,
                                  interaction = interaction,
                                  mreg = mreg, yreg = yreg,
@@ -38,6 +38,8 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                                  a_star = a_star, a = a, 
                                  casecontrol = casecontrol, baseline = baseline,
                                  boot = boot, regression_outputs = FALSE)
+    result <- o$result
+    l <<- o$l.regressions 
     class(result) <- "causmed.delta"
   }
   return(result)

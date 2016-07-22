@@ -29,6 +29,7 @@ s <- causalMediation(data = df,
                 boot = TRUE, nboot = 50)
 
 s
+l
 
 d <- causalMediation(data = df,
                      outcome = "satis",

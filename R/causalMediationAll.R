@@ -227,11 +227,13 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
   }
   
   if (delta)
-    return(c(cded = cded, cde = cde, se.cde = se.cde, pnded = pnded, pnde = pnde, 
-             se.pnde = se.pnde, tnded = tnded, tnde = tnde, se.tnde = se.tnde,
-             pnied = pnied, pnie = pnie, se.pnie = se.pnie, tnied = tnied, tnie = tnie, se.tnie = se.tnie,
-             te = te, se.te = se.te,
-             pm = pm, se.pm = se.pm))
+    return(list(
+      result = c(cded = cded, cde = cde, se.cde = se.cde, pnded = pnded, pnde = pnde, 
+                 se.pnde = se.pnde, tnded = tnded, tnde = tnde, se.tnde = se.tnde,
+                 pnied = pnied, pnie = pnie, se.pnie = se.pnie, tnied = tnied, tnie = tnie, se.tnie = se.tnie,
+                 te = te, se.te = se.te,
+                 pm = pm, se.pm = se.pm),
+      l.regressions = l.regressions))
   else
     return(as.numeric(c(cde = cde, pnde = pnde, tnde = tnde, pnie = pnie, tnie = tnie, te = te, pm = pm)))
 }
