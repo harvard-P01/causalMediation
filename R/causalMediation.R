@@ -11,6 +11,14 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
       stop("Not enough bootstrap simulations, please specify a larger value for 'nboot'.")
     if (nboot < 49)
       warning("Low number of bootstrap simulations 'nboot'.")
+    l <<- causalMediationAll(data = data, outcome = outcome, treatment = treatment, mediator = mediator,
+                             covariates = covariates, vecc = vecc,
+                             interaction = interaction,
+                             mreg = mreg, yreg = yreg,
+                             m = m, event = event,
+                             a_star = a_star, a = a, 
+                             casecontrol = casecontrol, baseline = baseline,
+                             boot = FALSE, regression_outputs = TRUE)
     result <-  boot(data = data, statistic = causalMediationAll, R = nboot,
                     outcome = outcome, 
                     treatment = treatment,
@@ -18,7 +26,8 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                     covariates = covariates,
                     vecc = vecc,
                     interaction = interaction,
-                    yreg = yreg, mreg = mreg, boot = boot)
+                    yreg = yreg, mreg = mreg,
+                    boot = boot, regression_outputs = FALSE)
     return(result)
   } else {
     result <- causalMediationAll(data = data, outcome = outcome, treatment = treatment, mediator = mediator,
@@ -27,7 +36,8 @@ causalMediation <- function(data, outcome, treatment, mediator, covariates, vecc
                                  mreg = mreg, yreg = yreg,
                                  m = m, event = event,
                                  a_star = a_star, a = a, 
-                                 casecontrol = casecontrol, baseline = baseline, boot = boot)
+                                 casecontrol = casecontrol, baseline = baseline,
+                                 boot = boot, regression_outputs = FALSE)
     class(result) <- "causmed.delta"
   }
   return(result)

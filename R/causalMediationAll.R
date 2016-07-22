@@ -6,7 +6,8 @@ causalMediationRegressions <- function(data, indices, outcome, treatment, mediat
                                        event = NULL,
                                        m = 0,
                                        a_star = 0, a = 1,
-                                       casecontrol = FALSE, baseline = 0, boot = TRUE) {
+                                       casecontrol = FALSE, baseline = 0,
+                                       boot = TRUE, regression_outputs = FALSE) {
   delta <- !boot
   
   if (boot)
@@ -96,7 +97,8 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
                                event = NULL,
                                m = 0,
                                a_star = 0, a = 1,
-                               casecontrol = FALSE, baseline = 0, boot = TRUE) {
+                               casecontrol = FALSE, baseline = 0,
+                               boot = TRUE, regression_outputs = FALSE) {
   
   delta <- !boot
   
@@ -120,7 +122,11 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
                                               event = event,
                                               m = m,
                                               a_star = a_star, a = a,
-                                              casecontrol = casecontrol, baseline = baseline, boot = boot)
+                                              casecontrol = casecontrol, baseline = baseline,
+                                              boot = boot, regression_outputs = FALSE)
+  
+  if (regression_outputs)
+    return(l.regressions)
   
   mediator.formula <- l.regressions$mediator.formula
   mediator.regression <- l.regressions$mediator.regression
