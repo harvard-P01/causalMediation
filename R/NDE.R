@@ -374,18 +374,16 @@ total_NDE_bincont_delta <- function(thetas, vecc, interaction,
     F2 <- paste0("(",N2,"/",D2,")")
     
     f <- paste0(f,"*",F2, ")")
-    
-    s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
-    
-    for (i in 1:j){
-      ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
-    }
-    
-    return(as.formula(ss))
-    
   }
   
-  return(as.formula(f))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  
+  for (i in 1:j){
+    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+  }
+  
+  return(as.formula(ss))
+  
 }
 
 pure_NDE_binbin_delta <- function(thetas, vecc, interaction,
