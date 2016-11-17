@@ -4,8 +4,7 @@ causalMediationRegressions <- function(data, indices, outcome, treatment, mediat
                                        yreg = c("linear", "logistic", "loglinear", "poisson",
                                                 "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
                                        event = NULL,
-                                       m = 0,
-                                       a_star = 0, a = 1,
+                                       m, a_star, a,
                                        casecontrol = FALSE, baseline = 0,
                                        boot = TRUE, regression_outputs = FALSE) {
   delta <- !boot
@@ -95,8 +94,7 @@ causalMediationAll <- function(data, indices, outcome, treatment, mediator,
                                yreg = c("linear", "logistic", "loglinear", "poisson",
                                         "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
                                event = NULL,
-                               m = 0,
-                               a_star = 0, a = 1,
+                               m, a_star, a,
                                casecontrol = FALSE, baseline = 0,
                                boot = TRUE, regression_outputs = FALSE) {
   
