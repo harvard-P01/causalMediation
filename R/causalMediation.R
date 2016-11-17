@@ -6,7 +6,7 @@ causalMediation <-
              "linear", "logistic", "loglinear", "poisson",
              "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"
            ),
-           event, m = 0, a_star = 0, a = 1,
+           event, m, a_star, a,
            casecontrol = FALSE, baseline = 0) {
     if (boot) {
       if (nboot < 2)
