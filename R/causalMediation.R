@@ -55,7 +55,7 @@ causalMediation <-
           boot = boot, regression_outputs = FALSE
         )
       result <- o$result
-      l <<- o$l.regressions
+      l <- o$l.regressions
       class(result) <- "causmed.delta"
     }
     return(result)
