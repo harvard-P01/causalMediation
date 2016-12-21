@@ -31,10 +31,13 @@ causmed <- setRefClass("causmed",
                          vcov_thetas = "ANY", # covariance from outcome regression
                          vcov_block = "ANY", # covariances from regression
                          
-                         
                          cde = "ANY",
                          nde = "ANY",
                          nie = "ANY",
+                         
+                         se_cde = "ANY",
+                         se_nde = "ANY",
+                         se_nie = "ANY",
                          
                          cde_boot = "ANY",
                          nde_boot = "ANY",
@@ -43,7 +46,6 @@ causmed <- setRefClass("causmed",
                          authors = "character" # Package authors
                        )
 )
-
 
 causmed$methods(
   initialize = function(data, outcome, treatment, mediator, covariates, vecc = NULL,
@@ -110,50 +112,54 @@ causmed$methods(
   }
 )
 
-
 causmed$methods(
-  run_regressions = function() {
+  run_regressions = function(data_regression = NULL) {
+    
+    if (is.null(data_regression)) {
+      data_regression <- .self$data
+    }
+    
     if (is.null(.self$covariates) & !is.null(.self$vecc)) {
       warning("Incompatible arguments")
     } else if (!is.null(.self$covariates) & is.null(.self$vecc)) {
-      .self$vecc <- colMeans(as.data.frame(.self$data[, .self$covariates]))
+      .self$vecc <- colMeans(as.data.frame(data_regression[, .self$covariates]))
     }
     
     if (.self$mreg == "linear") {
-      .self$mediator_regression <- lm(.self$mediator_formula, data = .self$data)
+      .self$mediator_regression <- lm(.self$mediator_formula, data = data_regression)
     } else {
       if (.self$casecontrol) {
-        .self$data <- .self$data[.self$data[[.self$outcome]] == .self$baseline, ] # TODO: don't overwrite data
+        data_regression <- data_regression[data_regression[[.self$outcome]] == .self$baseline, ] # TODO: don't overwrite data
       }
-      .self$mediator_regression <- glm(.self$mediator_formula, family = binomial(), data = .self$data)
+      .self$mediator_regression <- glm(.self$mediator_formula, family = binomial(), data = data_regression)
     }
     
     if (yreg == "linear") {
-      .self$outcome_regression  <- lm(.self$outcome_formula, data = .self$data)
+      .self$outcome_regression  <- lm(.self$outcome_formula, data = data_regression)
     }
     if (yreg == "logistic") {
-      .self$outcome_regression  <- glm(.self$outcome_formula, family = binomial(), data = .self$data)
+      .self$outcome_regression  <- glm(.self$outcome_formula, family = binomial(), data = data_regression)
     }
     if (yreg == "loglinear") {
-      .self$outcome_regression  <- glm(.self$outcome_formula, family = binomial("log"), data = .self$data)
+      .self$outcome_regression  <- glm(.self$outcome_formula, family = binomial("log"), data = data_regression)
     }
     if (yreg == "poisson") {
-      .self$outcome_regression  <- glm(.self$outcome_formula, family = poisson(), data = .self$data)
+      .self$outcome_regression  <- glm(.self$outcome_formula, family = poisson(), data = data_regression)
     }
     if (yreg == "quasipoisson") {
-      .self$outcome_regression  <- glm(.self$outcome_formula, family = quasipoisson(), data = .self$data)
+      .self$outcome_regression  <- glm(.self$outcome_formula, family = quasipoisson(), data = data_regression)
     }
     if (yreg == "negbin") {
-      .self$outcome_regression  <- glm.nb(.self$outcome_formula, data = .self$data)
+      .self$outcome_regression  <- glm.nb(.self$outcome_formula, data = data_regression)
     }
     if (yreg == "coxph") {
-      .self$outcome_regression <- coxph(as.formula(.self$outcome_formula), data = .self$data)
+      .self$outcome_regression <- coxph(as.formula(.self$outcome_formula), data = data_regression)
     }
     if (yreg == "aft_exp") {
-      .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "exponential", data = .self$data)
+      .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "exponential", data = data_regression)
     }
     if (yreg == "aft_weibull") {
-      .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "weibull", data = .self$data)
+      .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "weibull", data = data_regression)
     }
   }
 )
@@ -168,12 +174,6 @@ causmed$methods(
     .self$vcov_thetas <- vcov(.self$outcome_regression)
     ## Build block diagonal matrix
     .self$vcov_block <- bdiag(.self$vcov_thetas, .self$vcov_betas)
-  }
-)
-
-causmed$methods(
-  boostrap = function(indices) {
-    data_boot <- .self$data[indices, ]
   }
 )
 
@@ -241,27 +241,35 @@ causmed$methods(
   }
 )
 
-##----- Example
+##----- Bootstrap
 
-df <- read.csv("~/Documents/LocalGit/causalMediation/data/Mbin_int_data_10000.txt", sep = " ")
+causmed$methods(
+  boostrap_step = function(data, indices) {
+    data <- data[indices, ]
+    .self$run_regressions(data_regression = data)
+    .self$get_coef()
+    .self$CDE_estimate()
+    return(.self$cde)
+  }
+)
 
-cm <- causmed$new(data = df,
-                  outcome = "Y_cont_int",
-                  treatment = 'A',
-                  mediator = 'M_bin',
-                  covariates = "C",
-                  interaction = TRUE,
-                  yreg = "linear", mreg = "logistic",
-                  boot = TRUE, nboot = 500, event = NULL, a_star = 0, a = 1, m = 3)
-cm
-cm$create_formulas()
-cm$outcome_formula
-cm$run_regressions()
-cm$outcome_regression
-cm$mediator_formula
-cm$mediator_regression
-cm$get_coef()
-cm$vcov_block
-cm$CDE_estimate()
-cm$cde
-cm$CDE_bin()
+causmed$methods(
+  boostrap = function() {
+    boot(
+      data = .self$data,
+      statistic = .self$boostrap_step,
+      R = .self$nboot
+    )
+  }
+)
+
+
+##----- Print methods
+
+# causmed$methods(
+#   show = function() {
+#     # TODO
+#   }
+# )
+
+
