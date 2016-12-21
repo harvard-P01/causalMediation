@@ -25,6 +25,21 @@ causmed <- setRefClass("causmed",
                          mediator_regression = "ANY",
                          outcome_regression = "ANY",
                          
+                         betas ="ANY", # coefficients from mediator regression
+                         thetas = "ANY", # coefficients from outcome regression
+                         vcov_betas = "ANY", # covariance from mediator regression
+                         vcov_thetas = "ANY", # covariance from outcome regression
+                         vcov_block = "ANY", # covariances from regression
+                         
+                         
+                         cde = "ANY",
+                         nde = "ANY",
+                         nie = "ANY",
+                         
+                         cde_boot = "ANY",
+                         nde_boot = "ANY",
+                         nie_boot = "ANY",
+                         
                          authors = "character" # Package authors
                        )
 )
@@ -51,7 +66,7 @@ causmed$methods(
     .self$mreg <- mreg
     .self$yreg <- yreg
     .self$event <- event
-    .self$m <- event
+    .self$m <- m
     .self$a_star <- a_star
     .self$a <- a
     .self$casecontrol <- casecontrol
@@ -65,7 +80,7 @@ causmed$methods(
     mediator_formula_basic <- paste(mediator, treatment, sep=' ~ ')
     outcome_formula_basic  <- paste(paste(outcome, treatment, sep=' ~ '), mediator, sep=' + ')
     
-    if (.self$interaction == TRUE) {
+    if (.self$interaction) {
       outcome_formula_basic <- paste(outcome_formula_basic, paste(treatment, mediator, sep = '*'), sep = ' + ')
     }
     
@@ -107,7 +122,7 @@ causmed$methods(
     if (.self$mreg == "linear") {
       .self$mediator_regression <- lm(.self$mediator_formula, data = .self$data)
     } else {
-      if (.self$casecontrol == TRUE) {
+      if (.self$casecontrol) {
         .self$data <- .self$data[.self$data[[.self$outcome]] == .self$baseline, ] # TODO: don't overwrite data
       }
       .self$mediator_regression <- glm(.self$mediator_formula, family = binomial(), data = .self$data)
@@ -143,6 +158,89 @@ causmed$methods(
   }
 )
 
+causmed$methods(
+  get_coef = function() {
+    ## Store coefficients from regression
+    .self$betas  <- coefficients(.self$mediator_regression)
+    .self$thetas <- coefficients(.self$outcome_regression)
+    ## Store covariances from regression
+    .self$vcov_betas <- vcov(.self$mediator_regression)
+    .self$vcov_thetas <- vcov(.self$outcome_regression)
+    ## Build block diagonal matrix
+    .self$vcov_block <- bdiag(.self$vcov_thetas, .self$vcov_betas)
+  }
+)
+
+causmed$methods(
+  boostrap = function(indices) {
+    data_boot <- .self$data[indices, ]
+  }
+)
+
+##----- CDE
+
+causmed$methods(
+  CDE_bin = function() { 
+    ORcde <- exp(.self$thetas[.self$treatment] + 
+                   ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * .self$m, 0) * (.self$a - .self$a_star))
+    unname(ORcde)
+  }
+)
+
+causmed$methods(
+  CDE_bin_delta = function() {
+    s <- ifelse(.self$interaction,
+                paste0("~ exp((x2 + x", length(.self$thetas), " * m) * (a - a_star))"),
+                paste0(" ~exp(x2 * (a - a_star))"))
+    s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = a, "\\bm\\b" = .self$m))
+    return(as.formula(s))
+  }
+)
+
+causmed$methods(
+  CDE_cont = function() {
+    .self$cde <- (.self$thetas[.self$treatment] +
+                    ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * m, 0)) * (.self$a - .self$a_star)
+    unname(.self$cde)
+  }
+)
+
+causmed$methods(
+  CDE_cont_delta = function() {
+    s <- ifelse(.self$interaction,
+                paste0("~ (x2 + x", length(.self$thetas), " * m) * (a - a_star)"),
+                paste0(" ~ x2 * (a - a_star)"))
+    s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = .self$a, "\\bm\\b" = .self$m))
+    return(as.formula(s))
+  }
+)
+
+causmed$methods(
+  CDE_estimate = function() {
+    if (.self$mreg != "linear" & .self$yreg != "linear")
+      .self$cde <- .self$CDE_bin()
+    else if (.self$mreg != "linear" & .self$yreg == "linear")
+      .self$cde <- .self$CDE_cont()
+    else if (.self$mreg == "linear" & .self$yreg != "linear")
+      .self$cde <- .self$CDE_bin()
+    else if (.self$mreg == "linear" & .self$yreg == "linear")
+      .self$cde <- .self$CDE_cont() # TODO: should be cde_boot
+  }
+)
+
+causmed$methods(
+  CDE_delta = function() {
+    if (.self$mreg != "linear" & yreg != "linear")
+      .self$cde <- .self$CDE_bin_delta()
+    else if (mreg != "linear" & yreg == "linear")
+      .self$cde <- .self$CDE_cont_delta()
+    else if (mreg == "linear" & yreg != "linear")
+      .self$cde <- .self$CDE_bin_delta()
+    else if (mreg == "linear" & yreg == "linear")
+      .self$cde <- .self$CDE_cont_delta()
+  }
+)
+
 ##----- Example
 
 df <- read.csv("~/Documents/LocalGit/causalMediation/data/Mbin_int_data_10000.txt", sep = " ")
@@ -154,11 +252,16 @@ cm <- causmed$new(data = df,
                   covariates = "C",
                   interaction = TRUE,
                   yreg = "linear", mreg = "logistic",
-                  boot = TRUE, nboot = 500, event = NULL, a_star = 0, a = 1)
+                  boot = TRUE, nboot = 500, event = NULL, a_star = 0, a = 1, m = 3)
 cm
 cm$create_formulas()
 cm$outcome_formula
 cm$run_regressions()
 cm$outcome_regression
 cm$mediator_formula
-cm$mediator_regression      
+cm$mediator_regression
+cm$get_coef()
+cm$vcov_block
+cm$CDE_estimate()
+cm$cde
+cm$CDE_bin()
