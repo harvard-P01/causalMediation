@@ -224,9 +224,11 @@ causmed$methods(
     else if (.self$mreg == "linear" & .self$yreg != "linear")
       .self$cde_boot <- .self$CDE_bin()
     else if (.self$mreg == "linear" & .self$yreg == "linear")
-      .self$cde_boot<- .self$CDE_cont() # TODO: should be cde_boot
+      .self$cde_boot<- .self$CDE_cont()
   }
 )
+
+##----- Delta
 
 causmed$methods(
   CDE_delta = function() {
@@ -238,30 +240,16 @@ causmed$methods(
       .self$cde_delta <- .self$CDE_bin_delta()
     else if (mreg == "linear" & yreg == "linear")
       .self$cde_delta <- .self$CDE_cont_delta()
+    .self$se_cde_delta <- deltamethod(.self$cde_delta, .self$thetas, .self$vcov_thetas)
   }
 )
-
-##----- Delta
-
-causmed$methods(
-  boostrap_step = function(data, indices) {
-    data <- data[indices, ]
-    .self$run_regressions(data_regression = data)
-    .self$get_coef()
-    .self$CDE_estimate()
-    return(.self$cde_boot)
-  }
-)
-
-
-# se.cde <- deltamethod(cded, thetas, vcov_thetas)
 
 ##----- Bootstrap
 
 causmed$methods(
   boostrap_step = function(data, indices) {
-    data <- data[indices, ]
-    .self$run_regressions(data_regression = data)
+    data_boot <- data[indices, ]
+    .self$run_regressions(data_regression = data_boot)
     .self$get_coef()
     .self$CDE_estimate()
     return(.self$cde_boot)
