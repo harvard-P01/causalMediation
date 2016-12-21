@@ -13,7 +13,7 @@ causalMediation <-
         stop("Not enough bootstrap simulations, please specify a larger value for 'nboot'.")
       if (nboot < 49)
         warning("Low number of bootstrap simulations 'nboot'.")
-      l <<- causalMediationAll(
+      l <- causalMediationAll(
         data = data,
         outcome = outcome,
         treatment = treatment,
