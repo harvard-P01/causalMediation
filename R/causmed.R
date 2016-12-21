@@ -31,13 +31,13 @@ causmed <- setRefClass("causmed",
                          vcov_thetas = "ANY", # covariance from outcome regression
                          vcov_block = "ANY", # covariances from regression
                          
-                         cde = "ANY",
-                         nde = "ANY",
-                         nie = "ANY",
+                         cde_delta = "ANY",
+                         nde_delta = "ANY",
+                         nie_delta = "ANY",
                          
-                         se_cde = "ANY",
-                         se_nde = "ANY",
-                         se_nie = "ANY",
+                         se_cde_delta = "ANY",
+                         se_nde_delta = "ANY",
+                         se_nie_delta = "ANY",
                          
                          cde_boot = "ANY",
                          nde_boot = "ANY",
@@ -83,7 +83,7 @@ causmed$methods(
     outcome_formula_basic  <- paste(paste(outcome, treatment, sep=' ~ '), mediator, sep=' + ')
     
     if (.self$interaction) {
-      outcome_formula_basic <- paste(outcome_formula_basic, paste(treatment, mediator, sep = '*'), sep = ' + ')
+      outcome_formula_basic <- paste(outcome_formula_basic, paste(treatment, mediator, sep = ' * '), sep = ' + ')
     }
     
     if (length(.self$covariates) == 0) {
@@ -166,10 +166,10 @@ causmed$methods(
 
 causmed$methods(
   get_coef = function() {
-    ## Store coefficients from regression
+    ## Store coefficients from regressions
     .self$betas  <- coefficients(.self$mediator_regression)
     .self$thetas <- coefficients(.self$outcome_regression)
-    ## Store covariances from regression
+    ## Store covariances from regressions
     .self$vcov_betas <- vcov(.self$mediator_regression)
     .self$vcov_thetas <- vcov(.self$outcome_regression)
     ## Build block diagonal matrix
@@ -199,9 +199,9 @@ causmed$methods(
 
 causmed$methods(
   CDE_cont = function() {
-    .self$cde <- (.self$thetas[.self$treatment] +
+    .self$cde_boot <- (.self$thetas[.self$treatment] +
                     ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * m, 0)) * (.self$a - .self$a_star)
-    unname(.self$cde)
+    unname(.self$cde_boot)
   }
 )
 
@@ -218,28 +218,43 @@ causmed$methods(
 causmed$methods(
   CDE_estimate = function() {
     if (.self$mreg != "linear" & .self$yreg != "linear")
-      .self$cde <- .self$CDE_bin()
+      .self$cde_boot <- .self$CDE_bin()
     else if (.self$mreg != "linear" & .self$yreg == "linear")
-      .self$cde <- .self$CDE_cont()
+      .self$cde_boot <- .self$CDE_cont()
     else if (.self$mreg == "linear" & .self$yreg != "linear")
-      .self$cde <- .self$CDE_bin()
+      .self$cde_boot <- .self$CDE_bin()
     else if (.self$mreg == "linear" & .self$yreg == "linear")
-      .self$cde <- .self$CDE_cont() # TODO: should be cde_boot
+      .self$cde_boot<- .self$CDE_cont() # TODO: should be cde_boot
   }
 )
 
 causmed$methods(
   CDE_delta = function() {
     if (.self$mreg != "linear" & yreg != "linear")
-      .self$cde <- .self$CDE_bin_delta()
+      .self$cde_delta <- .self$CDE_bin_delta()
     else if (mreg != "linear" & yreg == "linear")
-      .self$cde <- .self$CDE_cont_delta()
+      .self$cde_delta <- .self$CDE_cont_delta()
     else if (mreg == "linear" & yreg != "linear")
-      .self$cde <- .self$CDE_bin_delta()
+      .self$cde_delta <- .self$CDE_bin_delta()
     else if (mreg == "linear" & yreg == "linear")
-      .self$cde <- .self$CDE_cont_delta()
+      .self$cde_delta <- .self$CDE_cont_delta()
   }
 )
+
+##----- Delta
+
+causmed$methods(
+  boostrap_step = function(data, indices) {
+    data <- data[indices, ]
+    .self$run_regressions(data_regression = data)
+    .self$get_coef()
+    .self$CDE_estimate()
+    return(.self$cde_boot)
+  }
+)
+
+
+# se.cde <- deltamethod(cded, thetas, vcov_thetas)
 
 ##----- Bootstrap
 
@@ -249,7 +264,7 @@ causmed$methods(
     .self$run_regressions(data_regression = data)
     .self$get_coef()
     .self$CDE_estimate()
-    return(.self$cde)
+    return(.self$cde_boot)
   }
 )
 
@@ -262,7 +277,6 @@ causmed$methods(
     )
   }
 )
-
 
 ##----- Print methods
 

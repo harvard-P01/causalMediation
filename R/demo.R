@@ -1,4 +1,4 @@
-library(ms)
+library(msm)
 library(survival)
 library(Matrix)
 library(MASS)
@@ -27,7 +27,9 @@ cm$mediator_regression
 cm$get_coef()
 cm$vcov_block
 cm$CDE_estimate()
-cm$cde
+cm$cde_boot
 cm$CDE_bin()
-
+cm$CDE_estimate()
+cm$CDE_delta()
+cm$cde_delta
 cm$boostrap()
