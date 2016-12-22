@@ -179,65 +179,65 @@ causmed$methods(
 
 ##----- CDE
 
-causmed$methods(
-  CDE_bin = function() { 
-    ORcde <- exp(.self$thetas[.self$treatment] + 
-                   ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * .self$m, 0) * (.self$a - .self$a_star))
-    unname(ORcde)
-  }
-)
-
-causmed$methods(
-  CDE_bin_delta = function() {
-    s <- ifelse(.self$interaction,
-                paste0("~ exp((x2 + x", length(.self$thetas), " * m) * (a - a_star))"),
-                paste0(" ~exp(x2 * (a - a_star))"))
-    s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = a, "\\bm\\b" = .self$m))
-    return(as.formula(s))
-  }
-)
-
-causmed$methods(
-  CDE_cont = function() {
-    .self$cde_boot <- (.self$thetas[.self$treatment] +
-                    ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * m, 0)) * (.self$a - .self$a_star)
-    unname(.self$cde_boot)
-  }
-)
-
-causmed$methods(
-  CDE_cont_delta = function() {
-    s <- ifelse(.self$interaction,
-                paste0("~ (x2 + x", length(.self$thetas), " * m) * (a - a_star)"),
-                paste0(" ~ x2 * (a - a_star)"))
-    s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = .self$a, "\\bm\\b" = .self$m))
-    return(as.formula(s))
-  }
-)
+# causmed$methods(
+#   CDE_bin = function() { 
+#     ORcde <- exp(.self$thetas[.self$treatment] + 
+#                    ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * .self$m, 0) * (.self$a - .self$a_star))
+#     unname(ORcde)
+#   }
+# )
+# 
+# causmed$methods(
+#   CDE_bin_delta = function() {
+#     s <- ifelse(.self$interaction,
+#                 paste0("~ exp((x2 + x", length(.self$thetas), " * m) * (a - a_star))"),
+#                 paste0(" ~exp(x2 * (a - a_star))"))
+#     s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = a, "\\bm\\b" = .self$m))
+#     return(as.formula(s))
+#   }
+# )
+# 
+# causmed$methods(
+#   CDE_cont = function() {
+#     .self$cde_boot <- (.self$thetas[.self$treatment] +
+#                     ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * m, 0)) * (.self$a - .self$a_star)
+#     unname(.self$cde_boot)
+#   }
+# )
+# 
+# causmed$methods(
+#   CDE_cont_delta = function() {
+#     s <- ifelse(.self$interaction,
+#                 paste0("~ (x2 + x", length(.self$thetas), " * m) * (a - a_star)"),
+#                 paste0(" ~ x2 * (a - a_star)"))
+#     s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = .self$a, "\\bm\\b" = .self$m))
+#     return(as.formula(s))
+#   }
+# )
 
 causmed$methods(
   CDE_estimate = function() {
     if (.self$mreg != "linear" & .self$yreg != "linear")
-      .self$cde_boot <- .self$CDE_bin()
+      .self$cde_boot <- CDE_bin(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     else if (.self$mreg != "linear" & .self$yreg == "linear")
-      .self$cde_boot <- .self$CDE_cont()
+      .self$cde_boot <- CDE_cont(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     else if (.self$mreg == "linear" & .self$yreg != "linear")
-      .self$cde_boot <- .self$CDE_bin()
+      .self$cde_boot <- CDE_bin(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     else if (.self$mreg == "linear" & .self$yreg == "linear")
-      .self$cde_boot<- .self$CDE_cont()
+      .self$cde_boot<- CDE_cont(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
   }
 )
 
 causmed$methods(
   CDE_delta = function() {
     if (.self$mreg != "linear" & yreg != "linear")
-      .self$cde_delta <- .self$CDE_bin_delta()
+      .self$cde_delta <- CDE_bin_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     else if (mreg != "linear" & yreg == "linear")
-      .self$cde_delta <- .self$CDE_cont_delta()
+      .self$cde_delta <- CDE_cont_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     else if (mreg == "linear" & yreg != "linear")
-      .self$cde_delta <- .self$CDE_bin_delta()
+      .self$cde_delta <- CDE_bin_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     else if (mreg == "linear" & yreg == "linear")
-      .self$cde_delta <- .self$CDE_cont_delta()
+      .self$cde_delta <- CDE_cont_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     .self$se_cde_delta <- deltamethod(.self$cde_delta, .self$thetas, .self$vcov_thetas)
   }
 )

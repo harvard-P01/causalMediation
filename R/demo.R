@@ -28,7 +28,6 @@ cm$get_coef()
 cm$vcov_block
 cm$CDE_estimate()
 cm$cde_boot
-cm$CDE_bin()
 cm$CDE_estimate()
 cm$CDE_delta()
 cm$cde_delta
