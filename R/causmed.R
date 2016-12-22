@@ -228,8 +228,6 @@ causmed$methods(
   }
 )
 
-##----- Delta
-
 causmed$methods(
   CDE_delta = function() {
     if (.self$mreg != "linear" & yreg != "linear")
