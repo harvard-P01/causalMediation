@@ -32,24 +32,26 @@ causmed <- setRefClass("causmed",
                          vcov_block = "ANY", # covariances from regression
                          
                          cde_delta = "ANY",
-                         cde_boot = "ANY",
+                         cde_boot = "ANY", # TODO: rename to x_estimate?
                          se_cde_delta = "ANY",
                          
                          nde_delta = "ANY",
-                         nde_boot = "ANY",
+                         nde_boot = "ANY", # TODO: rename to x_estimate?
                          se_pnde_delta = "ANY",
                          se_tnde_delta = "ANY",
                          
                          nie_delta = "ANY",
-                         nie_boot = "ANY",
+                         nie_boot = "ANY", # TODO: rename to x_estimate?
                          se_pnie_delta = "ANY",
                          se_tnie_delta = "ANY",
                          
-                         pm_boot = "ANY",
+                         pm_boot = "ANY", # TODO: rename to x_estimate?S
                          pm_delta = "ANY",
+                         se_pm_delta = "ANY",
                          
-                         te_boot = "ANY",
+                         te_boot = "ANY", # TODO: rename to x_estimate?
                          te_delta = "ANY",
+                         se_te_delta = "ANY",
                          
                          authors = "character" # Package authors
                        )
@@ -189,14 +191,17 @@ causmed$methods(
 
 causmed$methods(
   CDE_boot = function() {
-      .self$cde_boot <- CDE_boot_function(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
-      .self$cde_boot<- CDE_cont(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+      .self$cde_boot <- CDE_boot_function(.self$thetas, .self$treatment,.self$mediator,
+                                          .self$m, .self$a_star, .self$a, .self$interaction)
+      .self$cde_boot<- CDE_cont(.self$thetas, .self$treatment, .self$mediator,
+                                .self$m, .self$a_star, .self$a, .self$interaction)
   }
 )
 
 causmed$methods(
   CDE_delta = function() {
-      .self$cde_delta <- CDE_delta_function(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+      .self$cde_delta <- CDE_delta_function(.self$thetas, .self$treatment, .self$mediator,
+                                            .self$m, .self$a_star, .self$a, .self$interaction)
     .self$se_cde_delta <- deltamethod(.self$cde_delta, .self$thetas, .self$vcov_thetas)
   }
 )
@@ -205,19 +210,25 @@ causmed$methods(
 
 causmed$methods(
   NDE_boot = function() {
-    .self$nde_boot<- NDE_boot_function(.self$betas, .self$thetas, .self$treatment, .self$mediator, .self$covariates, .self$vecc,
-                                  .self$m, .self$interaction, .self$a_star, .self$a, .self$variance,
-                                  .self$mreg, .self$yreg)
+    .self$nde_boot<- NDE_boot_function(.self$betas, .self$thetas,
+                                       .self$treatment, .self$mediator, .self$covariates, .self$vecc,
+                                       .self$m, .self$interaction, .self$a_star, .self$a, .self$variance,
+                                       .self$mreg, .self$yreg)
   }
 )
 
 causmed$methods(
   NDE_delta = function() {
-    .self$nde_delta <- NDE_delta_function(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$interaction,
-                                 .self$vecc, .self$a_star, .self$a, .self$variance,
-                                 .self$mreg, .self$yreg)
-    .self$se_pnde_delta <- deltamethod(.self$nde_delta$pnded, c(.self$thetas, .self$betas), .self$vcov_block)
-    .self$se_tnde_delta<- deltamethod(.self$nde_delta$tnded, c(.self$thetas, .self$betas), .self$vcov_block)
+    .self$nde_delta <- NDE_delta_function(.self$thetas, .self$treatment, .self$mediator,
+                                          .self$m, .self$interaction, .self$vecc,
+                                          .self$a_star, .self$a, .self$variance,
+                                          .self$mreg, .self$yreg)
+    .self$se_pnde_delta <- deltamethod(.self$nde_delta$pnded,
+                                       c(.self$thetas, .self$betas),
+                                       .self$vcov_block)
+    .self$se_tnde_delta<- deltamethod(.self$nde_delta$tnded,
+                                      c(.self$thetas, .self$betas),
+                                      .self$vcov_block)
   }
 )
 
@@ -225,19 +236,26 @@ causmed$methods(
 
 causmed$methods(
   NIE_boot = function() {
-    .self$nie_boot<- NIE_boot_function(.self$betas, .self$thetas, .self$treatment, .self$mediator, .self$covariates, .self$vecc,
-                                       .self$m, .self$interaction, .self$a_star, .self$a,
+    .self$nie_boot<- NIE_boot_function(.self$betas, .self$thetas, .self$treatment,
+                                       .self$mediator, .self$covariates, .self$vecc,
+                                       .self$m, .self$interaction,
+                                       .self$a_star, .self$a,
                                        .self$mreg, .self$yreg)
   }
 )
 
 causmed$methods(
   NIE_delta = function() {
-    .self$nie_delta <- NIE_delta_function(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$vecc, .self$interaction,
+    .self$nie_delta <- NIE_delta_function(.self$thetas,.self$treatment, .self$mediator, 
+                                          .self$m, .self$vecc, .self$interaction,
                                           .self$a_star, .self$a,
                                           .self$mreg, .self$yreg)
-    .self$se_pnie_delta <- deltamethod(.self$nie_delta$pnied, c(.self$thetas, .self$betas), .self$vcov_block)
-    .self$se_tnie_delta<- deltamethod(.self$nie_delta$tnied, c(.self$thetas, .self$betas), .self$vcov_block)
+    .self$se_pnie_delta <- deltamethod(.self$nie_delta$pnied,
+                                       c(.self$thetas, .self$betas),
+                                       .self$vcov_block)
+    .self$se_tnie_delta<- deltamethod(.self$nie_delta$tnied,
+                                      c(.self$thetas, .self$betas),
+                                      .self$vcov_block)
   }
 )
 
@@ -245,13 +263,18 @@ causmed$methods(
 
 causmed$methods(
   total_effect_boot = function() {
-    .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = (.self$yreg == "linear"))
+    .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde,
+                                                .self$nie_boot$tnie,
+                                                ycont = (.self$yreg == "linear"))
   }
 )
 
 causmed$methods(
   total_effect_delta = function() {
     .self$te_delta <- total_effect_delta_function(ycont = (.self$yreg == "linear"))
+    .self$se_te_delta <- deltamethod(.self$te_delta,
+                                     c(.self$nde_boot$pnde, .self$nie_boot$tnie),
+                                     bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2))
   }
 )
 
@@ -259,13 +282,19 @@ causmed$methods(
 
 causmed$methods(
   proportion_mediated_boot = function() {
-    .self$pm_boot <- proportion_mediated_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, .self$te_boot, ycont = (.self$yreg == "linear"))
+    .self$pm_boot <- proportion_mediated_boot_function(.self$nde_boot$pnde,
+                                                       .self$nie_boot$tnie,
+                                                       .self$te_boot,
+                                                       ycont = (.self$yreg == "linear"))
   }
 )
 
 causmed$methods(
   proportion_mediated_delta = function() {
     .self$pm_delta <-  proportion_mediated_delta_function(ycont = (.self$yreg == "linear"))
+    .self$se_pm_delta <- deltamethod(.self$pm_delta,
+                                     c(.self$nde_boot$pnde, .self$nie_boot$tnie, .self$te_boot),
+                                     bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2, .self$se_te_delta^2))
   }
 )
 

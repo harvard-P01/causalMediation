@@ -56,8 +56,25 @@ cm$nie_delta
 
 cm$total_effect_delta()
 cm$te_delta
+cm$se_te_delta
 
 cm$total_effect_boot()
 cm$te_boot
 
+cm$proportion_mediated_boot()
+cm$pm_boot
+
+cm$proportion_mediated_delta()
+
+cm$total_effect_boot()
+cm$te_boot
+cm$se_pm_delta
+
 cm$bootstrap()
+cm$se_cde_delta
+cm$se_pm_delta
+cm$se_pnde_delta
+cm$se_pnie_delta
+cm$se_te_delta
+cm$se_tnde_delta
+cm$se_tnie_delta
