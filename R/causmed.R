@@ -32,16 +32,20 @@ causmed <- setRefClass("causmed",
                          vcov_block = "ANY", # covariances from regression
                          
                          cde_delta = "ANY",
-                         nde_delta = "ANY",
-                         nie_delta = "ANY",
-                         
-                         se_cde_delta = "ANY",
-                         se_nde_delta = "ANY",
-                         se_nie_delta = "ANY",
-                         
                          cde_boot = "ANY",
-                         nde_boot = "ANY",
-                         nie_boot = "ANY",
+                         se_cde_delta = "ANY",
+                         
+                         total_nde_delta = "ANY",
+                         pure_nde_delta = "ANY",
+                         total_nde_boot = "ANY",
+                         pure_nde_boot = "ANY",
+                         se_nde_delta = "ANY",
+                         
+                         total_nie_delta = "ANY",
+                         pure_nie_delta = "ANY",
+                         total_nie_boot = "ANY",
+                         pure_nie_boot = "ANY",
+                         se_nie_delta = "ANY",
                          
                          authors = "character" # Package authors
                        )
@@ -216,7 +220,7 @@ causmed$methods(
 # )
 
 causmed$methods(
-  CDE_estimate = function() {
+  CDE_boot = function() {
     if (.self$mreg != "linear" & .self$yreg != "linear")
       .self$cde_boot <- CDE_bin(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
     else if (.self$mreg != "linear" & .self$yreg == "linear")
@@ -249,13 +253,13 @@ causmed$methods(
     data_boot <- data[indices, ]
     .self$run_regressions(data_regression = data_boot)
     .self$get_coef()
-    .self$CDE_estimate()
+    .self$CDE_boot()
     return(.self$cde_boot)
   }
 )
 
 causmed$methods(
-  boostrap = function() {
+  bootstrap = function() {
     boot(
       data = .self$data,
       statistic = .self$boostrap_step,

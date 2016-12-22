@@ -26,9 +26,8 @@ cm$mediator_formula
 cm$mediator_regression
 cm$get_coef()
 cm$vcov_block
-cm$CDE_estimate()
+cm$CDE_boot()
 cm$cde_boot
-cm$CDE_estimate()
 cm$CDE_delta()
 cm$cde_delta
 cm$se_cde_delta
