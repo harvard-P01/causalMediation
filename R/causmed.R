@@ -210,6 +210,56 @@ causmed$methods(
   }
 )
 
+##----- NDE
+
+causmed$methods(
+  NDE_boot = function() {
+    if (.self$mreg != "linear" & .self$yreg != "linear")
+      .self$cde_boot <- CDE_bin(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+    else if (.self$mreg != "linear" & .self$yreg == "linear")
+      .self$cde_boot <- CDE_cont(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+    else if (.self$mreg == "linear" & .self$yreg != "linear")
+      .self$cde_boot <- CDE_bin(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+    else if (.self$mreg == "linear" & .self$yreg == "linear")
+      .self$cde_boot<- CDE_cont(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+  }
+)
+
+causmed$methods(
+  NDE_boot = function() {
+    if (.self$mreg != "linear" & yreg != "linear")
+      .self$cde_delta <- CDE_bin_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+    else if (mreg != "linear" & yreg == "linear")
+      .self$cde_delta <- CDE_cont_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+    else if (mreg == "linear" & yreg != "linear")
+      .self$cde_delta <- CDE_bin_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+    else if (mreg == "linear" & yreg == "linear")
+      .self$cde_delta <- CDE_cont_delta(.self$thetas, .self$treatment, .self$mediator, .self$m, .self$a_star, .self$a, .self$interaction)
+    .self$se_cde_delta <- deltamethod(.self$cde_delta, .self$thetas, .self$vcov_thetas)
+  }
+)
+
+##----- NIE
+
+## TODO
+
+##----- Total effect
+
+causmed$methods(
+  total_effect = function() {
+   # TODO
+  }
+)
+
+##----- Proportion mediated
+
+causmed$methods(
+  proportion_mediated = function() {
+    # TODO
+  }
+)
+
+
 ##----- Bootstrap
 
 causmed$methods(
