@@ -418,7 +418,7 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction,
 
 
 
-NIE_estimate <- function(betas, thetas, treatment, mediator, covariates, vecc = vecc,
+NIE_boot_function <- function(betas, thetas, treatment, mediator, covariates, vecc = vecc,
                          m, interaction, a_star, a,
                          mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear") {
@@ -453,7 +453,7 @@ NIE_estimate <- function(betas, thetas, treatment, mediator, covariates, vecc = 
   return(list(pnie = pnie, tnie = tnie))
 }
 
-NIE_delta <- function(thetas, treatment, mediator, m, vecc, interaction = TRUE,
+NIE_delta_function <- function(thetas, treatment, mediator, m, vecc, interaction = TRUE,
                       a_star, a,
                       mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear") {

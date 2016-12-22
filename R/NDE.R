@@ -502,7 +502,7 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction,
   return(as.formula(s))
 }
 
-NDE_estimate <- function(betas, thetas, treatment, mediator, covariates, vecc,
+NDE_boot_function <- function(betas, thetas, treatment, mediator, covariates, vecc,
                          m, interaction, a_star, a, variance,
                          mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear") {
@@ -539,7 +539,7 @@ NDE_estimate <- function(betas, thetas, treatment, mediator, covariates, vecc,
 }
 
 
-NDE_delta <- function(thetas, treatment, mediator, m, interaction,
+NDE_delta_function <- function(thetas, treatment, mediator, m, interaction,
                       vecc, a_star, a, variance,
                       mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear") {

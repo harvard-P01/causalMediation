@@ -24,7 +24,7 @@ CDE_cont_delta <- function(thetas, treatment, mediator, m, a_star, a, interactio
   return(as.formula(s))
 }
 
-CDE_estimate <- function(thetas, treatment, mediator, m, a_star, a, interaction,
+CDE_boot_function <- function(thetas, treatment, mediator, m, a_star, a, interaction,
                       mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear")
     cde <- CDE_bin(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
@@ -37,7 +37,7 @@ CDE_estimate <- function(thetas, treatment, mediator, m, a_star, a, interaction,
   return(list(cde = cde))
 }
 
-CDE_delta <- function(thetas, treatment, mediator, m, a_star, a, interaction,
+CDE_delta_function <- function(thetas, treatment, mediator, m, a_star, a, interaction,
                       mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear")
     cded <- CDE_bin_delta(thetas = thetas, treatment = treatment, mediator = mediator, interaction = interaction, m = m, a_star = a_star, a = a)
