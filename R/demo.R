@@ -31,5 +31,5 @@ cm$cde_boot
 cm$CDE_delta()
 cm$cde_delta
 cm$se_cde_delta
-cm$boostrap()
+cm$bootstrap()
 

@@ -183,42 +183,6 @@ causmed$methods(
 
 ##----- CDE
 
-# causmed$methods(
-#   CDE_bin = function() { 
-#     ORcde <- exp(.self$thetas[.self$treatment] + 
-#                    ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * .self$m, 0) * (.self$a - .self$a_star))
-#     unname(ORcde)
-#   }
-# )
-# 
-# causmed$methods(
-#   CDE_bin_delta = function() {
-#     s <- ifelse(.self$interaction,
-#                 paste0("~ exp((x2 + x", length(.self$thetas), " * m) * (a - a_star))"),
-#                 paste0(" ~exp(x2 * (a - a_star))"))
-#     s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = a, "\\bm\\b" = .self$m))
-#     return(as.formula(s))
-#   }
-# )
-# 
-# causmed$methods(
-#   CDE_cont = function() {
-#     .self$cde_boot <- (.self$thetas[.self$treatment] +
-#                     ifelse(.self$interaction, .self$thetas[paste(.self$treatment, .self$mediator, sep = ':')] * m, 0)) * (.self$a - .self$a_star)
-#     unname(.self$cde_boot)
-#   }
-# )
-# 
-# causmed$methods(
-#   CDE_cont_delta = function() {
-#     s <- ifelse(.self$interaction,
-#                 paste0("~ (x2 + x", length(.self$thetas), " * m) * (a - a_star)"),
-#                 paste0(" ~ x2 * (a - a_star)"))
-#     s <- stringr::str_replace_all(s, pattern = c("\\ba_star\\b" = .self$a_star, "\\ba\\b" = .self$a, "\\bm\\b" = .self$m))
-#     return(as.formula(s))
-#   }
-# )
-
 causmed$methods(
   CDE_boot = function() {
     if (.self$mreg != "linear" & .self$yreg != "linear")
