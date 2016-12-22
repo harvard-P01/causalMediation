@@ -245,27 +245,13 @@ causmed$methods(
 
 causmed$methods(
   total_effect_boot = function() {
-    if (mreg != "linear" & yreg != "linear")
-      .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = FALSE)
-    else if (mreg != "linear" & yreg == "linear")
-      .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = TRUE)
-    else if (mreg == "linear" & yreg != "linear")
-      .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = FALSE)
-    else if (mreg == "linear" & yreg == "linear")
-      .self$te_delta <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = TRUE)
+    .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = (.self$yreg == "linear"))
   }
 )
 
 causmed$methods(
   total_effect_delta = function() {
-    if (mreg != "linear" & yreg != "linear")
-      .self$te_delta <- total_effect_delta_function(ycont = FALSE)
-    else if (mreg != "linear" & yreg == "linear")
-      .self$te_delta <- total_effect_delta_function(ycont = TRUE)
-    else if (mreg == "linear" & yreg != "linear")
-      .self$te_delta <- total_effect_delta_function(ycont = FALSE)
-    else if (mreg == "linear" & yreg == "linear")
-      .self$te_delta <- total_effect_delta_function(ycont = TRUE)
+    .self$te_delta <- total_effect_delta_function(ycont = (.self$yreg == "linear"))
   }
 )
 
@@ -273,16 +259,15 @@ causmed$methods(
 
 causmed$methods(
   proportion_mediated_boot = function() {
-    # TODO
+    .self$pm_boot <- proportion_mediated_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, .self$te_boot, ycont = (.self$yreg == "linear"))
   }
 )
 
 causmed$methods(
   proportion_mediated_delta = function() {
-    # TODO
+    .self$pm_delta <-  proportion_mediated_delta_function(ycont = (.self$yreg == "linear"))
   }
 )
-
 
 ##----- Bootstrap
 
@@ -294,10 +279,13 @@ causmed$methods(
     .self$CDE_boot()
     .self$NDE_boot()
     .self$NIE_boot()
-    # return(.self$cde_boot)
+    .self$total_effect_boot()
+    .self$proportion_mediated_boot()
     return(as.numeric(c(cde = .self$cde_boot,
                         pnde = .self$nde_boot$pnde, tnde = .self$nde_boot$tnde,
-                        pnie = .self$nie_boot$pnie, tnie = .self$nie_boot$tnie)))
+                        pnie = .self$nie_boot$pnie, tnie = .self$nie_boot$tnie,
+                        te = .self$te_boot,
+                        pm = .self$pm_boot)))
   }
 )
 

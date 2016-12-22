@@ -17,6 +17,7 @@ cm <- causmed$new(data = df,
                   interaction = TRUE,
                   yreg = "linear", mreg = "logistic",
                   boot = TRUE, nboot = 10, event = NULL, a_star = 0, a = 1, m = 3)
+# .self <- cm
 cm
 cm$create_formulas()
 cm$outcome_formula
@@ -58,3 +59,5 @@ cm$te_delta
 
 cm$total_effect_boot()
 cm$te_boot
+
+cm$bootstrap()
