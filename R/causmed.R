@@ -45,6 +45,12 @@ causmed <- setRefClass("causmed",
                          se_pnie_delta = "ANY",
                          se_tnie_delta = "ANY",
                          
+                         pm_boot = "ANY",
+                         pm_delta = "ANY",
+                         
+                         te_boot = "ANY",
+                         te_delta = "ANY",
+                         
                          authors = "character" # Package authors
                        )
 )
@@ -238,15 +244,41 @@ causmed$methods(
 ##----- Total effect
 
 causmed$methods(
-  total_effect = function() {
-   # TODO
+  total_effect_boot = function() {
+    if (mreg != "linear" & yreg != "linear")
+      .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = FALSE)
+    else if (mreg != "linear" & yreg == "linear")
+      .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = TRUE)
+    else if (mreg == "linear" & yreg != "linear")
+      .self$te_boot <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = FALSE)
+    else if (mreg == "linear" & yreg == "linear")
+      .self$te_delta <- total_effect_boot_function(.self$nde_boot$pnde, .self$nie_boot$tnie, ycont = TRUE)
+  }
+)
+
+causmed$methods(
+  total_effect_delta = function() {
+    if (mreg != "linear" & yreg != "linear")
+      .self$te_delta <- total_effect_delta_function(ycont = FALSE)
+    else if (mreg != "linear" & yreg == "linear")
+      .self$te_delta <- total_effect_delta_function(ycont = TRUE)
+    else if (mreg == "linear" & yreg != "linear")
+      .self$te_delta <- total_effect_delta_function(ycont = FALSE)
+    else if (mreg == "linear" & yreg == "linear")
+      .self$te_delta <- total_effect_delta_function(ycont = TRUE)
   }
 )
 
 ##----- Proportion mediated
 
 causmed$methods(
-  proportion_mediated = function() {
+  proportion_mediated_boot = function() {
+    # TODO
+  }
+)
+
+causmed$methods(
+  proportion_mediated_delta = function() {
     # TODO
   }
 )
@@ -262,7 +294,10 @@ causmed$methods(
     .self$CDE_boot()
     .self$NDE_boot()
     .self$NIE_boot()
-    return(.self$cde_boot)
+    # return(.self$cde_boot)
+    return(as.numeric(c(cde = .self$cde_boot,
+                        pnde = .self$nde_boot$pnde, tnde = .self$nde_boot$tnde,
+                        pnie = .self$nie_boot$pnie, tnie = .self$nie_boot$tnie)))
   }
 )
 

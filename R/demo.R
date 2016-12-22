@@ -53,3 +53,8 @@ cm$nie_boot
 cm$NIE_delta()
 cm$nie_delta
 
+cm$total_effect_delta()
+cm$te_delta
+
+cm$total_effect_boot()
+cm$te_boot
