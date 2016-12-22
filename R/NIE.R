@@ -11,14 +11,15 @@ total_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, vec
     }
   }
   
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep = ':')])
+                            thetas[paste(treatment, mediator, sep = ":")])
   ORnie <- ((1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm)) *
               (1 + exp(thetas[mediator] + interactionTerm * a + betas[1] + betas[treatment] * a + covariatesTerm)))/
-    ((1 + exp(betas[1] + betas[treatment]*a+covariatesTerm))*(1 + exp(thetas[mediator] + interactionTerm * a + betas[1] + betas[treatment] * a_star + covariatesTerm)))
+    ((1 + exp(betas[1] + betas[treatment]*a+covariatesTerm)) * (1 + exp(thetas[mediator] + interactionTerm * a + betas[1] + betas[treatment] * a_star + covariatesTerm)))
   unname(ORnie)
 }
+
 
 pure_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                             a_star, a, interaction) {
@@ -33,9 +34,9 @@ pure_NIE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc
     }
   }
   
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep = ':')])
+                            thetas[paste(treatment, mediator, sep = ":")])
   ORnie <- ((1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm)) *
               (1 + exp(thetas[mediator] + interactionTerm * a_star + betas[1] + betas[treatment] * a + covariatesTerm)))/
     ((1 + exp(betas[1] + betas[treatment]*a+covariatesTerm))*(1 + exp(thetas[mediator] + interactionTerm * a_star + betas[1] + betas[treatment] * a_star + covariatesTerm)))
@@ -55,15 +56,16 @@ total_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, ve
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep=':')])  
+                            thetas[paste(treatment, mediator, sep = ":")])  
   
   nie <- (thetas[mediator]+interactionTerm*a) *
     (exp(betas[1] + betas[treatment] * a + covariatesTerm) / (1 + exp(betas[1] + betas[treatment] * a + covariatesTerm)) -
        exp(betas[1] + betas[treatment] * a_star + covariatesTerm) / (1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm)))
   unname(nie)
 }
+
 
 pure_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, vecc,
                              a_star, a, interaction) {
@@ -77,15 +79,16 @@ pure_NIE_bincont <- function(betas, thetas, treatment, mediator, covariates, vec
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep=':')])  
+                            thetas[paste(treatment, mediator, sep = ":")])  
   
   nie <- (thetas[mediator]+interactionTerm*a_star) *
     (exp(betas[1] + betas[treatment] * a + covariatesTerm) / (1 + exp(betas[1] + betas[treatment] * a + covariatesTerm)) -
        exp(betas[1] + betas[treatment] * a_star + covariatesTerm) / (1 + exp(betas[1] + betas[treatment] * a_star + covariatesTerm)))
   unname(nie)
 }
+
 
 total_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                               a_star, a, interaction) {
@@ -99,13 +102,14 @@ total_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, ve
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep = ':')])
+                            thetas[paste(treatment, mediator, sep = ":")])
   
   ORnie <- exp((thetas[mediator] * betas[treatment] + interactionTerm * betas[treatment] * a) * (a - a_star))
   unname(ORnie)
 }
+
 
 pure_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                              a_star, a, interaction) {
@@ -119,13 +123,14 @@ pure_NIE_contbin <- function(betas, thetas, treatment, mediator, covariates, vec
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep = ':')])
+                            thetas[paste(treatment, mediator, sep = ":")])
   
   ORnie <- exp((thetas[mediator] * betas[treatment] + interactionTerm * betas[treatment] * a_star) * (a - a_star))
   unname(ORnie)
 }
+
 
 total_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, vecc,
                                a_star, a, interaction) {
@@ -139,13 +144,14 @@ total_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, v
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep=':')])  
+                            thetas[paste(treatment, mediator, sep = ":")])  
   
   nie <- (thetas[mediator] * betas[treatment] + interactionTerm * betas[treatment] * a) * (a - a_star)  
   unname(nie)
 }
+
 
 pure_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, vecc,
                               a_star, a, interaction) {
@@ -159,13 +165,14 @@ pure_NIE_contcont <- function(betas, thetas, treatment, mediator, covariates, ve
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep=':')])  
+                            thetas[paste(treatment, mediator, sep = ":")])  
   
   nie <- (thetas[mediator] * betas[treatment] + interactionTerm * betas[treatment] * a_star) * (a - a_star)  
   unname(nie)
 }
+
 
 total_NIE_contcont_delta <- function(thetas, interaction,
                                      a_star, a){
@@ -185,6 +192,7 @@ total_NIE_contcont_delta <- function(thetas, interaction,
   return(as.formula(s))
 }
 
+
 pure_NIE_contcont_delta <- function(thetas, interaction,
                                     a_star, a){
  k <- length(thetas)
@@ -202,6 +210,7 @@ pure_NIE_contcont_delta <- function(thetas, interaction,
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
+
 
 total_NIE_contbin_delta <- function(thetas, interaction,
                                     a_star, a){
@@ -221,6 +230,7 @@ total_NIE_contbin_delta <- function(thetas, interaction,
   return(as.formula(s))
 }
 
+
 pure_NIE_contbin_delta <- function(thetas, interaction,
                                    a_star, a){
   k <- length(thetas)
@@ -238,6 +248,7 @@ pure_NIE_contbin_delta <- function(thetas, interaction,
   s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
   return(as.formula(s))
 }
+
 
 total_NIE_bincont_delta <- function(thetas, vecc, interaction,
                                     a_star, a) {
@@ -288,6 +299,7 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction,
   return(as.formula(s))
 }
 
+
 pure_NIE_bincont_delta <- function(thetas, vecc, interaction,
                                    a_star, a) {
   j <- length(vecc)
@@ -336,6 +348,7 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction,
   
   return(as.formula(s))
 }
+
 
 total_NIE_binbin_delta <- function(thetas, vecc, interaction,
                                    a_star, a) {
@@ -417,34 +430,25 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction,
 }
 
 
-
 NIE_boot_function <- function(betas, thetas, treatment, mediator, covariates, vecc = vecc,
                          m, interaction, a_star, a,
                          mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc,
-    # a_star = 0, a = 1, interaction = TRUE
     pnie <- pure_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                             covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnie <- total_NIE_binbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                              covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
   } else if (mreg != "linear" & yreg == "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc,
-    # a_star = 0, a = 1, interaction = TRUE
     pnie <- pure_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                              covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnie <- total_NIE_bincont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                               covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
   } else if (mreg == "linear" & yreg != "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc,
-    # a_star = 0, a = 1, interaction = TRUE
     pnie <- pure_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                              covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnie <- total_NIE_contbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                               covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
   } else if (mreg == "linear" & yreg == "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc,
-    # a_star = 0, a = 1, interaction = TRUE
     pnie <- pure_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                               covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnie <- total_NIE_contcont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
@@ -452,6 +456,7 @@ NIE_boot_function <- function(betas, thetas, treatment, mediator, covariates, ve
   }
   return(list(pnie = pnie, tnie = tnie))
 }
+
 
 NIE_delta_function <- function(thetas, treatment, mediator, m, vecc, interaction = TRUE,
                       a_star, a,

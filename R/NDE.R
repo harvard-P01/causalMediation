@@ -11,13 +11,14 @@ total_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vec
     }
   }
   
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
-                            0, thetas[paste(treatment, mediator, sep=':')])  
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
+                            0, thetas[paste(treatment, mediator, sep = ":")])  
   
   ORnde <- (exp(thetas[treatment]*a) * (1+exp(thetas[mediator] +interactionTerm*a+betas[1]+betas[treatment]*a+covariatesTerm)))/
     (exp(thetas[treatment]*a_star)*(1+exp(thetas[mediator]+interactionTerm*a_star+betas[1]+betas[treatment]*a+covariatesTerm)))
   unname(ORnde)
 }
+
 
 pure_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                              a_star, a, interaction) {
@@ -32,13 +33,14 @@ pure_NDE_binbin <- function(betas, thetas, treatment, mediator, covariates, vecc
     }
   }
   
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
-                            0, thetas[paste(treatment, mediator, sep=':')])  
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
+                            0, thetas[paste(treatment, mediator, sep = ":")])  
   
   ORnde <- (exp(thetas[treatment]*a) * (1+exp(thetas[mediator] +interactionTerm*a+betas[1]+betas[treatment]*a_star+covariatesTerm)))/
     (exp(thetas[treatment]*a_star)*(1+exp(thetas[mediator]+interactionTerm*a_star+betas[1]+betas[treatment]*a_star+covariatesTerm)))
   unname(ORnde)
 }
+
 
 pure_NDE_bincont <- function(betas, thetas, treatment, mediator, covariates, vecc,
                              a_star, a, interaction) {
@@ -53,13 +55,14 @@ pure_NDE_bincont <- function(betas, thetas, treatment, mediator, covariates, vec
     }
   }
   
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),0,thetas[paste(treatment, mediator, sep=':')])  
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),0,thetas[paste(treatment, mediator, sep = ":")])  
   
   nde <- thetas[treatment]*(a-a_star)+interactionTerm*(a - a_star)*(exp(betas[1]+betas[treatment]*a_star+covariatesTerm)/
                                                                       (1+exp(betas[1]+betas[treatment]*a_star+covariatesTerm)))
   
   unname(nde)
 }
+
 
 total_NDE_bincont <- function(betas, thetas, treatment, mediator, covariates, vecc,
                               a_star, a, interaction) {
@@ -74,13 +77,14 @@ total_NDE_bincont <- function(betas, thetas, treatment, mediator, covariates, ve
     }
   }
   
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),0,thetas[paste(treatment, mediator, sep=':')])  
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),0,thetas[paste(treatment, mediator, sep = ":")])  
   
   nde <- thetas[treatment]*(a-a_star)+interactionTerm*(a - a_star)*(exp(betas[1]+betas[treatment]*a+covariatesTerm)/
                                                                       (1+exp(betas[1]+betas[treatment]*a+covariatesTerm)))
   
   unname(nde)
 }
+
 
 pure_NDE_contbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                              variance, a_star, a, interaction){
@@ -94,15 +98,16 @@ pure_NDE_contbin <- function(betas, thetas, treatment, mediator, covariates, vec
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep=':')])  
+                            thetas[paste(treatment, mediator, sep = ":")])  
   
   ORnde <- exp((thetas[treatment]+interactionTerm * (betas[1] + betas[treatment]*a_star+covariatesTerm+thetas[mediator]*variance))*(a-a_star)+
                  0.5 * interactionTerm ^ 2 * variance*(a ^ 2 - a_star ^ 2))
   
   unname(ORnde)
 }
+
 
 total_NDE_contbin <- function(betas, thetas, treatment, mediator, covariates, vecc,
                               variance, a_star, a, interaction){
@@ -116,15 +121,16 @@ total_NDE_contbin <- function(betas, thetas, treatment, mediator, covariates, ve
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep=':')]),
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
                             0,
-                            thetas[paste(treatment, mediator, sep=':')])  
+                            thetas[paste(treatment, mediator, sep = ":")])  
   
   ORnde <- exp((thetas[treatment]+interactionTerm * (betas[1] + betas[treatment]*a+covariatesTerm+thetas[mediator]*variance))*(a-a_star)+
                  0.5 * interactionTerm ^ 2 * variance*(a ^ 2 - a_star ^ 2))
   
   unname(ORnde)
 }
+
 
 pure_NDE_contcont <- function(betas, thetas, treatment, mediator, covariates, vecc,
                               a_star, a, interaction){
@@ -138,12 +144,13 @@ pure_NDE_contcont <- function(betas, thetas, treatment, mediator, covariates, ve
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
-                            0, thetas[paste(treatment, mediator, sep = ':')])  
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
+                            0, thetas[paste(treatment, mediator, sep = ":")])  
   
   nde <- (thetas[treatment] + interactionTerm * betas[1] + interactionTerm * betas[treatment] * a_star + interactionTerm*covariatesTerm)*(a - a_star)
   unname(nde)
 }
+
 
 total_NDE_contcont <- function(betas, thetas, treatment, mediator, covariates, vecc,
                                a_star, a, interaction){
@@ -157,8 +164,8 @@ total_NDE_contcont <- function(betas, thetas, treatment, mediator, covariates, v
       covariatesTerm <- covariatesTerm + betas[covariates[i]] * vecc[i]
     }
   }
-  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ':')]),
-                            0, thetas[paste(treatment, mediator, sep = ':')])  
+  interactionTerm <- ifelse(is.na(thetas[paste(treatment, mediator, sep = ":")]),
+                            0, thetas[paste(treatment, mediator, sep = ":")])  
   
   nde <- (thetas[treatment] + interactionTerm * betas[1] + interactionTerm * betas[treatment] * a + interactionTerm*covariatesTerm)*(a - a_star)
   unname(nde)
@@ -234,6 +241,7 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE,
   return(as.formula(s))
 }
 
+
 pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction,
                                    a_star, a) {
   j <- length(vecc)
@@ -270,6 +278,7 @@ pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction,
   
   return(as.formula(s))
 }
+
 
 total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction,
                                     a_star, a) {
@@ -386,6 +395,7 @@ total_NDE_bincont_delta <- function(thetas, vecc, interaction,
   
 }
 
+
 pure_NDE_binbin_delta <- function(thetas, vecc, interaction,
                                   a_star, a) {
   j <- length(vecc)
@@ -406,7 +416,7 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction,
   }
   
   # Construct nominator
-  N <- paste(N1, N2, sep="*")
+  N <- paste(N1, N2, sep = "*")
   
   # First term in denominator
   D1 <- "exp(x2*a_star)"
@@ -419,7 +429,7 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction,
   }
   
   # Construct denominator
-  D <- paste(D1, D2, sep="*")
+  D <- paste(D1, D2, sep = "*")
   
   # Construct formula
   f <- paste0(" ~ (",N,"/",D,")")
@@ -434,6 +444,7 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction,
   
   return(as.formula(s))
 }
+
 
 total_NDE_binbin_delta <- function(thetas, vecc, interaction,
                                    a_star, a) {
@@ -465,7 +476,7 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction,
   }
   
   # Construct nominator
-  N <- paste(N1, N2, sep="*")
+  N <- paste(N1, N2, sep = "*")
   
   # First term in denominator
   D1 <- "exp(x2*a_star)"
@@ -486,7 +497,7 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction,
   }
   
   # Construct denominator
-  D <- paste(D1, D2, sep="*")
+  D <- paste(D1, D2, sep = "*")
   
   # Construct formula
   f <- paste0(" ~ (",N,"/",D,")")
@@ -502,34 +513,26 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction,
   return(as.formula(s))
 }
 
+
 NDE_boot_function <- function(betas, thetas, treatment, mediator, covariates, vecc,
                          m, interaction, a_star, a, variance,
                          mreg = "linear", yreg = "linear") {
   if (mreg != "linear" & yreg != "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc,
-    # a_star = 0, a = 1, interaction = TRUE
     pnde <- pure_NDE_binbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                             covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnde <- total_NDE_binbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                              covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
   } else if (mreg != "linear" & yreg == "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc,
-    # a_star = 0, a = 1, interaction = TRUE
     pnde <- pure_NDE_bincont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                              covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnde <- total_NDE_bincont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                               covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
   } else if (mreg == "linear" & yreg != "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc, variance,
-    # a_star = 0, a = 1, interaction = TRUE
-    # TODO: variance needed?
     pnde <- pure_NDE_contbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                              covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a, variance = variance)
     tnde <- total_NDE_contbin(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                               covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a, variance = variance)
   } else if (mreg == "linear" & yreg == "linear") {
-    # betas, thetas, treatment, mediator, covariates, vecc,
-    # a_star = 0, a = 1, interaction = TRUE
     pnde <- pure_NDE_contcont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 
                               covariates = covariates, vecc = vecc, interaction = interaction, a_star = a_star, a = a)
     tnde <- total_NDE_contcont(betas = betas, thetas = thetas, treatment = treatment, mediator = mediator, 

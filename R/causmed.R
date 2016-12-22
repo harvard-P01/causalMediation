@@ -89,33 +89,41 @@ causmed$methods(
 causmed$methods(
   create_formulas = function() {
     
-    mediator_formula_basic <- paste(mediator, treatment, sep=' ~ ')
-    outcome_formula_basic  <- paste(paste(outcome, treatment, sep=' ~ '), mediator, sep=' + ')
+    mediator_formula_basic <- paste(mediator, treatment, sep = " ~ ")
+    outcome_formula_basic  <- paste(paste(outcome, treatment, sep = " ~ "),
+                                    mediator,
+                                    sep = " + ")
     
     if (.self$interaction) {
-      outcome_formula_basic <- paste(outcome_formula_basic, paste(treatment, mediator, sep = ' * '), sep = ' + ')
+      outcome_formula_basic <- paste(outcome_formula_basic,
+                                     paste(treatment, mediator, sep = " * "),
+                                     sep = ' + ')
     }
     
     if (length(.self$covariates) == 0) {
       .self$mediator_formula <- mediator_formula_basic
       .self$outcome_formula  <- outcome_formula_basic
     } else {
-      .self$mediator_formula <- paste(mediator_formula_basic, paste(covariates, collapse = " + "), sep = ' + ')
-      .self$outcome_formula  <- paste(outcome_formula_basic,  paste(covariates, collapse = " + "), sep = ' + ')
+      .self$mediator_formula <- paste(mediator_formula_basic,
+                                      paste(covariates, collapse = " + "),
+                                      sep = " + ")
+      .self$outcome_formula  <- paste(outcome_formula_basic,
+                                      paste(covariates, collapse = " + "),
+                                      sep = " + ")
     }
     
     if (yreg == "coxph") {
-      l <- strsplit(.self$outcome_formula, split = "~")
+      l <- strsplit(.self$outcome_formula, split = " ~ ")
       l[[1]][1] <- paste0("Surv(", .self$outcome, ", ", .self$event, ")")
       .self$outcome_formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
     }
     if (yreg == "aft_exp") {
-      l <- strsplit(.self$outcome_formula, split = "~")
+      l <- strsplit(.self$outcome_formula, split = " ~ ")
       l[[1]][1] <- paste0("Surv(", .self$outcome, ", ", .self$event, ")")
       .self$outcome_formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
     }
     if (yreg == "aft_weibull") {
-      l <- strsplit(outcome_formula, split = "~")
+      l <- strsplit(outcome_formula, split = " ~ ")
       l[[1]][1] <- paste0("Surv(", .self$outcome, ", ", .self$event, ")")
       .self$outcome_formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
     }
