@@ -53,6 +53,8 @@ causmed <- setRefClass("causmed",
                          te_delta = "ANY",
                          se_te_delta = "ANY",
                          
+                         boot_out = "ANY", # bootstrap output
+                         
                          authors = "character" # Package authors
                        )
 )
@@ -328,7 +330,7 @@ causmed$methods(
 
 causmed$methods(
   bootstrap = function() {
-    boot(
+    .self$boot_out <- boot(
       data = .self$data,
       statistic = .self$boostrap_step,
       R = .self$nboot
