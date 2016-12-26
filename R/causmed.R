@@ -33,25 +33,25 @@ causmed <- setRefClass("causmed",
                          
                          cde_delta = "ANY",
                          cde_boot = "ANY", # TODO: rename to x_estimate?
-                         se_cde_delta = "ANY",
+                         se_cde_delta = "numeric",
                          
                          nde_delta = "ANY",
                          nde_boot = "ANY", # TODO: rename to x_estimate?
-                         se_pnde_delta = "ANY",
-                         se_tnde_delta = "ANY",
+                         se_pnde_delta = "numeric",
+                         se_tnde_delta = "numeric",
                          
                          nie_delta = "ANY",
                          nie_boot = "ANY", # TODO: rename to x_estimate?
-                         se_pnie_delta = "ANY",
-                         se_tnie_delta = "ANY",
+                         se_pnie_delta = "numeric",
+                         se_tnie_delta = "numeric",
                          
                          pm_boot = "ANY", # TODO: rename to x_estimate?S
                          pm_delta = "ANY",
-                         se_pm_delta = "ANY",
+                         se_pm_delta = "numeric",
                          
                          te_boot = "ANY", # TODO: rename to x_estimate?
                          te_delta = "ANY",
-                         se_te_delta = "ANY",
+                         se_te_delta = "numeric",
                          
                          boot_out = "ANY", # bootstrap output
                          delta_out = "ANY", # delta output
