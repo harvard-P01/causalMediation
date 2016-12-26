@@ -18,6 +18,11 @@ cm <- causmed$new(data = df,
                   yreg = "linear", mreg = "logistic",
                   boot = TRUE, nboot = 10, event = NULL, a_star = 0, a = 1, m = 3)
 # .self <- cm
+cm$delta()
+cm$cde_delta$cded
+cm$create_formulas()
+cm$bootstrap()
+
 cm
 cm$create_formulas()
 cm$outcome_formula
@@ -78,3 +83,6 @@ cm$se_pnie_delta
 cm$se_te_delta
 cm$se_tnde_delta
 cm$se_tnie_delta
+
+cm$boot_out
+cm$print_boot()

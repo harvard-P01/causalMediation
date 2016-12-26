@@ -2,9 +2,9 @@ causmed <- setRefClass("causmed",
                        
                        fields = list(
                          data  = "ANY", # data frame
-                         outcome = "ANY",
-                         treatment = "ANY",
-                         mediator = "ANY",
+                         outcome = "character",
+                         treatment = "character",
+                         mediator = "character",
                          covariates = "ANY",
                          vecc = "ANY",
                          interaction = "logical", # interaction term
@@ -25,7 +25,7 @@ causmed <- setRefClass("causmed",
                          mediator_regression = "ANY",
                          outcome_regression = "ANY",
                          
-                         betas ="ANY", # coefficients from mediator regression
+                         betas = "ANY", # coefficients from mediator regression
                          thetas = "ANY", # coefficients from outcome regression
                          vcov_betas = "ANY", # covariance from mediator regression
                          vcov_thetas = "ANY", # covariance from outcome regression
@@ -54,6 +54,7 @@ causmed <- setRefClass("causmed",
                          se_te_delta = "ANY",
                          
                          boot_out = "ANY", # bootstrap output
+                         delta_out = "ANY", # delta output
                          
                          authors = "character" # Package authors
                        )
@@ -328,6 +329,8 @@ causmed$methods(
   }
 )
 
+##----- 'Main' methods
+
 causmed$methods(
   bootstrap = function() {
     .self$boot_out <- boot(
@@ -338,6 +341,19 @@ causmed$methods(
   }
 )
 
+causmed$methods(
+  delta = function() {
+    .self$create_formulas()
+    .self$run_regressions(data_regression = .self$data)
+    .self$get_coef()
+    .self$CDE_boot(); .self$CDE_delta()
+    .self$NDE_boot(); .self$NDE_delta()
+    .self$NIE_boot(); .self$NIE_delta()
+    .self$total_effect_boot(); .self$total_effect_delta()
+    .self$proportion_mediated_boot(); .self$proportion_mediated_boot()
+  }
+)
+
 ##----- Print methods
 
 # causmed$methods(
@@ -345,5 +361,17 @@ causmed$methods(
 #     # TODO
 #   }
 # )
+
+causmed$methods(
+  print_boot = function() {
+    format_df_boot(.self$boot_out)
+  }
+)
+
+causmed$methods(
+  print_delta = function() {
+    format_df_boot(.self$delta_out)
+  }
+)
 
 
