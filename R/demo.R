@@ -22,7 +22,7 @@ cm$delta()
 cm$cde_delta$cded
 cm$create_formulas()
 cm$bootstrap()
-
+cm$print_boot()
 cm
 cm$create_formulas()
 cm$outcome_formula

@@ -27,9 +27,9 @@ causmed <- setRefClass("causmed",
                          
                          betas = "ANY", # coefficients from mediator regression
                          thetas = "ANY", # coefficients from outcome regression
-                         vcov_betas = "ANY", # covariance from mediator regression
-                         vcov_thetas = "ANY", # covariance from outcome regression
-                         vcov_block = "ANY", # covariances from regression
+                         vcov_betas = "matrix", # covariance from mediator regression
+                         vcov_thetas = "matrix", # covariance from outcome regression
+                         vcov_block = "dgCMatrix", # covariances from regression
                          
                          cde_delta = "ANY",
                          cde_boot = "ANY", # TODO: rename to x_estimate?
