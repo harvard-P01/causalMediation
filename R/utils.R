@@ -30,8 +30,8 @@ format_df_delta <- function(delta.out) {
                       delta.out$cde.cde + qnorm(.975) * delta.out$se.cde.cded)
   ##----- pnde
   d_all["pnde", ] <- c(delta.out$pnde, delta.out$se.pnde, 
-                      delta.out$pnde - qnorm(.975) * delta.out$se.pnde,
-                      delta.out$pnde + qnorm(.975) * delta.out$se.pnde)
+                       delta.out$pnde - qnorm(.975) * delta.out$se.pnde,
+                       delta.out$pnde + qnorm(.975) * delta.out$se.pnde)
   ##----- tnde
   d_all["tnde", ] <- c(delta.out$tnde, delta.out$se.tnde, 
                        delta.out$tnde - qnorm(.975) * delta.out$se.tnde,
@@ -46,12 +46,12 @@ format_df_delta <- function(delta.out) {
                        delta.out$tnie + qnorm(.975) * delta.out$se.tnie)
   ##----- te
   d_all["te", ] <- c(delta.out$te, delta.out$se.te, 
-                      delta.out$te - qnorm(.975) * delta.out$se.te,
-                      delta.out$te + qnorm(.975) * delta.out$se.te)
+                     delta.out$te - qnorm(.975) * delta.out$se.te,
+                     delta.out$te + qnorm(.975) * delta.out$se.te)
   ##----- pm
   d_all["pm", ] <- c(delta.out$pm, delta.out$se.pm, 
-                      delta.out$pm - qnorm(.975) * delta.out$se.pm,
-                      delta.out$pm + qnorm(.975) * delta.out$se.pm)
+                     delta.out$pm - qnorm(.975) * delta.out$se.pm,
+                     delta.out$pm + qnorm(.975) * delta.out$se.pm)
   return(d_all)
 }
 
