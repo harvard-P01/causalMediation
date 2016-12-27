@@ -186,6 +186,9 @@ causmed$methods(
     if (yreg == "aft_weibull") {
       .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "weibull", data = data_regression)
     }
+    ## Fix formulas
+    .self$mediator_regression$call$formula <- .self$mediator_formula
+    .self$outcome_regression$call$formula <- .self$outcome_formula
   }
 )
 
