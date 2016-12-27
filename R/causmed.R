@@ -100,7 +100,7 @@ causmed$methods(
     if (.self$interaction) {
       outcome_formula_basic <- paste(outcome_formula_basic,
                                      paste(treatment, mediator, sep = " * "),
-                                     sep = ' + ')
+                                     sep = " + ")
     }
     
     if (length(.self$covariates) == 0) {
@@ -363,8 +363,8 @@ causmed$methods(
 # )
 
 causmed$methods(
-  print_boot = function() {
-    format_df_boot(.self$boot_out)
+  print_boot = function(digits = 2) {
+    round(format_df_boot(.self$boot_out), digits = digits)
   }
 )
 
