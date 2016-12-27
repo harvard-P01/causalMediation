@@ -14,7 +14,8 @@ format_df_boot <- function(boot.out, conf = 0.95) {
   bias <- apply(boot.out$t, 2, mean) - estimate
   std.error <- apply(boot.out$t, 2, sd)
   d_all <- cbind(estimate, bias, std.error, d_all)
-  colnames(d_all) <- c("estimate", "bias", "std.error", "95% CIL", "95% CIU")
+  label_CI <- paste0(round(conf * 100, 2), c("% CIL", "% CIU"))
+  colnames(d_all) <- c("estimate", "bias", "std.error", label_CI[1], label_CI[2])
   rownames(d_all) <- c("cde", "pnde", "tnde", "pnie", "tnie", "te", "pm")
   return(d_all)
 }

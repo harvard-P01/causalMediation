@@ -24,7 +24,8 @@ cm$create_formulas() # TODO: check in bootstrap function if formulas already def
 cm$bootstrap()
 cm$print_boot()
 cm$print_boot(digits = 3)
-cm$print_boot(digits = 3, conf = 0.8)
+cm$print_boot(digits = 3, conf = 0.99)
+
 ##----- Test methods
 
 cm
