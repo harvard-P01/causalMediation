@@ -19,6 +19,8 @@ causmed <- setRefClass("causmed",
                          casecontrol = "logical",
                          baseline = "ANY",
                          
+                         data_name = "character", # data name
+                         
                          mediator_formula = "ANY",
                          outcome_formula = "ANY",
                          
@@ -70,6 +72,7 @@ causmed$methods(
                                  "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
                         event, m, a_star, a,
                         casecontrol = FALSE, baseline = 0) {
+    .self$data_name <- deparse(substitute(data))
     .self$authors <- "TBD"
     .self$data <- data
     .self$outcome <- outcome
@@ -193,6 +196,8 @@ causmed$methods(
     ##                 data = data_regression)
     .self$mediator_regression$call$formula <- .self$mediator_formula
     .self$outcome_regression$call$formula <- .self$outcome_formula
+    .self$mediator_regression$call$data <- .self$data_name
+    .self$outcome_regression$call$data <- .self$data_name
   }
 )
 
