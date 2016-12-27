@@ -187,6 +187,10 @@ causmed$methods(
       .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "weibull", data = data_regression)
     }
     ## Fix formulas
+    ## To replace: glm(formula = .self$mediator_formula, family = binomial(),
+    ##                 data = data_regression)
+    ## with:       glm(formula = "M_bin ~ A + C", family = binomial(),
+    ##                 data = data_regression)
     .self$mediator_regression$call$formula <- .self$mediator_formula
     .self$outcome_regression$call$formula <- .self$outcome_formula
   }
