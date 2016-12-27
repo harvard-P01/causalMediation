@@ -21,11 +21,13 @@ cm <- causmed$new(data = df,
 cm$delta()
 cm$print_delta()
 cm$print_delta(digits = 4)
+cm$print_delta()
+cm$print_delta(digits = 3, conf = .90)
 cm$create_formulas() # TODO: check in bootstrap function if formulas already defined
 cm$bootstrap()
 cm$print_boot()
 cm$print_boot(digits = 3)
-cm$print_boot(digits = 3, conf = 0.99)
+cm$print_boot(digits = 3, conf = 0.90)
 
 ##----- Test methods
 

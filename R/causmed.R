@@ -390,8 +390,10 @@ causmed$methods(
 )
 
 causmed$methods(
-  print_delta = function(digits = 2) {
-    round(format_df_delta(.self$delta_out), digits = digits)
+  print_delta = function(digits = 2, conf = 0.95) {
+    if (!is.null(conf))
+      .self$conf <- conf
+    round(format_df_delta(.self$delta_out, conf = .self$conf), digits = digits)
   }
 )
 
