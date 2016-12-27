@@ -56,6 +56,8 @@ causmed <- setRefClass("causmed",
                          boot_out = "ANY", # bootstrap output
                          delta_out = "ANY", # delta output
                          
+                         conf = "numeric", # confidence level
+                         
                          authors = "character" # Package authors
                        )
 )
@@ -86,6 +88,7 @@ causmed$methods(
     .self$a <- a
     .self$casecontrol <- casecontrol
     .self$baseline <- baseline
+    .self$conf <- 0.95
   }
 )
 
@@ -351,6 +354,8 @@ causmed$methods(
     .self$NIE_boot(); .self$NIE_delta()
     .self$total_effect_boot(); .self$total_effect_delta()
     .self$proportion_mediated_boot(); .self$proportion_mediated_boot()
+    ## Populate delta_out field
+    
   }
 )
 
@@ -363,14 +368,16 @@ causmed$methods(
 # )
 
 causmed$methods(
-  print_boot = function(digits = 2) {
-    round(format_df_boot(.self$boot_out), digits = digits)
+  print_boot = function(digits = 2, conf = 0.95) {
+    if (!is.null(conf))
+      .self$conf <- conf
+    round(format_df_boot(.self$boot_out, conf = .self$conf), digits = digits)
   }
 )
 
 causmed$methods(
-  print_delta = function() {
-    format_df_boot(.self$delta_out)
+  print_delta = function(digits = 2) {
+    round(format_df_boot(.self$delta_out), digits = digits)
   }
 )
 

@@ -1,13 +1,13 @@
-format_row_boot <- function(boot.out, index = 1) {
-  ci <- boot.ci(boot.out, index = index, type = "perc")
+format_row_boot <- function(boot.out, index = 1, conf = 0.95) {
+  ci <- boot.ci(boot.out, index = index, type = "perc", conf = conf)
   d <- cbind(as.data.frame(t(tail(ci$percent[1, ], 2))))
   return(d)
 }
 
-format_df_boot <- function(boot.out) {
+format_df_boot <- function(boot.out, conf = 0.95) {
   d_all <- NULL
   for (i in 1:7) {
-    d <- format_row_boot(boot.out, i)
+    d <- format_row_boot(boot.out, i, conf = conf)
     d_all <- rbind(d_all, d)
   }
   estimate <- boot.out$t0
