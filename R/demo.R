@@ -17,12 +17,14 @@ cm <- causmed$new(data = df,
                   interaction = TRUE,
                   yreg = "linear", mreg = "logistic",
                   boot = TRUE, nboot = 10, event = NULL, a_star = 0, a = 1, m = 3)
-# .self <- cm
+
 cm$delta()
-cm$cde_delta$cded
-cm$create_formulas()
+cm$create_formulas() # TODO: check in bootstrap function if formulas already defined
 cm$bootstrap()
 cm$print_boot()
+
+##----- Test methods
+
 cm
 cm$create_formulas()
 cm$outcome_formula
