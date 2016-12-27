@@ -19,7 +19,8 @@ cm <- causmed$new(data = df,
                   boot = TRUE, nboot = 10, event = NULL, a_star = 0, a = 1, m = 3)
 
 cm$delta()
-# cm$print_delta()
+cm$print_delta()
+cm$print_delta(digits = 4)
 cm$create_formulas() # TODO: check in bootstrap function if formulas already defined
 cm$bootstrap()
 cm$print_boot()

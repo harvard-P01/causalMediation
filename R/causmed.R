@@ -54,7 +54,7 @@ causmed <- setRefClass("causmed",
                          se_te_delta = "numeric",
                          
                          boot_out = "ANY", # bootstrap output
-                         delta_out = "ANY", # delta output
+                         delta_out = "list", # delta output
                          
                          conf = "numeric", # confidence level
                          
@@ -64,12 +64,12 @@ causmed <- setRefClass("causmed",
 
 causmed$methods(
   initialize = function(data, outcome, treatment, mediator, covariates, vecc = NULL,
-                      interaction = TRUE, boot = FALSE, nboot = 100,
-                      mreg = c("linear", "logistic"),
-                      yreg = c("linear", "logistic", "loglinear", "poisson",
-                               "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
-                      event, m, a_star, a,
-                      casecontrol = FALSE, baseline = 0) {
+                        interaction = TRUE, boot = FALSE, nboot = 100,
+                        mreg = c("linear", "logistic"),
+                        yreg = c("linear", "logistic", "loglinear", "poisson",
+                                 "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
+                        event, m, a_star, a,
+                        casecontrol = FALSE, baseline = 0) {
     .self$authors <- "TBD"
     .self$data <- data
     .self$outcome <- outcome
@@ -89,6 +89,7 @@ causmed$methods(
     .self$casecontrol <- casecontrol
     .self$baseline <- baseline
     .self$conf <- 0.95
+    .self$delta_out <- list()
   }
 )
 
@@ -205,17 +206,17 @@ causmed$methods(
 
 causmed$methods(
   CDE_boot = function() {
-      .self$cde_boot <- CDE_boot_function(.self$thetas, .self$treatment,.self$mediator,
-                                          .self$m, .self$a_star, .self$a, .self$interaction)
-      .self$cde_boot<- CDE_cont(.self$thetas, .self$treatment, .self$mediator,
-                                .self$m, .self$a_star, .self$a, .self$interaction)
+    .self$cde_boot <- CDE_boot_function(.self$thetas, .self$treatment,.self$mediator,
+                                        .self$m, .self$a_star, .self$a, .self$interaction)
+    .self$cde_boot<- CDE_cont(.self$thetas, .self$treatment, .self$mediator,
+                              .self$m, .self$a_star, .self$a, .self$interaction)
   }
 )
 
 causmed$methods(
   CDE_delta = function() {
-      .self$cde_delta <- CDE_delta_function(.self$thetas, .self$treatment, .self$mediator,
-                                            .self$m, .self$a_star, .self$a, .self$interaction)
+    .self$cde_delta <- CDE_delta_function(.self$thetas, .self$treatment, .self$mediator,
+                                          .self$m, .self$a_star, .self$a, .self$interaction)
     .self$se_cde_delta <- deltamethod(.self$cde_delta, .self$thetas, .self$vcov_thetas)
   }
 )
@@ -355,7 +356,20 @@ causmed$methods(
     .self$total_effect_boot(); .self$total_effect_delta()
     .self$proportion_mediated_boot(); .self$proportion_mediated_boot()
     ## Populate delta_out field
-    
+    .self$delta_out$cde.cde <- .self$cde_boot
+    .self$delta_out$se.cde.cded <- .self$se_cde_delta
+    .self$delta_out$pnde <- .self$nde_boot$pnde
+    .self$delta_out$se.pnde <- .self$se_pnde_delta
+    .self$delta_out$tnde <- .self$nde_boot$tnde
+    .self$delta_out$se.tnde <- .self$se_pnie_delta
+    .self$delta_out$pnie <- .self$nie_boot$pnie
+    .self$delta_out$se.pnie <- .self$se_pnie_delta
+    .self$delta_out$tnie <- .self$nie_boot$tnie
+    .self$delta_out$se.tnie <- .self$se_tnie_delta
+    .self$delta_out$te <- .self$te_boot
+    .self$delta_out$se.te <- .self$se_te_delta
+    .self$delta_out$pm <- .self$pm_boot
+    .self$delta_out$se.pm <- .self$se_pm_delta
   }
 )
 
@@ -377,7 +391,7 @@ causmed$methods(
 
 causmed$methods(
   print_delta = function(digits = 2) {
-    round(format_df_boot(.self$delta_out), digits = digits)
+    round(format_df_delta(.self$delta_out), digits = digits)
   }
 )
 
