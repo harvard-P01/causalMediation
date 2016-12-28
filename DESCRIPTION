@@ -8,9 +8,11 @@ Maintainer: Egge van der Poel <e.vanderpoel@erasmusmc.nl>
 Description: Implementation of Causal Mediation Analysis as published by Valeri and VanderWeele (2013, doi: 10.1037/a0031034)
 License: GPL-2
 Depends:
-    msm,
-    survival,
-    Matrix,
-    MASS,
-    boot,
-    stringr
+  msm,
+  survival,
+  Matrix,
+  MASS,
+  boot,
+  stringr
+Suggests:
+  testthat
