@@ -368,7 +368,7 @@ causmed$methods(
     .self$NDE_boot(); .self$NDE_delta()
     .self$NIE_boot(); .self$NIE_delta()
     .self$total_effect_boot(); .self$total_effect_delta()
-    .self$proportion_mediated_boot(); .self$proportion_mediated_boot()
+    .self$proportion_mediated_boot(); .self$proportion_mediated_delta()
     ## Populate delta_out field
     .self$delta_out$cde.cde <- .self$cde_boot
     .self$delta_out$se.cde.cded <- .self$se_cde_delta
