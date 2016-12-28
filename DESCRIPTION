@@ -16,3 +16,4 @@ Depends:
   stringr
 Suggests:
   testthat
+LazyData: true
