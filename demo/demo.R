@@ -7,7 +7,7 @@ library(stringr)
 
 ##----- Example
 
-df <- read.csv("~/Documents/LocalGit/causalMediation/data/Mbin_int_data_10000.txt", sep = " ")
+df <- read.csv("~/Documents/LocalGit/causalMediation/inst/data/Mbin_int_data_10000.txt", sep = " ")
 
 cm <- causmed$new(data = df,
                   outcome = "Y_cont_int",
@@ -23,7 +23,6 @@ cm$print_delta()
 cm$print_delta(digits = 4)
 cm$print_delta()
 cm$print_delta(digits = 3, conf = .90)
-cm$create_formulas() # TODO: check in bootstrap function if formulas already defined
 cm$bootstrap()
 cm$print_boot()
 cm$print_boot(digits = 3)

@@ -330,6 +330,8 @@ causmed$methods(
 causmed$methods(
   boostrap_step = function(data, indices) {
     data_boot <- data[indices, ]
+    if (!exists(".self$mediator_formula") | !exists(".self$outcome_formula"))
+      .self$create_formulas()
     .self$run_regressions(data_regression = data_boot)
     .self$get_coef()
     .self$CDE_boot()
