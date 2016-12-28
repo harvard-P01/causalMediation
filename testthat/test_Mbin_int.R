@@ -1,6 +1,4 @@
 
-# df <- read.csv("data/Mbin_int_data.txt", sep = " ")
-#df <- read.csv("data/Mbin_int_data_10000.txt", sep = " ")
 
 df <- read.csv("Mbin_int_data_10000.txt", sep = " ")
 
