@@ -23,6 +23,8 @@ cm$print_boot()
 cm$print_boot(digits = 3)
 cm$print_boot(digits = 3, conf = 0.90)
 
+cm$mediation()
+
 ##----- Test methods
 
 cm
