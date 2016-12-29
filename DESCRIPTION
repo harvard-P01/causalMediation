@@ -13,7 +13,8 @@ Depends:
   Matrix,
   MASS,
   boot,
-  stringr
+  stringr,
+  mediation
 Suggests:
   testthat
 LazyData: true

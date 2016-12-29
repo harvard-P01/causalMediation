@@ -424,4 +424,18 @@ causmed$methods(
   }
 )
 
+##----- Integrate with other packages
+
+causmed$methods(
+  mediation = function(robustSE = TRUE, sims = 100) {
+    result <- mediation::mediate(.self$mediator_regression,
+                                 .self$outcome_regression,
+                                 treat = .self$treatment,
+                                 mediator = .self$mediator,
+                                 robustSE = robustSE,
+                                 sims = sims)
+    return(summary(result))
+  }
+)
+
 
