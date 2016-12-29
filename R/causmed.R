@@ -415,8 +415,8 @@ causmed$methods(
   print_output = function(digits = 2, conf = 0.95, summary = TRUE) {
     if (!is.null(conf))
       .self$conf <- conf
-    summary(.self$mediator_regression)
-    summary(.self$outcome_regression)
+    # summary(.self$mediator_regression)
+    # summary(.self$outcome_regression)
     if (.self$boot)
       .self$print_boot(digits = digits, conf = .self$conf)
     else
