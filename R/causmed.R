@@ -66,7 +66,7 @@ causmed <- setRefClass("causmed",
 
 causmed$methods(
   initialize = function(data, outcome, treatment, mediator, covariates, vecc = NULL,
-                        interaction = TRUE, boot = FALSE, nboot = 100,
+                        interaction = TRUE, boot = NULL, nboot = 100,
                         mreg = c("linear", "logistic"),
                         yreg = c("linear", "logistic", "loglinear", "poisson",
                                  "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
@@ -193,7 +193,7 @@ causmed$methods(
     ## To replace: glm(formula = .self$mediator_formula, family = binomial(),
     ##                 data = data_regression)
     ## with:       glm(formula = "M_bin ~ A + C", family = binomial(),
-    ##                 data = data_regression)
+    ##                 data = my_data_name)
     .self$mediator_regression$call$formula <- .self$mediator_formula
     .self$outcome_regression$call$formula <- .self$outcome_formula
     .self$mediator_regression$call$data <- .self$data_name
@@ -220,8 +220,6 @@ causmed$methods(
   CDE_boot = function() {
     .self$cde_boot <- CDE_boot_function(.self$thetas, .self$treatment,.self$mediator,
                                         .self$m, .self$a_star, .self$a, .self$interaction)
-    .self$cde_boot<- CDE_cont(.self$thetas, .self$treatment, .self$mediator,
-                              .self$m, .self$a_star, .self$a, .self$interaction)
   }
 )
 
@@ -351,6 +349,7 @@ causmed$methods(
 
 causmed$methods(
   bootstrap = function() {
+    .self$boot <- TRUE
     .self$boot_out <- boot(
       data = .self$data,
       statistic = .self$boostrap_step,
@@ -361,6 +360,7 @@ causmed$methods(
 
 causmed$methods(
   delta = function() {
+    .self$boot <- FALSE
     .self$create_formulas()
     .self$run_regressions(data_regression = .self$data)
     .self$get_coef()
@@ -370,20 +370,20 @@ causmed$methods(
     .self$total_effect_boot(); .self$total_effect_delta()
     .self$proportion_mediated_boot(); .self$proportion_mediated_delta()
     ## Populate delta_out field
-    .self$delta_out$cde.cde <- .self$cde_boot
-    .self$delta_out$se.cde.cded <- .self$se_cde_delta
+    .self$delta_out$cded <- .self$cde_boot$cde
+    .self$delta_out$se_cded <- .self$se_cde_delta
     .self$delta_out$pnde <- .self$nde_boot$pnde
-    .self$delta_out$se.pnde <- .self$se_pnde_delta
+    .self$delta_out$se_pnde <- .self$se_pnde_delta
     .self$delta_out$tnde <- .self$nde_boot$tnde
-    .self$delta_out$se.tnde <- .self$se_pnie_delta
+    .self$delta_out$se_tnde <- .self$se_pnie_delta
     .self$delta_out$pnie <- .self$nie_boot$pnie
-    .self$delta_out$se.pnie <- .self$se_pnie_delta
+    .self$delta_out$se_pnie <- .self$se_pnie_delta
     .self$delta_out$tnie <- .self$nie_boot$tnie
-    .self$delta_out$se.tnie <- .self$se_tnie_delta
+    .self$delta_out$se_tnie <- .self$se_tnie_delta
     .self$delta_out$te <- .self$te_boot
-    .self$delta_out$se.te <- .self$se_te_delta
+    .self$delta_out$se_te <- .self$se_te_delta
     .self$delta_out$pm <- .self$pm_boot
-    .self$delta_out$se.pm <- .self$se_pm_delta
+    .self$delta_out$se_pm <- .self$se_pm_delta
   }
 )
 
@@ -408,6 +408,19 @@ causmed$methods(
     if (!is.null(conf))
       .self$conf <- conf
     round(format_df_delta(.self$delta_out, conf = .self$conf), digits = digits)
+  }
+)
+
+causmed$methods(
+  print_output = function(digits = 2, conf = 0.95, summary = TRUE) {
+    if (!is.null(conf))
+      .self$conf <- conf
+    summary(.self$mediator_regression)
+    summary(.self$outcome_regression)
+    if (.self$boot)
+      .self$print_boot(digits = digits, conf = .self$conf)
+    else
+      .self$print_delta(digits = digits, conf = .self$conf)
   }
 )
 

@@ -28,33 +28,33 @@ format_df_delta <- function(delta.out, conf = 0.95) {
   colnames(d_all) <- c("estimate", "std.error", label_CI[1], label_CI[2])
   rownames(d_all) <- c("cde", "pnde", "tnde", "pnie", "tnie", "te", "pm")
   ##----- cde
-  d_all["cde", ] <- c(delta.out$cde.cde, delta.out$se.cde.cded, 
-                      delta.out$cde.cde - z * delta.out$se.cde.cded,
-                      delta.out$cde.cde + z * delta.out$se.cde.cded)
+  d_all["cde", ] <- c(delta.out$cded, delta.out$se_cded, 
+                      delta.out$cded - z * delta.out$se_cded,
+                      delta.out$cded + z * delta.out$se_cded)
   ##----- pnde
-  d_all["pnde", ] <- c(delta.out$pnde, delta.out$se.pnde, 
-                       delta.out$pnde - z * delta.out$se.pnde,
-                       delta.out$pnde + z * delta.out$se.pnde)
+  d_all["pnde", ] <- c(delta.out$pnde, delta.out$se_pnde, 
+                       delta.out$pnde - z * delta.out$se_pnde,
+                       delta.out$pnde + z * delta.out$se_pnde)
   ##----- tnde
-  d_all["tnde", ] <- c(delta.out$tnde, delta.out$se.tnde, 
-                       delta.out$tnde - z * delta.out$se.tnde,
-                       delta.out$tnde + z * delta.out$se.tnde)
+  d_all["tnde", ] <- c(delta.out$tnde, delta.out$se_tnde, 
+                       delta.out$tnde - z * delta.out$se_tnde,
+                       delta.out$tnde + z * delta.out$se_tnde)
   ##----- pnie
-  d_all["pnie", ] <- c(delta.out$pnie, delta.out$se.pnie, 
-                       delta.out$pnie - z * delta.out$se.pnie,
-                       delta.out$pnie + z * delta.out$se.pnie)
+  d_all["pnie", ] <- c(delta.out$pnie, delta.out$se_pnie, 
+                       delta.out$pnie - z * delta.out$se_pnie,
+                       delta.out$pnie + z * delta.out$se_pnie)
   ##----- tnie
-  d_all["tnie", ] <- c(delta.out$tnie, delta.out$se.tnie, 
-                       delta.out$tnie - z * delta.out$se.tnie,
-                       delta.out$tnie + z * delta.out$se.tnie)
+  d_all["tnie", ] <- c(delta.out$tnie, delta.out$se_tnie, 
+                       delta.out$tnie - z * delta.out$se_tnie,
+                       delta.out$tnie + z * delta.out$se_tnie)
   ##----- te
-  d_all["te", ] <- c(delta.out$te, delta.out$se.te, 
-                     delta.out$te - z * delta.out$se.te,
-                     delta.out$te + z * delta.out$se.te)
+  d_all["te", ] <- c(delta.out$te, delta.out$se_te, 
+                     delta.out$te - z * delta.out$se_te,
+                     delta.out$te + z * delta.out$se_te)
   ##----- pm
-  d_all["pm", ] <- c(delta.out$pm, delta.out$se.pm, 
-                     delta.out$pm - z * delta.out$se.pm,
-                     delta.out$pm + z * delta.out$se.pm)
+  d_all["pm", ] <- c(delta.out$pm, delta.out$se_pm, 
+                     delta.out$pm - z * delta.out$se_pm,
+                     delta.out$pm + z * delta.out$se_pm)
   return(d_all)
 }
 

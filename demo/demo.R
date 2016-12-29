@@ -1,28 +1,23 @@
-library(msm)
-library(survival)
-library(Matrix)
-library(MASS)
-library(boot)
-library(stringr)
+data(Mbin_int_data_10000)
 
-##----- Example
-
-df <- read.csv("~/Documents/LocalGit/causalMediation/inst/data/Mbin_int_data_10000.txt", sep = " ")
-
-cm <- causmed$new(data = df,
+cm <- causmed$new(data = Mbin_int_data_10000,
                   outcome = "Y_cont_int",
                   treatment = 'A',
                   mediator = 'M_bin',
                   covariates = "C",
                   interaction = TRUE,
                   yreg = "linear", mreg = "logistic",
-                  boot = TRUE, nboot = 10, event = NULL, a_star = 0, a = 1, m = 3)
+                  boot = FALSE, nboot = 500, event = NULL, a_star = 0, a = 1, m = 3)
 
 cm$delta()
 cm$print_delta()
+cm$print_output()
 cm$print_delta(digits = 4)
 cm$print_delta()
 cm$print_delta(digits = 3, conf = .90)
+
+summary(cm$outcome_regression)
+
 cm$bootstrap()
 cm$print_boot()
 cm$print_boot(digits = 3)
