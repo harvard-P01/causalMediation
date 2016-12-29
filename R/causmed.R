@@ -122,18 +122,18 @@ causmed$methods(
                                       sep = " + ")
     }
     
-    if (yreg == "coxph") {
+    if (.self$yreg == "coxph") {
       l <- strsplit(.self$outcome_formula, split = " ~ ")
       l[[1]][1] <- paste0("Surv(", .self$outcome, ", ", .self$event, ")")
       .self$outcome_formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
     }
-    if (yreg == "aft_exp") {
+    if (.self$yreg == "aft_exp") {
       l <- strsplit(.self$outcome_formula, split = " ~ ")
       l[[1]][1] <- paste0("Surv(", .self$outcome, ", ", .self$event, ")")
       .self$outcome_formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
     }
-    if (yreg == "aft_weibull") {
-      l <- strsplit(outcome_formula, split = " ~ ")
+    if (.self$yreg == "aft_weibull") {
+      l <- strsplit(.self$outcome_formula, split = " ~ ")
       l[[1]][1] <- paste0("Surv(", .self$outcome, ", ", .self$event, ")")
       .self$outcome_formula <- paste(l[[1]][1], l[[1]][2], sep = " ~ ")
     }
@@ -162,31 +162,31 @@ causmed$methods(
       .self$mediator_regression <- glm(.self$mediator_formula, family = binomial(), data = data_regression)
     }
     
-    if (yreg == "linear") {
+    if (.self$yreg == "linear") {
       .self$outcome_regression  <- lm(.self$outcome_formula, data = data_regression)
     }
-    if (yreg == "logistic") {
+    if (.self$yreg == "logistic") {
       .self$outcome_regression  <- glm(.self$outcome_formula, family = binomial(), data = data_regression)
     }
-    if (yreg == "loglinear") {
+    if (.self$yreg == "loglinear") {
       .self$outcome_regression  <- glm(.self$outcome_formula, family = binomial("log"), data = data_regression)
     }
-    if (yreg == "poisson") {
+    if (.self$yreg == "poisson") {
       .self$outcome_regression  <- glm(.self$outcome_formula, family = poisson(), data = data_regression)
     }
-    if (yreg == "quasipoisson") {
+    if (.self$yreg == "quasipoisson") {
       .self$outcome_regression  <- glm(.self$outcome_formula, family = quasipoisson(), data = data_regression)
     }
-    if (yreg == "negbin") {
+    if (.self$yreg == "negbin") {
       .self$outcome_regression  <- glm.nb(.self$outcome_formula, data = data_regression)
     }
-    if (yreg == "coxph") {
+    if (.self$yreg == "coxph") {
       .self$outcome_regression <- coxph(as.formula(.self$outcome_formula), data = data_regression)
     }
-    if (yreg == "aft_exp") {
+    if (.self$yreg == "aft_exp") {
       .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "exponential", data = data_regression)
     }
-    if (yreg == "aft_weibull") {
+    if (.self$yreg == "aft_weibull") {
       .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "weibull", data = data_regression)
     }
     ## Fix formulas
