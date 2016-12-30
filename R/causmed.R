@@ -438,4 +438,14 @@ causmed$methods(
   }
 )
 
-
+causmed$methods(
+  medflex = function(...) {
+    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
+    s <- gsub(pattern = .self$treatment,
+              replacement = paste0("(", .self$treatment, "0 + ",   .self$treatment, "1",  ")"),
+              .self$outcome_formula)
+    medflex_formula <- gsub(pattern = .self$mediator, replacement = "0", s)
+    result <- medflex::neModel(medflex_formula, expData = medflex_data)
+    return(summary(result))
+  }
+)

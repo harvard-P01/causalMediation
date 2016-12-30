@@ -14,7 +14,8 @@ Depends:
   MASS,
   boot,
   stringr,
-  mediation
+  mediation,
+  medflex
 Suggests:
   testthat
 LazyData: true

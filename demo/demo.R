@@ -1,6 +1,6 @@
-data(Mbin_int_data_10000)
+data(Mbin_int_data)
 
-cm <- causmed$new(data = Mbin_int_data_10000,
+cm <- causmed$new(data = Mbin_int_data,
                   outcome = "Y_cont_int",
                   treatment = 'A',
                   mediator = 'M_bin',
@@ -24,6 +24,7 @@ cm$print_boot(digits = 3)
 cm$print_boot(digits = 3, conf = 0.90)
 
 cm$mediation()
+cm$medflex()
 
 ##----- Test methods
 

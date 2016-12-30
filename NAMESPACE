@@ -1,3 +1,3 @@
-import(msm, survival, Matrix, MASS, boot, stringr, mediation)
+import(msm, survival, Matrix, MASS, boot, stringr, mediation, medflex)
 
 exportPattern("^[[:alpha:]]+")
