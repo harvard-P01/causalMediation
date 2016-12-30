@@ -445,7 +445,7 @@ causmed$methods(
               replacement = paste0("(", .self$treatment, "0 + ",   .self$treatment, "1",  ")"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement = "0", s)
-    result <- medflex::neModel(medflex_formula, expData = medflex_data)
+    result <- medflex::neModel(medflex_formula, expData = medflex_data, ...)
     return(summary(result))
   }
 )
