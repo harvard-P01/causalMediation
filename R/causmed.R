@@ -355,6 +355,7 @@ causmed$methods(
       statistic = .self$boostrap_step,
       R = .self$nboot
     )
+    .self$run_regressions(data_regression = .self$data) # regressions on the whole dataset
   }
 )
 
