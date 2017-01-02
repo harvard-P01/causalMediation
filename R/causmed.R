@@ -198,8 +198,6 @@ causmed$methods(
     .self$outcome_regression$call$formula <- as.formula(.self$outcome_formula)
     .self$mediator_regression$call$data <- .self$data_name
     .self$outcome_regression$call$data <- .self$data_name
-    ## Remove "'s
-    # gsub('"', '', .self$mediator_regression)
   }
 )
 
