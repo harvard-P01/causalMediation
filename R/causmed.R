@@ -416,12 +416,18 @@ causmed$methods(
   print_output = function(digits = 2, conf = 0.95, summary = TRUE) {
     if (!is.null(conf))
       .self$conf <- conf
-    # summary(.self$mediator_regression)
-    # summary(.self$outcome_regression)
+    summary_mediator <- summary(.self$mediator_regression)
+    summary_outcome <- summary(.self$outcome_regression)
     if (.self$boot)
-      .self$print_boot(digits = digits, conf = .self$conf)
+      summary_coef <- .self$print_boot(digits = digits, conf = .self$conf)
     else
-      .self$print_delta(digits = digits, conf = .self$conf)
+      summary_coef <- .self$print_delta(digits = digits, conf = .self$conf)
+    cat("MEDIATOR\n")
+    print(summary_mediator)
+    cat("OUTCOME\n")
+    print(summary_outcome)
+    cat("TABLE\n")
+    print(summary_coef)
   }
 )
 
