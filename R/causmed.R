@@ -194,10 +194,12 @@ causmed$methods(
     ##                 data = data_regression)
     ## with:       glm(formula = "M_bin ~ A + C", family = binomial(),
     ##                 data = my_data_name)
-    .self$mediator_regression$call$formula <- .self$mediator_formula
-    .self$outcome_regression$call$formula <- .self$outcome_formula
+    .self$mediator_regression$call$formula <- as.formula(.self$mediator_formula)
+    .self$outcome_regression$call$formula <- as.formula(.self$outcome_formula)
     .self$mediator_regression$call$data <- .self$data_name
     .self$outcome_regression$call$data <- .self$data_name
+    ## Remove "'s
+    # gsub('"', '', .self$mediator_regression)
   }
 )
 
@@ -422,11 +424,11 @@ causmed$methods(
       summary_coef <- .self$print_boot(digits = digits, conf = .self$conf)
     else
       summary_coef <- .self$print_delta(digits = digits, conf = .self$conf)
-    cat("MEDIATOR\n")
-    print(summary_mediator)
-    cat("OUTCOME\n")
-    print(summary_outcome)
-    cat("TABLE\n")
+    cat("##----- MEDIATOR ------#\n")
+    print(summary_mediator, digits = digits)
+    cat("##----- OUTCOME -----#\n")
+    print(summary_outcome, digits = digits)
+    cat("##----- TABLE -----#\n\n")
     print(summary_coef)
   }
 )

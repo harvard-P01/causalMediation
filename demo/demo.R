@@ -20,6 +20,7 @@ summary(cm$outcome_regression)
 
 cm$bootstrap()
 cm$print_boot()
+cm$print_output()
 cm$print_boot(digits = 3)
 cm$print_boot(digits = 3, conf = 0.90)
 
