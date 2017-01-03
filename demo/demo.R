@@ -5,18 +5,43 @@ cm <- causmed$new(data = Mbin_int_data,
                   treatment = 'A',
                   mediator = 'M_bin',
                   covariates = "C",
+                  vecc = 100,
                   interaction = TRUE,
                   yreg = "linear", mreg = "logistic",
-                  boot = FALSE, nboot = 500, event = NULL, a_star = 0, a = 1, m = 3)
+                  boot = FALSE, nboot = 50, event = NULL, a_star = 0, a = 1, m = 3)
 
-cm$delta()
-cm$print_delta()
+
+cm$delta_marginal()
+cm$print_delta(type = "marginal")
+
+cm$delta_conditional()
+cm$print_delta(type = "conditional")
+
 cm$print_output()
-cm$print_delta(digits = 4)
+cm$print_delta(digits = 4, type = "marginal")
 cm$print_delta()
-cm$print_delta(digits = 3, conf = .90)
+cm$print_delta(digits = 3, conf = .90, type = "marginal")
 
-summary(cm$outcome_regression)
+cm$print_output(type = "reduced")
+cm$print_output(type = "full")
+
+cm$bootstrap_marginal()
+cm$boot_out_marginal
+cm$print_boot(type = "marginal")
+
+cm$bootstrap_conditional()
+cm$boot_out_conditional
+cm$print_boot(type = "conditional")
+
+cm$print_output(type = "reduced")
+cm$print_output(type = "full")
+
+cm$delta_marginal()
+cm$delta_out_marginal
+
+cm$delta_conditional()
+cm$delta_out_conditional
+
 
 cm$bootstrap()
 cm$print_boot()

@@ -19,6 +19,9 @@ causmed <- setRefClass("causmed",
                          casecontrol = "logical",
                          baseline = "ANY",
                          
+                         vecc_marginal = "ANY",
+                         vecc_conditional = "ANY",
+                         
                          data_name = "character", # data name
                          
                          mediator_formula = "ANY",
@@ -47,7 +50,7 @@ causmed <- setRefClass("causmed",
                          se_pnie_delta = "numeric",
                          se_tnie_delta = "numeric",
                          
-                         pm_boot = "ANY", # TODO: rename to x_estimate?S
+                         pm_boot = "ANY", # TODO: rename to x_estimate?
                          pm_delta = "ANY",
                          se_pm_delta = "numeric",
                          
@@ -57,6 +60,12 @@ causmed <- setRefClass("causmed",
                          
                          boot_out = "ANY", # bootstrap output
                          delta_out = "list", # delta output
+                         
+                         boot_out_marginal = "ANY", # bootstrap output
+                         delta_out_marginal = "list", # delta output
+                         
+                         boot_out_conditional = "ANY", # bootstrap output
+                         delta_out_conditional = "list", # delta output
                          
                          conf = "numeric", # confidence level
                          
@@ -80,6 +89,8 @@ causmed$methods(
     .self$mediator <- mediator
     .self$covariates <- covariates
     .self$vecc <- vecc
+    .self$vecc_marginal <- vecc
+    .self$vecc_conditional <- colMeans(as.data.frame(.self$data[, .self$covariates]))
     .self$interaction <- interaction
     .self$boot <- boot
     .self$nboot <- nboot
@@ -141,7 +152,7 @@ causmed$methods(
 )
 
 causmed$methods(
-  run_regressions = function(data_regression = NULL) {
+  run_regressions = function(data_regression = NULL, reduced = FALSE) {
     
     if (is.null(data_regression)) {
       data_regression <- .self$data
@@ -355,6 +366,11 @@ causmed$methods(
       statistic = .self$boostrap_step,
       R = .self$nboot
     )
+    return(boot(
+      data = .self$data,
+      statistic = .self$boostrap_step,
+      R = .self$nboot
+    ))
     .self$run_regressions(data_regression = .self$data) # regressions on the whole dataset
   }
 )
@@ -371,20 +387,51 @@ causmed$methods(
     .self$total_effect_boot(); .self$total_effect_delta()
     .self$proportion_mediated_boot(); .self$proportion_mediated_delta()
     ## Populate delta_out field
-    .self$delta_out$cded <- .self$cde_boot$cde
-    .self$delta_out$se_cded <- .self$se_cde_delta
-    .self$delta_out$pnde <- .self$nde_boot$pnde
-    .self$delta_out$se_pnde <- .self$se_pnde_delta
-    .self$delta_out$tnde <- .self$nde_boot$tnde
-    .self$delta_out$se_tnde <- .self$se_pnie_delta
-    .self$delta_out$pnie <- .self$nie_boot$pnie
-    .self$delta_out$se_pnie <- .self$se_pnie_delta
-    .self$delta_out$tnie <- .self$nie_boot$tnie
-    .self$delta_out$se_tnie <- .self$se_tnie_delta
-    .self$delta_out$te <- .self$te_boot
-    .self$delta_out$se_te <- .self$se_te_delta
-    .self$delta_out$pm <- .self$pm_boot
-    .self$delta_out$se_pm <- .self$se_pm_delta
+    return(list(
+    cded = .self$cde_boot$cde,
+    se_cded = .self$se_cde_delta,
+    pnde = .self$nde_boot$pnde,
+    se_pnde = .self$se_pnde_delta,
+    tnde = .self$nde_boot$tnde,
+    se_tnde = .self$se_pnie_delta,
+    pnie = .self$nie_boot$pnie,
+    se_pnie = .self$se_pnie_delta,
+    tnie = .self$nie_boot$tnie,
+    se_tnie = .self$se_tnie_delta,
+    te = .self$te_boot,
+    se_te = .self$se_te_delta,
+    pm = .self$pm_boot,
+    se_pm = .self$se_pm_delta))
+  }
+)
+
+##----- Marginal vs conditional
+
+causmed$methods(
+  bootstrap_marginal = function() {
+    .self$vecc <- .self$vecc_marginal
+    .self$boot_out_marginal <- .self$bootstrap()
+  }
+)
+
+causmed$methods(
+  bootstrap_conditional = function() {
+    .self$vecc <- .self$vecc_conditional
+    .self$boot_out_conditional <- .self$bootstrap()
+  }
+)
+
+causmed$methods(
+  delta_marginal = function() {
+    .self$vecc <- .self$vecc_marginal
+    .self$delta_out_marginal <- .self$delta()
+  }
+)
+
+causmed$methods(
+  delta_conditional = function() {
+    .self$vecc <- .self$vecc_conditional
+    .self$delta_out_conditional <- .self$delta()
   }
 )
 
@@ -397,39 +444,66 @@ causmed$methods(
 # )
 
 causmed$methods(
-  print_boot = function(digits = 2, conf = 0.95) {
+  print_boot = function(digits = 2, conf = 0.95, type = c("marginal", "conditional")) {
     if (!is.null(conf))
       .self$conf <- conf
-    round(format_df_boot(.self$boot_out, conf = .self$conf), digits = digits)
+    if (type == "marginal")
+      round(format_df_boot(.self$boot_out_marginal, conf = .self$conf), digits = digits)
+    else if (type == "conditional")
+      round(format_df_boot(.self$boot_out_conditional, conf = .self$conf), digits = digits)
   }
 )
 
 causmed$methods(
-  print_delta = function(digits = 2, conf = 0.95) {
+  print_delta = function(digits = 2, conf = 0.95, type = c("marginal", "conditional")) {
     if (!is.null(conf))
       .self$conf <- conf
-    round(format_df_delta(.self$delta_out, conf = .self$conf), digits = digits)
+    if (type == "marginal")
+      round(format_df_delta(.self$delta_out_marginal, conf = .self$conf), digits = digits)
+    else if (type == "conditional")
+      round(format_df_delta(.self$delta_out_conditional, conf = .self$conf), digits = digits)
   }
 )
 
 causmed$methods(
-  print_output = function(digits = 2, conf = 0.95, summary = TRUE) {
+  print_output = function(digits = 2, conf = 0.95, summary = TRUE, type = c("reduced", "full")) {
     if (!is.null(conf))
       .self$conf <- conf
     summary_mediator <- summary(.self$mediator_regression)
     summary_outcome <- summary(.self$outcome_regression)
-    if (.self$boot)
-      summary_coef <- .self$print_boot(digits = digits, conf = .self$conf)
-    else
-      summary_coef <- .self$print_delta(digits = digits, conf = .self$conf)
-    cat("##----- MEDIATOR ------#\n")
-    print(summary_mediator, digits = digits)
-    cat("##----- OUTCOME -----#\n")
-    print(summary_outcome, digits = digits)
-    cat("##----- TABLE -----#\n\n")
-    print(summary_coef)
+    if (type == "reduced") {
+      if (.self$boot)
+        summary_coef <- .self$print_boot(digits = digits, conf = .self$conf, type = "marginal")
+      else
+        summary_coef <- .self$print_delta(digits = digits, conf = .self$conf, type = "marginal")
+      cat("##----- MEDIATOR ------#\n")
+      print(summary_mediator, digits = digits)
+      cat("##----- OUTCOME -----#\n")
+      print(summary_outcome, digits = digits)
+      cat("##----- MARGINAL -----#\n\n")
+      print(summary_coef[c("cde", "pnde", "tnie", "te", "pm"), ])
+    }
+    if (type == "full") {
+      if (.self$boot) {
+        summary_coef_marginal <- .self$print_boot(digits = digits, conf = .self$conf, type = "marginal")
+        summary_coef_conditional <- .self$print_boot(digits = digits, conf = .self$conf, type = "conditional")
+      }
+      else {
+        summary_coef_marginal <- .self$print_delta(digits = digits, conf = .self$conf, type = "marginal")
+        summary_coef_conditional <- .self$print_delta(digits = digits, conf = .self$conf, type = "conditional")
+      }
+      cat("##----- MEDIATOR ------#\n")
+      print(summary_mediator, digits = digits)
+      cat("##----- OUTCOME -----#\n")
+      print(summary_outcome, digits = digits)
+      cat("##----- MARGINAL -----#\n\n")
+      print(summary_coef_marginal)
+      cat("\n##----- CONDITIONAL -----#\n\n")
+      print(summary_coef_conditional)
+    }
   }
 )
+
 
 ##----- Integrate with other packages
 
