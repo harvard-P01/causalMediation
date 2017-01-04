@@ -483,7 +483,7 @@ causmed$methods(
       cat("##----- OUTCOME -----#\n")
       print(summary_outcome, digits = digits)
       cat("##----- MARGINAL -----#\n\n")
-      printCoefmat(summary_coef[c("cde", "pnde", "tnie", "te", "pm"), ], has.Pvalue = TRUE)
+      printCoefmat(summary_coef[c("cde", "pnde", "tnie", "te", "pm"), ], digits = digits, has.Pvalue = TRUE)
     }
     if (type == "full") {
       if (.self$boot) {
@@ -499,9 +499,9 @@ causmed$methods(
       cat("##----- OUTCOME -----#\n")
       print(summary_outcome, digits = digits)
       cat("##----- MARGINAL -----#\n\n")
-      printCoefmat(summary_coef_marginal, has.Pvalue = TRUE)
+      printCoefmat(summary_coef_marginal, digits = digits, has.Pvalue = TRUE)
       cat("\n##----- CONDITIONAL -----#\n\n")
-      printCoefmat(summary_coef_conditional, has.Pvalue = TRUE)
+      printCoefmat(summary_coef_conditional, digits = digits, has.Pvalue = TRUE)
     }
   }
 )
