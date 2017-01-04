@@ -448,9 +448,9 @@ causmed$methods(
     if (!is.null(conf))
       .self$conf <- conf
     if (type == "marginal")
-      round(format_df_boot(.self$boot_out_marginal, conf = .self$conf), digits = digits)
+      round(format_df_boot(.self$boot_out_marginal, conf = .self$conf, n = nrow(.self$data)), digits = digits)
     else if (type == "conditional")
-      round(format_df_boot(.self$boot_out_conditional, conf = .self$conf), digits = digits)
+      round(format_df_boot(.self$boot_out_conditional, conf = .self$conf, n = nrow(.self$data)), digits = digits)
   }
 )
 
@@ -459,9 +459,9 @@ causmed$methods(
     if (!is.null(conf))
       .self$conf <- conf
     if (type == "marginal")
-      round(format_df_delta(.self$delta_out_marginal, conf = .self$conf), digits = digits)
+      round(format_df_delta(.self$delta_out_marginal, conf = .self$conf, n = nrow(.self$data)), digits = digits)
     else if (type == "conditional")
-      round(format_df_delta(.self$delta_out_conditional, conf = .self$conf), digits = digits)
+      round(format_df_delta(.self$delta_out_conditional, conf = .self$conf, n = nrow(.self$data)), digits = digits)
   }
 )
 

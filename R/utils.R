@@ -1,10 +1,16 @@
+add_columns <- function(s, n) {
+  z <- s$estimate/(s$std.error / sqrt(n))
+  pval <- 2 * pnorm(-abs(s2$z))
+  return(data.frame(z = z, pval = pval))
+}
+
 format_row_boot <- function(boot.out, index = 1, conf = 0.95) {
   ci <- boot.ci(boot.out, index = index, type = "perc", conf = conf)
   d <- cbind(as.data.frame(t(tail(ci$percent[1, ], 2))))
   return(d)
 }
 
-format_df_boot <- function(boot.out, conf = 0.95) {
+format_df_boot <- function(boot.out, conf = 0.95, n) {
   d_all <- NULL
   for (i in 1:7) {
     d <- format_row_boot(boot.out, i, conf = conf)
@@ -17,10 +23,10 @@ format_df_boot <- function(boot.out, conf = 0.95) {
   label_CI <- paste0(round(conf * 100, 2), c("% CIL", "% CIU"))
   colnames(d_all) <- c("estimate", "bias", "std.error", label_CI[1], label_CI[2])
   rownames(d_all) <- c("cde", "pnde", "tnde", "pnie", "tnie", "te", "pm")
-  return(d_all)
+  return(cbind(d_all, add_columns(d_all, n = n)))
 }
 
-format_df_delta <- function(delta.out, conf = 0.95) {
+format_df_delta <- function(delta.out, conf = 0.95, n) {
   d_all <- data.frame(matrix(NA, 7, 4))
   alpha <- (1 - conf) / 2
   z <- qnorm(1 - alpha)
@@ -55,7 +61,7 @@ format_df_delta <- function(delta.out, conf = 0.95) {
   d_all["pm", ] <- c(delta.out$pm, delta.out$se_pm, 
                      delta.out$pm - z * delta.out$se_pm,
                      delta.out$pm + z * delta.out$se_pm)
-  return(d_all)
+  return(cbind(d_all, add_columns(d_all, n = n)))
 }
 
 
