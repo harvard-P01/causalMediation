@@ -1,4 +1,4 @@
-proportion_mediated <- function(pnde, tnie, te, ycont = FALSE) {
+proportion_mediated_boot_function <- function(pnde, tnie, te, ycont = FALSE) {
   res <- 0
   if (ycont) {
     res <- tnie / (pnde + te)
@@ -8,7 +8,7 @@ proportion_mediated <- function(pnde, tnie, te, ycont = FALSE) {
   res  
 }
 
-proportion_mediated_delta <- function(ycont = FALSE) {
+proportion_mediated_delta_function  <- function(ycont = FALSE) {
   res <- 0
   if (ycont) {
     res <- "~x2 / (x1 + x3)"

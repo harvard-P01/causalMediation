@@ -1,4 +1,4 @@
-total_effect <- function(pnde, tnie, ycont = FALSE) {
+total_effect_boot_function <- function(pnde, tnie, ycont = FALSE) {
   res <- 0
   if (ycont) {
     res <- tnie + pnde
@@ -8,7 +8,7 @@ total_effect <- function(pnde, tnie, ycont = FALSE) {
   res  
 }
 
-total_effect_delta <- function(ycont = FALSE) {
+total_effect_delta_function <- function(ycont = FALSE) {
   res <- 0
   if (ycont) {
     res <- "~x1 + x2"
