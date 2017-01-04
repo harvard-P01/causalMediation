@@ -448,9 +448,9 @@ causmed$methods(
     if (!is.null(conf))
       .self$conf <- conf
     if (type == "marginal")
-      round(format_df_boot(.self$boot_out_marginal, conf = .self$conf, n = nrow(.self$data)), digits = digits)
+      printCoefmat(format_df_boot(.self$boot_out_marginal, conf = .self$conf, n = nrow(.self$data)), digits = digits)
     else if (type == "conditional")
-      round(format_df_boot(.self$boot_out_conditional, conf = .self$conf, n = nrow(.self$data)), digits = digits)
+      printCoefmat(format_df_boot(.self$boot_out_conditional, conf = .self$conf, n = nrow(.self$data)), digits = digits)
   }
 )
 
@@ -459,9 +459,11 @@ causmed$methods(
     if (!is.null(conf))
       .self$conf <- conf
     if (type == "marginal")
-      round(format_df_delta(.self$delta_out_marginal, conf = .self$conf, n = nrow(.self$data)), digits = digits)
+      printCoefmat(format_df_delta(.self$delta_out_marginal, conf = .self$conf, n = nrow(.self$data)),
+                   digits = digits, has.Pvalue = TRUE)
     else if (type == "conditional")
-      round(format_df_delta(.self$delta_out_conditional, conf = .self$conf, n = nrow(.self$data)), digits = digits)
+      printCoefmat(format_df_delta(.self$delta_out_conditional, conf = .self$conf, n = nrow(.self$data)), ,
+                         digits = digits, has.Pvalue = TRUE)
   }
 )
 
@@ -481,7 +483,7 @@ causmed$methods(
       cat("##----- OUTCOME -----#\n")
       print(summary_outcome, digits = digits)
       cat("##----- MARGINAL -----#\n\n")
-      print(summary_coef[c("cde", "pnde", "tnie", "te", "pm"), ])
+      printCoefmat(summary_coef[c("cde", "pnde", "tnie", "te", "pm"), ], has.Pvalue = TRUE)
     }
     if (type == "full") {
       if (.self$boot) {
@@ -497,9 +499,9 @@ causmed$methods(
       cat("##----- OUTCOME -----#\n")
       print(summary_outcome, digits = digits)
       cat("##----- MARGINAL -----#\n\n")
-      print(summary_coef_marginal)
+      printCoefmat(summary_coef_marginal, has.Pvalue = TRUE)
       cat("\n##----- CONDITIONAL -----#\n\n")
-      print(summary_coef_conditional)
+      printCoefmat(summary_coef_conditional, has.Pvalue = TRUE)
     }
   }
 )
