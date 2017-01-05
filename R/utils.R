@@ -1,7 +1,7 @@
 add_columns <- function(s, n) {
-  z <- s$estimate/(s$std.error / sqrt(n))
-  pval <- 2 * pnorm(-abs(s2$z))
-  return(data.frame(z = z, pval = pval))
+  s$z <- s$estimate/(s$std.error / sqrt(n))
+  s$pval <- 2 * pnorm(-abs(s$z))
+  return(data.frame(z = s$z, pval = s$pval))
 }
 
 format_row_boot <- function(boot.out, index = 1, conf = 0.95) {
@@ -10,7 +10,7 @@ format_row_boot <- function(boot.out, index = 1, conf = 0.95) {
   return(d)
 }
 
-format_df_boot <- function(boot.out, conf = 0.95, n) {
+format_df_boot <- function(boot.out, conf = 0.95, n = 1000) {
   d_all <- NULL
   for (i in 1:7) {
     d <- format_row_boot(boot.out, i, conf = conf)

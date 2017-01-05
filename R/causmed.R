@@ -388,20 +388,20 @@ causmed$methods(
     .self$proportion_mediated_boot(); .self$proportion_mediated_delta()
     ## Populate delta_out field
     return(list(
-    cded = .self$cde_boot$cde,
-    se_cded = .self$se_cde_delta,
-    pnde = .self$nde_boot$pnde,
-    se_pnde = .self$se_pnde_delta,
-    tnde = .self$nde_boot$tnde,
-    se_tnde = .self$se_pnie_delta,
-    pnie = .self$nie_boot$pnie,
-    se_pnie = .self$se_pnie_delta,
-    tnie = .self$nie_boot$tnie,
-    se_tnie = .self$se_tnie_delta,
-    te = .self$te_boot,
-    se_te = .self$se_te_delta,
-    pm = .self$pm_boot,
-    se_pm = .self$se_pm_delta))
+      cded = .self$cde_boot$cde,
+      se_cded = .self$se_cde_delta,
+      pnde = .self$nde_boot$pnde,
+      se_pnde = .self$se_pnde_delta,
+      tnde = .self$nde_boot$tnde,
+      se_tnde = .self$se_pnie_delta,
+      pnie = .self$nie_boot$pnie,
+      se_pnie = .self$se_pnie_delta,
+      tnie = .self$nie_boot$tnie,
+      se_tnie = .self$se_tnie_delta,
+      te = .self$te_boot,
+      se_te = .self$se_te_delta,
+      pm = .self$pm_boot,
+      se_pm = .self$se_pm_delta))
   }
 )
 
@@ -522,13 +522,13 @@ causmed$methods(
 )
 
 causmed$methods(
-  medflex = function(...) {
+  medflex = function() {
     medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
     s <- gsub(pattern = .self$treatment,
               replacement = paste0("(", .self$treatment, "0 + ",   .self$treatment, "1",  ")"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement = "0", s)
-    result <- medflex::neModel(medflex_formula, expData = medflex_data, ...)
+    result <- medflex::neModel(medflex_formula, expData = medflex_data)
     return(summary(result))
   }
 )
