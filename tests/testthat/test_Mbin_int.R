@@ -18,7 +18,7 @@ f <- function(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", fold
                     yreg = yreg, mreg = "logistic",
                     boot = TRUE, nboot = 100)
   
-  files <- paste0(paste0(folder, "/", file_name, c("_delta.txt", "_boot.txt")))
+  files <- paste0(paste0(folder, "/", file_name, c("_delta.txt", "_boot.txt", "_mediate.txt", "_medflex.txt")))
   
   cm$delta_marginal()
   cm$delta_conditional()
@@ -31,6 +31,16 @@ f <- function(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", fold
   cm$print_output(type = "full")
   sink(files[2])
   cm$print_output(type = "full")
+  sink()
+  
+  cm$mediation()
+  sink(files[3])
+  cm$mediation()
+  sink()
+  
+  cm$medflex(method = "imputation")
+  sink(files[4])
+  cm$medflex(method = "imputation")
   sink()
 }
 
