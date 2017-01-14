@@ -466,7 +466,7 @@ causmed$methods(
                    digits = digits, has.Pvalue = TRUE)
     else if (type == "conditional")
       printCoefmat(format_df_delta(.self$delta_out_conditional, conf = .self$conf, n = nrow(.self$data)), ,
-                         digits = digits, has.Pvalue = TRUE)
+                   digits = digits, has.Pvalue = TRUE)
   }
 )
 
@@ -525,13 +525,28 @@ causmed$methods(
 )
 
 causmed$methods(
-  medflex = function() {
-    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
+  medflex = function(method = "weight", exposure = "categorical") {
+    ##-- Binary case - weight
     s <- gsub(pattern = .self$treatment,
-              replacement = "A0",
+              replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
-    medflex_formula <- gsub(pattern = .self$mediator, replacement = "A1", s)
-    result <- medflex::neModel(medflex_formula, expData = medflex_data)
+    medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    if (method == "weight") {
+      if (exposure == "categorical")
+        medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
+      else if (exposure == "continuous")
+        medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data, nRep = 5)
+      result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    } else if (method == "imputation") {
+      s <- gsub(pattern = .self$treatment,
+                replacement = paste0("factor(", .self$treatment, ")"),
+                .self$outcome_formula)
+      if (exposure == "categorical")
+        medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
+      else if (exposure == "continuous")
+        medflex_data <- medflex::neImpute(as.formula(s), data = .self$data, nRep = 5)
+      result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    }
     return(summary(result))
   }
 )

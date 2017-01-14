@@ -1,6 +1,6 @@
 add_columns <- function(s, n) {
-  s$z <- s$estimate/(s$std.error / sqrt(n))
-  s$pval <- 2 * pnorm(-abs(s$z))
+  s$z <- s$estimate / (s$std.error / sqrt(n))
+  s$pval <- 2 * pt(-abs(s$z), n - 1)
   return(data.frame(z = s$z, pval = s$pval))
 }
 

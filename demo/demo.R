@@ -1,6 +1,7 @@
 # data(Mbin_int_data)
 
 Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data.csv")
+Mbin_int_data$contexp <- rnorm(1000, 0, 10) 
 
 cm <- causmed$new(data = Mbin_int_data,
                   outcome = "Y_cont_int",
@@ -11,6 +12,16 @@ cm <- causmed$new(data = Mbin_int_data,
                   interaction = TRUE,
                   yreg = "linear", mreg = "logistic",
                   boot = FALSE, nboot = 50, event = NULL, a_star = 0, a = 1, m = 3)
+
+cm <- causmed$new(data = Mbin_int_data,
+                  outcome = "Y_cont_int",
+                  treatment = 'contexp',
+                  mediator = 'M_bin',
+                  covariates = "C",
+                  vecc = 1,
+                  interaction = TRUE,
+                  yreg = "linear", mreg = "logistic",
+                  boot = FALSE, nboot = 50, event = NULL, a_star = 0, a = 1, m = 0)
 
 
 cm$delta_marginal()
@@ -52,7 +63,8 @@ cm$print_boot(digits = 3)
 cm$print_boot(digits = 3, conf = 0.90)
 
 cm$mediation()
-cm$medflex()
+cm$medflex(method = "weight")
+cm$medflex(method = "imputation")
 
 ##----- Test methods
 
