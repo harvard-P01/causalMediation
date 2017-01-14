@@ -1,3 +1,9 @@
-import(msm, survival, Matrix, MASS, boot, stringr, mediation, medflex)
+import(msm, survival, Matrix, MASS, boot, stringr)
+
+importFrom("mediation", "mediate")
+
+importFrom("medflex", "neWeight")
+importFrom("medflex", "neImpute")
+importFrom("medflex", "neModel")
 
 exportPattern("^[[:alpha:]]+")
