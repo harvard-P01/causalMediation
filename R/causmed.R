@@ -526,7 +526,6 @@ causmed$methods(
 
 causmed$methods(
   medflex = function(method = "weight", exposure = "categorical", nRep = 5) {
-    ##-- Binary case - weight
     s <- gsub(pattern = .self$treatment,
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
