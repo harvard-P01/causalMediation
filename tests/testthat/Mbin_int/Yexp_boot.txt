@@ -1,0 +1,86 @@
+     estimate     bias std.error  95% CIL  95% CIU        z pval
+cde  -5.4e-02 -5.1e-04   9.7e-02 -2.1e-01  1.4e-01 -1.8e+01    0
+pnde  8.7e-01  3.2e-03   6.5e-02  7.3e-01  1.0e+00  4.2e+02    0
+tnde  8.7e-01  3.3e-03   6.5e-02  7.5e-01  1.0e+00  4.3e+02    0
+pnie  9.8e-01  8.4e-04   1.4e-02  9.5e-01  1.0e+00  2.3e+03    0
+tnie  9.9e-01  9.5e-04   9.2e-03  9.7e-01  1.0e+00  3.4e+03    0
+te    8.6e-01  3.9e-03   6.3e-02  7.3e-01  1.0e+00  4.3e+02    0
+pm    6.4e-02  6.7e-03   2.7e-01 -3.9e-01  4.4e-01  7.5e+00    0
+     estimate     bias std.error  95% CIL  95% CIU        z pval
+cde  -5.4e-02 -1.6e-02   9.6e-02 -2.5e-01  9.8e-02 -1.8e+01    0
+pnde  8.6e-01 -8.4e-03   6.8e-02  7.3e-01  1.0e+00  4.0e+02    0
+tnde  8.7e-01 -8.8e-03   6.8e-02  7.4e-01  1.0e+00  4.1e+02    0
+pnie  9.8e-01  5.9e-04   1.3e-02  9.5e-01  1.0e+00  2.4e+03    0
+tnie  9.9e-01  3.3e-04   8.5e-03  9.7e-01  1.0e+00  3.7e+03    0
+te    8.6e-01 -8.1e-03   6.7e-02  7.3e-01  1.0e+00  4.0e+02    0
+pm    6.4e-02 -1.7e-02   2.0e-01 -4.8e-01  3.3e-01  1.0e+01    0
+##----- MEDIATOR ------#
+
+Call:
+glm(formula = M_bin ~ A + C, family = binomial(), data = "Mbin_int_data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -1.61   -1.17    0.91    1.13    1.51  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -0.339      0.103    -3.3    1e-03 ***
+A              0.339      0.130     2.6    0.009 ** 
+C              0.274      0.062     4.4    1e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1385.3  on 999  degrees of freedom
+Residual deviance: 1358.3  on 997  degrees of freedom
+AIC: 1364
+
+Number of Fisher Scoring iterations: 4
+
+##----- OUTCOME -----#
+
+Call:
+survreg(formula = Surv(Ycen_int, event) ~ A + M_bin + A * M_bin + 
+    C, data = "Mbin_int_data", dist = "exponential")
+             Value Std. Error      z      p
+(Intercept) -3.227      0.068 -47.47 0.0000
+A            0.093      0.103   0.91 0.3639
+M_bin        0.275      0.094   2.91 0.0037
+C            0.041      0.035   1.19 0.2343
+A:M_bin      0.138      0.147   0.93 0.3501
+
+Scale fixed at 1 
+
+Exponential distribution
+Loglik(model)= 1535.7   Loglik(intercept only)= 1520
+	Chisq= 31.4 on 4 degrees of freedom, p= 2.5e-06 
+Number of Newton-Raphson Iterations: 4 
+n= 1000 
+
+##----- MARGINAL -----#
+
+     estimate     bias std.error  95% CIL  95% CIU      z   pval    
+cde  -0.05405 -0.00051   0.09717 -0.20860  0.13667  -17.6 <2e-16 ***
+pnde  0.86514  0.00323   0.06488  0.73198  1.01608  421.7 <2e-16 ***
+tnde  0.87166  0.00333   0.06461  0.75073  1.01536  426.6 <2e-16 ***
+pnie  0.98197  0.00084   0.01355  0.95167  1.00830 2291.5 <2e-16 ***
+tnie  0.98938  0.00095   0.00915  0.96938  1.00471 3419.9 <2e-16 ***
+te    0.85595  0.00393   0.06343  0.72954  1.01189  426.8 <2e-16 ***
+pm    0.06380  0.00668   0.27032 -0.39218  0.43819    7.5  8e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate     bias std.error  95% CIL  95% CIU    z   pval    
+cde  -0.05405 -0.01636   0.09560 -0.24567  0.09760  -18 <2e-16 ***
+pnde  0.86487 -0.00843   0.06843  0.73259  1.01024  400 <2e-16 ***
+tnde  0.87138 -0.00878   0.06757  0.73889  1.01164  408 <2e-16 ***
+pnie  0.98199  0.00059   0.01271  0.95218  1.00658 2443 <2e-16 ***
+tnie  0.98938  0.00033   0.00849  0.96629  1.00397 3687 <2e-16 ***
+te    0.85568 -0.00811   0.06747  0.72510  1.00149  401 <2e-16 ***
+pm    0.06363 -0.01699   0.20049 -0.48022  0.32572   10 <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

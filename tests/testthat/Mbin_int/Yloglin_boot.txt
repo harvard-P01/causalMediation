@@ -1,0 +1,94 @@
+     estimate     bias std.error  95% CIL  95% CIU        z pval
+cde  -1.1e+00 -2.8e-01   1.8e+00 -3.2e+00 -2.6e-02 -2.0e+01  0.0
+pnde  7.5e-01  3.2e-02   2.4e-01  3.9e-01  1.3e+00  9.9e+01  0.0
+tnde  7.1e-01  2.9e-02   2.3e-01  3.5e-01  1.3e+00  9.6e+01  0.0
+pnie  1.0e+00 -1.1e-03   2.5e-02  9.4e-01  1.1e+00  1.2e+03  0.0
+tnie  9.5e-01 -4.5e-03   3.8e-02  8.5e-01  1.0e+00  7.9e+02  0.0
+te    7.1e-01  2.8e-02   2.3e-01  3.6e-01  1.2e+00  9.8e+01  0.0
+pm    1.3e-01 -9.9e-01   1.1e+01 -1.1e+00  3.6e+00  3.9e-01  0.7
+     estimate     bias std.error  95% CIL  95% CIU        z pval
+cde  -1.1e+00 -6.8e-02   5.8e-01 -2.5e+00  1.6e-01 -6.0e+01    0
+pnde  7.5e-01  3.5e-02   2.6e-01  3.9e-01  1.5e+00  9.3e+01    0
+tnde  7.1e-01  3.4e-02   2.5e-01  3.7e-01  1.5e+00  9.0e+01    0
+pnie  1.0e+00  1.1e-03   2.7e-02  9.3e-01  1.1e+00  1.2e+03    0
+tnie  9.5e-01  1.9e-03   3.6e-02  8.7e-01  1.0e+00  8.4e+02    0
+te    7.1e-01  3.4e-02   2.4e-01  3.7e-01  1.4e+00  9.2e+01    0
+pm    1.3e-01 -2.3e-01   1.7e+00 -4.3e+00  1.9e+00  2.4e+00    0
+##----- MEDIATOR ------#
+
+Call:
+glm(formula = M_bin ~ A + C, family = binomial(), data = "Mbin_int_data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -1.66   -1.11   -0.84    1.17    1.68  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -0.592      0.107    -5.5    3e-08 ***
+A              0.410      0.131     3.1    0.002 ** 
+C              0.356      0.065     5.5    4e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1384.9  on 999  degrees of freedom
+Residual deviance: 1343.7  on 997  degrees of freedom
+AIC: 1350
+
+Number of Fisher Scoring iterations: 4
+
+##----- OUTCOME -----#
+
+Call:
+glm(formula = Y_bin_int ~ A + M_bin + A * M_bin + C, family = binomial("log"), 
+    data = "Mbin_int_data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -0.34   -0.25   -0.21   -0.16    2.96  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  -4.3929     0.5167    -8.5   <2e-16 ***
+A             0.9051     0.6392     1.4    0.157    
+M_bin         1.4964     0.5644     2.7    0.008 ** 
+C             0.0019     0.1777     0.0    0.992    
+A:M_bin      -1.8306     0.8195    -2.2    0.025 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 262.50  on 999  degrees of freedom
+Residual deviance: 253.07  on 995  degrees of freedom
+AIC: 263.1
+
+Number of Fisher Scoring iterations: 7
+
+##----- MARGINAL -----#
+
+     estimate    bias std.error 95% CIL 95% CIU      z   pval    
+cde   -1.0964 -0.2778    1.7672 -3.1584 -0.0258  -19.6 <2e-16 ***
+pnde   0.7481  0.0323    0.2382  0.3895  1.3173   99.3 <2e-16 ***
+tnde   0.7062  0.0294    0.2317  0.3535  1.2526   96.4 <2e-16 ***
+pnie   1.0060 -0.0011    0.0255  0.9403  1.0609 1249.1 <2e-16 ***
+tnie   0.9496 -0.0045    0.0379  0.8546  1.0085  793.3 <2e-16 ***
+te     0.7104  0.0276    0.2285  0.3597  1.2285   98.3 <2e-16 ***
+pm     0.1302 -0.9937   10.5520 -1.1491  3.5683    0.4    0.7    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate    bias std.error 95% CIL 95% CIU      z   pval    
+cde   -1.0964 -0.0681    0.5800 -2.5427  0.1582  -59.8 <2e-16 ***
+pnde   0.7499  0.0348    0.2563  0.3915  1.4997   92.5 <2e-16 ***
+tnde   0.7080  0.0343    0.2495  0.3702  1.4662   89.7 <2e-16 ***
+pnie   1.0060  0.0011    0.0272  0.9347  1.0692 1167.8 <2e-16 ***
+tnie   0.9497  0.0019    0.0357  0.8717  1.0081  840.1 <2e-16 ***
+te     0.7122  0.0338    0.2439  0.3712  1.3609   92.3 <2e-16 ***
+pm     0.1311 -0.2291    1.7159 -4.2916  1.9299    2.4   0.02 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

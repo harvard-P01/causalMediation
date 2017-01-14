@@ -1,4 +1,6 @@
-data(Mbin_int_data)
+# data(Mbin_int_data)
+
+Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data.csv")
 
 cm <- causmed$new(data = Mbin_int_data,
                   outcome = "Y_cont_int",

@@ -164,15 +164,6 @@ causmed$methods(
       .self$vecc <- colMeans(as.data.frame(data_regression[, .self$covariates]))
     }
     
-    if (.self$mreg == "linear") {
-      .self$mediator_regression <- lm(.self$mediator_formula, data = data_regression)
-    } else {
-      if (.self$casecontrol) {
-        data_regression <- data_regression[data_regression[[.self$outcome]] == .self$baseline, ] # TODO: don't overwrite data
-      }
-      .self$mediator_regression <- glm(.self$mediator_formula, family = binomial(), data = data_regression)
-    }
-    
     if (.self$yreg == "linear") {
       .self$outcome_regression  <- lm(.self$outcome_formula, data = data_regression)
     }
@@ -200,6 +191,16 @@ causmed$methods(
     if (.self$yreg == "aft_weibull") {
       .self$outcome_regression <- survreg(as.formula(.self$outcome_formula), dist = "weibull", data = data_regression)
     }
+    
+    if (.self$mreg == "linear") {
+      .self$mediator_regression <- lm(.self$mediator_formula, data = data_regression)
+    } else {
+      if (.self$casecontrol) {
+        data_regression <- data_regression[data_regression[[.self$outcome]] == .self$baseline, ] # TODO: don't overwrite data
+      }
+      .self$mediator_regression <- glm(.self$mediator_formula, family = binomial(), data = data_regression)
+    }
+    
     ## Fix formulas
     ## To replace: glm(formula = .self$mediator_formula, family = binomial(),
     ##                 data = data_regression)
@@ -220,6 +221,8 @@ causmed$methods(
     ## Store covariances from regressions
     .self$vcov_betas <- vcov(.self$mediator_regression)
     .self$vcov_thetas <- vcov(.self$outcome_regression)
+    if (.self$yreg == "aft_weibull")
+      .self$vcov_thetas <- .self$vcov_thetas[-nrow(.self$vcov_thetas), -ncol(.self$vcov_thetas)]
     ## Build block diagonal matrix
     .self$vcov_block <- bdiag(.self$vcov_thetas, .self$vcov_betas)
   }
@@ -525,9 +528,9 @@ causmed$methods(
   medflex = function() {
     medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
     s <- gsub(pattern = .self$treatment,
-              replacement = paste0("(", .self$treatment, "0 + ",   .self$treatment, "1",  ")"),
+              replacement = "A0",
               .self$outcome_formula)
-    medflex_formula <- gsub(pattern = .self$mediator, replacement = "0", s)
+    medflex_formula <- gsub(pattern = .self$mediator, replacement = "A1", s)
     result <- medflex::neModel(medflex_formula, expData = medflex_data)
     return(summary(result))
   }

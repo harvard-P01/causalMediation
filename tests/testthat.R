@@ -1,4 +1,4 @@
 library(testthat)
-library()
+library(causalMediation)
 
 test_check("")

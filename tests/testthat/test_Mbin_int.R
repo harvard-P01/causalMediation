@@ -1,22 +1,24 @@
 # data(Mbin_int_data_10000)
-data(Mbin_int_data)
+# data(Mbin_int_data)
 
 set.seed(1234)
 
-f <- function(outcome = "Y_cont_int", yreg = "linear", file_name = "Mbin_Ycont_int", event = NULL, casecontrol = FALSE) {
+f <- function(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int",
+              event = NULL, casecontrol = FALSE) {
   cm <- causmed$new(data = Mbin_int_data,
                     outcome = outcome,
                     treatment = 'A',
                     mediator = 'M_bin',
                     covariates = "C",
-                    vec = -2,
+                    vec = 1,
+                    m = 0,
                     interaction = TRUE,
                     event = event,
                     casecontrol = casecontrol,
                     yreg = yreg, mreg = "logistic",
-                    boot = TRUE, nboot = 500)
+                    boot = TRUE, nboot = 100)
   
-  files <- paste0(file_name, c("_delta.txt", "_boot.txt"))
+  files <- paste0(paste0(folder, "/", file_name, c("_delta.txt", "_boot.txt")))
   
   cm$delta_marginal()
   cm$delta_conditional()
@@ -32,16 +34,24 @@ f <- function(outcome = "Y_cont_int", yreg = "linear", file_name = "Mbin_Ycont_i
   sink()
 }
 
-f(outcome = "Y_cont_int", yreg = "linear", file_name = "Mbin_Ycont_int")
-f(outcome = "Y_bin_int", yreg = "loglinear", file_name = "Mbin_Yloglin_int")
-f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Mbin_Ybin_int")
-# f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Mbin_Ybincc_int", casecontrol = TRUE) # TODO: generate Weibull simulations
-f(outcome = "Y_count_int", yreg = "quasipoisson", file_name = "Mbin_Yqpoi_int")
-f(outcome = "Y_count_int", yreg = "poisson", file_name = "Mbin_Ypoi_int")
-f(outcome = "Y_count_int", yreg = "negbin", file_name = "Mbin_Ynegbin_int")
+Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data.csv")
+
+f(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int")
+f(outcome = "Y_bin_int", yreg = "loglinear", file_name = "Yloglin", folder = "Mbin_int")
+f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Ybin", folder = "Mbin_int")
+f(outcome = "Y_count_int", yreg = "quasipoisson", file_name = "Yqpoi", folder = "Mbin_int")
+f(outcome = "Y_count_int", yreg = "poisson", file_name = "Ypoi", folder = "Mbin_int")
+f(outcome = "Y_count_int", yreg = "negbin", file_name = "Ynegbin", folder = "Mbin_int")
 
 Mbin_int_data$event <- 1 - Mbin_int_data$delta
+f(outcome = "Ycen_int", yreg = "coxph", file_name = "Ycox", event = "event", folder = "Mbin_int")
+f(outcome = "Ycen_int", yreg = "aft_exp", file_name = "Yexp", event = "event", folder = "Mbin_int")
 
-f(outcome = "Ycen_int", yreg = "coxph", file_name = "Mbin_Ycox_int", event = "event")
-f(outcome = "Ycen_int", yreg = "aft_exp", file_name = "Mbin_Yexp_int", event = "event")
-# f(outcome = "Ycen_int", yreg = "aft_weibull", file_name = "Mbin_Ywei_int", event = "event") # TODO: generate Weibull simulations
+Mbin_int_data <- read.csv("../../inst/data/Mbin_wei_int_data.csv")
+Mbin_int_data$event <- 1 - Mbin_int_data$delta
+f(outcome = "Ycen_int", yreg = "aft_weibull", file_name = "Ywei", event = "event", folder = "Mbin_int")
+
+Mbin_int_data <- read.csv("../../inst/data/Mbin_cc_int_data.csv")
+names(Mbin_int_data)[4] <- "M_bin"
+f(outcome = "Y_bincc_int", yreg = "logistic", file_name = "Ybincc", casecontrol = TRUE, folder = "Mbin_int")
+
