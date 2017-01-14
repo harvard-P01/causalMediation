@@ -2,7 +2,7 @@ Package: causalMediation
 Type: Package
 Title: Causal Mediation Analysis
 Version: 0.1
-Date: 2015-12-12
+Date: 2017-01-14
 Author: Linda Valeri, Egge van der Poel, Christine Choirat
 Maintainer: Egge van der Poel <e.vanderpoel@erasmusmc.nl>
 Description: Implementation of Causal Mediation Analysis as published by Valeri and VanderWeele (2013, doi: 10.1037/a0031034)
