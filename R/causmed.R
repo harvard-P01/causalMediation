@@ -525,7 +525,7 @@ causmed$methods(
 )
 
 causmed$methods(
-  medflex = function(method = "weight", exposure = "categorical") {
+  medflex = function(method = "weight", exposure = "categorical", nRep = 5) {
     ##-- Binary case - weight
     s <- gsub(pattern = .self$treatment,
               replacement = paste0(.self$treatment, "0"),
@@ -535,7 +535,7 @@ causmed$methods(
       if (exposure == "categorical")
         medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
       else if (exposure == "continuous")
-        medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data, nRep = 5)
+        medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data, nRep = nRep)
       result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     } else if (method == "imputation") {
       s <- gsub(pattern = .self$treatment,
@@ -544,7 +544,7 @@ causmed$methods(
       if (exposure == "categorical")
         medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
       else if (exposure == "continuous")
-        medflex_data <- medflex::neImpute(as.formula(s), data = .self$data, nRep = 5)
+        medflex_data <- medflex::neImpute(as.formula(s), data = .self$data, nRep = nRep)
       result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     }
     return(summary(result))
