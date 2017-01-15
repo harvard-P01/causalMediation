@@ -64,5 +64,5 @@ cm$print_boot(digits = 3)
 cm$print_boot(digits = 3, conf = 0.90)
 
 cm$mediation()
-cm$medflex(method = "weight", exposure = "continuous")
-cm$medflex(method = "imputation")
+cm$medflex(method = "weight", exposure = "categorical")
+cm$medflex(method = "imputation", exposure = "categorical")

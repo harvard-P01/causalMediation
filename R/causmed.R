@@ -263,11 +263,11 @@ causmed$methods(
                                           .self$a_star, .self$a, .self$variance,
                                           .self$mreg, .self$yreg)
     .self$se_pnde_delta <- msm::deltamethod(.self$nde_delta$pnded,
-                                       c(.self$thetas, .self$betas),
-                                       .self$vcov_block)
+                                            c(.self$thetas, .self$betas),
+                                            .self$vcov_block)
     .self$se_tnde_delta<- msm::deltamethod(.self$nde_delta$tnded,
-                                      c(.self$thetas, .self$betas),
-                                      .self$vcov_block)
+                                           c(.self$thetas, .self$betas),
+                                           .self$vcov_block)
   }
 )
 
@@ -290,11 +290,11 @@ causmed$methods(
                                           .self$a_star, .self$a,
                                           .self$mreg, .self$yreg)
     .self$se_pnie_delta <- msm::deltamethod(.self$nie_delta$pnied,
-                                       c(.self$thetas, .self$betas),
-                                       .self$vcov_block)
+                                            c(.self$thetas, .self$betas),
+                                            .self$vcov_block)
     .self$se_tnie_delta<- msm::deltamethod(.self$nie_delta$tnied,
-                                      c(.self$thetas, .self$betas),
-                                      .self$vcov_block)
+                                           c(.self$thetas, .self$betas),
+                                           .self$vcov_block)
   }
 )
 
@@ -312,8 +312,8 @@ causmed$methods(
   total_effect_delta = function() {
     .self$te_delta <- total_effect_delta_function(ycont = (.self$yreg == "linear"))
     .self$se_te_delta <- msm::deltamethod(.self$te_delta,
-                                     c(.self$nde_boot$pnde, .self$nie_boot$tnie),
-                                     Matrix::bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2))
+                                          c(.self$nde_boot$pnde, .self$nie_boot$tnie),
+                                          Matrix::bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2))
   }
 )
 
@@ -332,8 +332,8 @@ causmed$methods(
   proportion_mediated_delta = function() {
     .self$pm_delta <-  proportion_mediated_delta_function(ycont = (.self$yreg == "linear"))
     .self$se_pm_delta <- msm::deltamethod(.self$pm_delta,
-                                     c(.self$nde_boot$pnde, .self$nie_boot$tnie, .self$te_boot),
-                                     Matrix::bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2, .self$se_te_delta^2))
+                                          c(.self$nde_boot$pnde, .self$nie_boot$tnie, .self$te_boot),
+                                          Matrix::bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2, .self$se_te_delta^2))
   }
 )
 
@@ -525,29 +525,55 @@ causmed$methods(
 )
 
 causmed$methods(
-  medflex = function(method = "weight", exposure = "categorical") {
+  medflex_weight_categorical = function() {
     s <- gsub(pattern = .self$treatment,
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
-    print("medflex_formula")
-    print(medflex_formula)
-    if (method == "weight") {
-      if (exposure == "categorical")
-        medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
-      else if (exposure == "continuous")
-        medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
-      result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
-    } else if (method == "imputation") {
-      s <- gsub(pattern = .self$treatment,
-                replacement = paste0("factor(", .self$treatment, ")"),
-                .self$outcome_formula)
-      if (exposure == "categorical")
-        medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
-      else if (exposure == "continuous")
-        medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
-      result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
-    }
+    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
+    result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    return(summary(result))
+  }
+)
+
+causmed$methods(
+  medflex_weight_continuous = function() {
+    s <- gsub(pattern = .self$treatment,
+              replacement = paste0(.self$treatment, "0"),
+              .self$outcome_formula)
+    medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
+    result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    return(summary(result))
+  }
+)
+
+causmed$methods(
+  medflex_imputation_categorical = function() {
+    s <- gsub(pattern = .self$treatment,
+              replacement = paste0(.self$treatment, "0"),
+              .self$outcome_formula)
+    medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    s <- gsub(pattern = .self$treatment,
+              replacement = paste0("factor(", .self$treatment, ")"),
+              .self$outcome_formula)
+    medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
+    result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    return(summary(result))
+  }
+)
+
+causmed$methods(
+  medflex_imputation_continuous = function() {
+    s <- gsub(pattern = .self$treatment,
+              replacement = paste0(.self$treatment, "0"),
+              .self$outcome_formula)
+    medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    s <- gsub(pattern = .self$treatment,
+              replacement = paste0("factor(", .self$treatment, ")"),
+              .self$outcome_formula)
+    medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
+    result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     return(summary(result))
   }
 )
