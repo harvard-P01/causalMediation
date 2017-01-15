@@ -1,4 +1,4 @@
-import(msm, survival, Matrix, MASS, boot, stringr)
+import(survival, MASS, boot, stringr)
 
 importFrom("Matrix", "bdiag")
 

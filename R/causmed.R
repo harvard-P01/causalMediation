@@ -524,12 +524,15 @@ causmed$methods(
   }
 )
 
+
 causmed$methods(
   medflex_weight_categorical = function() {
     s <- gsub(pattern = .self$treatment,
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
+    print(s)
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    print(medflex_formula)
     medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     return(summary(result))
