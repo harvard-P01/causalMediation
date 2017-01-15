@@ -1,6 +1,7 @@
 data(Mbin_int_data)
 
 # Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data.csv")
+set.seed(1234)
 Mbin_int_data$contexp <- rnorm(1000, 0, 10) 
 
 cm <- causmed$new(data = Mbin_int_data,
