@@ -1,5 +1,9 @@
 import(msm, survival, Matrix, MASS, boot, stringr)
 
+importFrom("Matrix", "bdiag")
+
+importFrom("msm", "deltamethod")
+
 importFrom("mediation", "mediate")
 
 importFrom("medflex", "neWeight")

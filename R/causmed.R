@@ -224,7 +224,7 @@ causmed$methods(
     if (.self$yreg == "aft_weibull")
       .self$vcov_thetas <- .self$vcov_thetas[-nrow(.self$vcov_thetas), -ncol(.self$vcov_thetas)]
     ## Build block diagonal matrix
-    .self$vcov_block <- bdiag(.self$vcov_thetas, .self$vcov_betas)
+    .self$vcov_block <- Matrix::bdiag(.self$vcov_thetas, .self$vcov_betas)
   }
 )
 
@@ -241,7 +241,7 @@ causmed$methods(
   CDE_delta = function() {
     .self$cde_delta <- CDE_delta_function(.self$thetas, .self$treatment, .self$mediator,
                                           .self$m, .self$a_star, .self$a, .self$interaction)
-    .self$se_cde_delta <- deltamethod(.self$cde_delta, .self$thetas, .self$vcov_thetas)
+    .self$se_cde_delta <- msm::deltamethod(.self$cde_delta, .self$thetas, .self$vcov_thetas)
   }
 )
 
@@ -262,10 +262,10 @@ causmed$methods(
                                           .self$m, .self$interaction, .self$vecc,
                                           .self$a_star, .self$a, .self$variance,
                                           .self$mreg, .self$yreg)
-    .self$se_pnde_delta <- deltamethod(.self$nde_delta$pnded,
+    .self$se_pnde_delta <- msm::deltamethod(.self$nde_delta$pnded,
                                        c(.self$thetas, .self$betas),
                                        .self$vcov_block)
-    .self$se_tnde_delta<- deltamethod(.self$nde_delta$tnded,
+    .self$se_tnde_delta<- msm::deltamethod(.self$nde_delta$tnded,
                                       c(.self$thetas, .self$betas),
                                       .self$vcov_block)
   }
@@ -289,10 +289,10 @@ causmed$methods(
                                           .self$m, .self$vecc, .self$interaction,
                                           .self$a_star, .self$a,
                                           .self$mreg, .self$yreg)
-    .self$se_pnie_delta <- deltamethod(.self$nie_delta$pnied,
+    .self$se_pnie_delta <- msm::deltamethod(.self$nie_delta$pnied,
                                        c(.self$thetas, .self$betas),
                                        .self$vcov_block)
-    .self$se_tnie_delta<- deltamethod(.self$nie_delta$tnied,
+    .self$se_tnie_delta<- msm::deltamethod(.self$nie_delta$tnied,
                                       c(.self$thetas, .self$betas),
                                       .self$vcov_block)
   }
@@ -311,9 +311,9 @@ causmed$methods(
 causmed$methods(
   total_effect_delta = function() {
     .self$te_delta <- total_effect_delta_function(ycont = (.self$yreg == "linear"))
-    .self$se_te_delta <- deltamethod(.self$te_delta,
+    .self$se_te_delta <- msm::deltamethod(.self$te_delta,
                                      c(.self$nde_boot$pnde, .self$nie_boot$tnie),
-                                     bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2))
+                                     Matrix::bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2))
   }
 )
 
@@ -331,9 +331,9 @@ causmed$methods(
 causmed$methods(
   proportion_mediated_delta = function() {
     .self$pm_delta <-  proportion_mediated_delta_function(ycont = (.self$yreg == "linear"))
-    .self$se_pm_delta <- deltamethod(.self$pm_delta,
+    .self$se_pm_delta <- msm::deltamethod(.self$pm_delta,
                                      c(.self$nde_boot$pnde, .self$nie_boot$tnie, .self$te_boot),
-                                     bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2, .self$se_te_delta^2))
+                                     Matrix::bdiag(.self$se_pnde_delta^2, .self$se_tnie_delta^2, .self$se_te_delta^2))
   }
 )
 
@@ -530,6 +530,8 @@ causmed$methods(
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    print("medflex_formula")
+    print(medflex_formula)
     if (method == "weight") {
       if (exposure == "categorical")
         medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)

@@ -21,7 +21,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 ##----- MEDIATOR ------#
 
 Call:
-glm(formula = M_bin ~ A + C, family = binomial(), data = "Mbin_int_data")
+glm(formula = M_bin ~ A + C, family = binomial(), data = "data")
 
 Deviance Residuals: 
    Min      1Q  Median      3Q     Max  
@@ -46,7 +46,7 @@ Number of Fisher Scoring iterations: 4
 ##----- OUTCOME -----#
 
 Call:
-lm(formula = Y_cont_int ~ A + M_bin + A * M_bin + C, data = "Mbin_int_data")
+lm(formula = Y_cont_int ~ A + M_bin + A * M_bin + C, data = "data")
 
 Residuals:
    Min     1Q Median     3Q    Max 
