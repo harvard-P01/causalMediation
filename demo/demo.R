@@ -20,7 +20,9 @@ cm$print_delta(type = "marginal")
 cm$delta_conditional()
 cm$print_delta(type = "conditional")
 
-# cm$mediation() # fails
+cm$create_formulas()
+cm$run_regressions()
+cm$mediation()
 
 cm$medflex_weight_categorical()
 cm$medflex_weight_continuous()
