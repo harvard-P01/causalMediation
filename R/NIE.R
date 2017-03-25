@@ -188,7 +188,8 @@ total_NIE_contcont_delta <- function(thetas, interaction,
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   return(as.formula(s))
 }
 
@@ -207,7 +208,8 @@ pure_NIE_contcont_delta <- function(thetas, interaction,
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   return(as.formula(s))
 }
 
@@ -226,7 +228,8 @@ total_NIE_contbin_delta <- function(thetas, interaction,
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   return(as.formula(s))
 }
 
@@ -245,7 +248,8 @@ pure_NIE_contbin_delta <- function(thetas, interaction,
   
   f = paste0(" ~ ", F1, F2, F3)
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   return(as.formula(s))
 }
 
@@ -288,11 +292,12 @@ total_NIE_bincont_delta <- function(thetas, vecc, interaction,
   # Construct formula
   f <- paste0(" ~ ", F1, " * ( (", N1, "/", D1, ") - (", N2, "/", D2, ") )")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   
@@ -338,11 +343,12 @@ pure_NIE_bincont_delta <- function(thetas, vecc, interaction,
   # Construct formula
   f <- paste0(" ~ ", F1, " * ( (", N1, "/", D1, ") - (", N2, "/", D2, ") )")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   
@@ -378,11 +384,12 @@ total_NIE_binbin_delta <- function(thetas, vecc, interaction,
   
   f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   
@@ -418,11 +425,12 @@ pure_NIE_binbin_delta <- function(thetas, vecc, interaction,
   
   f <- paste0(" ~ ", "(", s1, "*", s2, ")/(", s3, "*", s4, ")")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   

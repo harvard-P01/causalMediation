@@ -195,11 +195,12 @@ pure_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE,
   }
   f <- paste0(" ~ ", f, "*(a-a_star)")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   
@@ -230,11 +231,12 @@ total_NDE_contcont_delta <- function(thetas, vecc, interaction = TRUE,
   }
   f <- paste0(" ~ ", f, "*(a-a_star)")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star), 
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   
@@ -268,11 +270,13 @@ pure_NDE_contbin_delta <- function(thetas, vecc, variance, interaction,
   
   f <- paste0(" ~ ", f)
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a, "\\bvariance\\b" = variance))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a), "\\bvariance\\b" = 
+                                                 as.character(variance)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   
@@ -305,9 +309,9 @@ total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction,
   
   f <- paste0(" ~ ", f)
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, 
-                                               "\\ba\\b" = a,
-                                               "\\bvariance\\b" = variance))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star), 
+                                               "\\ba\\b" = as.character(a),
+                                               "\\bvariance\\b" = as.character(variance)))
   
   for (i in 1:j){
     ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
@@ -346,10 +350,11 @@ pure_NDE_bincont_delta <- function(thetas, vecc, interaction = TRUE,
     
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   
   for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    ss <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
   }
   
   return(as.formula(ss))
@@ -385,10 +390,11 @@ total_NDE_bincont_delta <- function(thetas, vecc, interaction,
     f <- paste0(f,"*",F2, ")")
   }
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star), 
+                                               "\\ba\\b" = as.character(a)))
   
   for (i in 1:j){
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    ss <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
   }
   
   return(as.formula(ss))
@@ -434,11 +440,12 @@ pure_NDE_binbin_delta <- function(thetas, vecc, interaction,
   # Construct formula
   f <- paste0(" ~ (",N,"/",D,")")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star),
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   
@@ -502,11 +509,12 @@ total_NDE_binbin_delta <- function(thetas, vecc, interaction,
   # Construct formula
   f <- paste0(" ~ (",N,"/",D,")")
   
-  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = a_star, "\\ba\\b" = a))
+  s <- stringr::str_replace_all(f, pattern = c("\\ba_star\\b" = as.character(a_star), 
+                                               "\\ba\\b" = as.character(a)))
   
   if (j > 0) {
     for (i in 1:j){
-      s <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+      s <- stringr::str_replace_all(s, paste("vecc", as.character(i), sep = "_"), as.character(vecc[i]))
     }
   }
   

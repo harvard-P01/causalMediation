@@ -20,6 +20,8 @@ cm$print_delta(type = "marginal")
 cm$delta_conditional()
 cm$print_delta(type = "conditional")
 
+# cm$mediation() # fails
+
 cm$medflex_weight_categorical()
 cm$medflex_weight_continuous()
 cm$medflex_imputation_categorical()
