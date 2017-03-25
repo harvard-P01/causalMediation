@@ -531,7 +531,9 @@ causmed$methods(
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
-    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
+    f <- tempfile()
+    write.csv(.self$data, f)
+    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = read.csv(f))
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     return(summary(result))
   }
@@ -543,7 +545,9 @@ causmed$methods(
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
-    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = .self$data)
+    f <- tempfile()
+    write.csv(.self$data, f)
+    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = read.csv(f))
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     return(summary(result))
   }
@@ -558,7 +562,9 @@ causmed$methods(
     s <- gsub(pattern = .self$treatment,
               replacement = paste0("factor(", .self$treatment, ")"),
               .self$outcome_formula)
-    medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
+    f <- tempfile()
+    write.csv(.self$data, f)
+    medflex_data <- medflex::neImpute(as.formula(s), data = read.csv(f))
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     return(summary(result))
   }
@@ -573,7 +579,9 @@ causmed$methods(
     s <- gsub(pattern = .self$treatment,
               replacement = paste0("factor(", .self$treatment, ")"),
               .self$outcome_formula)
-    medflex_data <- medflex::neImpute(as.formula(s), data = .self$data)
+    f <- tempfile()
+    write.csv(.self$data, f)
+    medflex_data <- medflex::neImpute(as.formula(s), data = read.csv(f))
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
     return(summary(result))
   }
