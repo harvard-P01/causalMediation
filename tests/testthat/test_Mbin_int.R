@@ -20,14 +20,14 @@ f <- function(outcome = "Y_cont_int", yreg = "linear",
   
   cm$delta_marginal()
   cm$delta_conditional()
-  cm$print_output(type = "full")
+  # cm$print_output(type = "full")
   sink(files[1])
   cm$print_output(type = "full")
   sink()
   
   cm$bootstrap_marginal()
   cm$bootstrap_conditional()
-  cm$print_output(type = "full")
+  # cm$print_output(type = "full")
   sink(files[2])
   cm$print_output(type = "full")
   sink()
