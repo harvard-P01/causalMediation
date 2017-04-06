@@ -45,13 +45,13 @@ f <- function(outcome = "Y_cont_int", yreg = "linear",
 # data(Mbin_int_data)
 
 # Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data_10000.csv")
-Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data.csv")
-o <- f(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int", data = Mbin_int_data)
-o <- f(outcome = "Y_bin_int", yreg = "loglinear", file_name = "Yloglin", folder = "Mbin_int", data = Mbin_int_data)
-o <- f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Ybin", folder = "Mbin_int", data = Mbin_int_data)
-o <- f(outcome = "Y_count_int", yreg = "quasipoisson", file_name = "Yqpoi", folder = "Mbin_int", data = Mbin_int_data)
-o <- f(outcome = "Y_count_int", yreg = "poisson", file_name = "Ypoi", folder = "Mbin_int", data = Mbin_int_data)
-o <- f(outcome = "Y_count_int", yreg = "negbin", file_name = "Ynegbin", folder = "Mbin_int", data = Mbin_int_data)
+d <- read.csv("../../inst/data/Mbin_int_data_10000.csv")
+o <- f(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int", data = d)
+o <- f(outcome = "Y_bin_int", yreg = "loglinear", file_name = "Yloglin", folder = "Mbin_int", data = d)
+o <- f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Ybin", folder = "Mbin_int", data = d)
+o <- f(outcome = "Y_count_int", yreg = "quasipoisson", file_name = "Yqpoi", folder = "Mbin_int", data = d)
+o <- f(outcome = "Y_count_int", yreg = "poisson", file_name = "Ypoi", folder = "Mbin_int", data = d)
+o <- f(outcome = "Y_count_int", yreg = "negbin", file_name = "Ynegbin", folder = "Mbin_int", data = d)
 
 Mbin_int_data$event <- 1 - Mbin_int_data$delta
 o <- f(outcome = "Ycen_int", yreg = "coxph", file_name = "Ycox", event = "event", folder = "Mbin_int", data = Mbin_int_data, mediation = FALSE)

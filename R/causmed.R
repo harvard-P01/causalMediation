@@ -79,7 +79,7 @@ causmed$methods(
                         mreg = c("linear", "logistic"),
                         yreg = c("linear", "logistic", "loglinear", "poisson",
                                  "quasipoisson", "negbin", "coxph", "aft_exp", "aft_weibull"),
-                        event = NULL, m = 0, a_star = 1, a = 0,
+                        event = NULL, m = 0, a_star = 0, a = 1,
                         casecontrol = FALSE, baseline = 0) {
     .self$data_name <- deparse(substitute(data))
     .self$authors <- "TBD"
