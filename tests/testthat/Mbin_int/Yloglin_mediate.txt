@@ -4,49 +4,38 @@ Causal Mediation Analysis
 Quasi-Bayesian Confidence Intervals
 
                           Estimate
-ACME (control)            0.000616
-ACME (treated)            0.000125
-ADE (control)             0.014274
-ADE (treated)             0.013783
-Total Effect              0.014400
-Prop. Mediated (control)  0.028925
-Prop. Mediated (treated)  0.001777
-ACME (average)            0.000371
-ADE (average)             0.014029
-Prop. Mediated (average)  0.015351
+ACME (control)            3.64e-03
+ACME (treated)           -1.32e-03
+ADE (control)             8.91e-03
+ADE (treated)             3.95e-03
+Total Effect              7.59e-03
+Prop. Mediated (control)  2.02e-01
+Prop. Mediated (treated) -2.67e-02
+ACME (average)            1.16e-03
+ADE (average)             6.43e-03
+Prop. Mediated (average)  8.76e-02
                          95% CI Lower
-ACME (control)              -0.001275
-ACME (treated)              -0.002712
-ADE (control)               -0.015747
-ADE (treated)               -0.014042
-Total Effect                -0.015440
-Prop. Mediated (control)    -0.955433
-Prop. Mediated (treated)    -0.381950
-ACME (average)              -0.001228
-ADE (average)               -0.014895
-Prop. Mediated (average)    -0.444882
-                         95% CI Upper
-ACME (control)               0.002797
-ACME (treated)               0.002155
-ADE (control)                0.048294
-ADE (treated)                0.047168
-Total Effect                 0.047823
-Prop. Mediated (control)     0.423754
-Prop. Mediated (treated)     0.479555
-ACME (average)               0.002039
-ADE (average)                0.047731
-Prop. Mediated (average)     0.382923
-                         p-value
-ACME (control)              0.56
-ACME (treated)              0.76
-ADE (control)               0.22
-ADE (treated)               0.28
-Total Effect                0.24
-Prop. Mediated (control)    0.64
-Prop. Mediated (treated)    0.92
-ACME (average)              0.68
-ADE (average)               0.26
-Prop. Mediated (average)    0.72
+ACME (control)               5.01e-04
+ACME (treated)              -6.42e-03
+ADE (control)               -1.72e-02
+ADE (treated)               -2.60e-02
+Total Effect                -1.90e-02
+Prop. Mediated (control)    -9.56e-01
+Prop. Mediated (treated)    -1.08e+01
+ACME (average)              -5.95e-04
+ADE (average)               -2.05e-02
+Prop. Mediated (average)    -2.74e-01
+                         95% CI Upper p-value
+ACME (control)               8.60e-03    0.00
+ACME (treated)               2.38e-03    0.42
+ADE (control)                3.46e-02    0.40
+ADE (treated)                3.04e-02    0.74
+Total Effect                 3.25e-02    0.42
+Prop. Mediated (control)     1.81e+01    0.42
+Prop. Mediated (treated)     6.64e-01    0.76
+ACME (average)               4.02e-03    0.28
+ADE (average)                3.25e-02    0.58
+Prop. Mediated (average)     2.13e+00    0.62
 
 Sample Size Used: 1000 
 
