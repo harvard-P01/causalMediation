@@ -1,0 +1,136 @@
+     estimate     bias std.error
+cde   1.6e-01 -1.1e-03   9.2e-02
+pnde  1.2e+00 -1.7e-03   7.4e-02
+tnde  1.2e+00 -1.7e-03   7.5e-02
+pnie  1.0e+00  9.6e-05   6.0e-03
+tnie  1.0e+00  7.5e-05   5.6e-03
+te    1.2e+00 -1.6e-03   7.5e-02
+pm    1.3e-02  6.8e-03   6.8e-02
+      95% CIL  95% CIU        z pval
+cde  -3.4e-02  3.1e-01  5.5e+01    0
+pnde  1.0e+00  1.3e+00  4.9e+02    0
+tnde  1.0e+00  1.3e+00  4.9e+02    0
+pnie  9.9e-01  1.0e+00  5.3e+03    0
+tnie  9.9e-01  1.0e+00  5.6e+03    0
+te    1.0e+00  1.3e+00  4.9e+02    0
+pm   -8.8e-02  2.3e-01  6.2e+00    0
+     estimate     bias std.error
+cde   1.6e-01 -1.5e-03   7.5e-02
+pnde  1.2e+00 -7.0e-04   6.7e-02
+tnde  1.2e+00 -3.3e-04   6.7e-02
+pnie  1.0e+00 -5.6e-04   4.7e-03
+tnie  1.0e+00 -2.3e-04   5.3e-03
+te    1.2e+00 -1.0e-03   6.6e-02
+pm    1.3e-02 -4.8e-03   7.0e-02
+      95% CIL  95% CIU        z pval
+cde   1.1e-02  3.0e-01  6.8e+01    0
+pnde  1.0e+00  1.3e+00  5.4e+02    0
+tnde  1.0e+00  1.3e+00  5.4e+02    0
+pnie  9.9e-01  1.0e+00  6.8e+03    0
+tnie  9.9e-01  1.0e+00  6.0e+03    0
+te    1.0e+00  1.3e+00  5.5e+02    0
+pm   -1.2e-01  1.5e-01  6.0e+00    0
+##----- MEDIATOR ------#
+
+Call:
+glm(formula = M_bin ~ A + C, family = binomial(), data = "data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -1.48   -1.15   -0.93    1.17    1.49  
+
+Coefficients:
+            Estimate Std. Error z value
+(Intercept)   -0.344      0.107    -3.2
+A              0.140      0.129     1.1
+C              0.250      0.063     4.0
+            Pr(>|z|)    
+(Intercept)    0.001 ** 
+A              0.280    
+C              7e-05 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1386.2  on 999  degrees of freedom
+Residual deviance: 1368.8  on 997  degrees of freedom
+AIC: 1375
+
+Number of Fisher Scoring iterations: 4
+
+##----- OUTCOME -----#
+
+Call:
+survreg(formula = Surv(Ycen_int, event) ~ A + M_bin + A * M_bin + 
+    C, data = "data", dist = "weibull")
+             Value Std. Error      z
+(Intercept) -3.062      0.062 -49.74
+A           -0.132      0.085  -1.56
+M_bin       -0.067      0.078  -0.86
+C           -0.106      0.029  -3.61
+A:M_bin      0.180      0.120   1.51
+Log(scale)  -0.218      0.032  -6.77
+                  p
+(Intercept) 0.0e+00
+A           1.2e-01
+M_bin       3.9e-01
+C           3.0e-04
+A:M_bin     1.3e-01
+Log(scale)  1.3e-11
+
+Scale= 0.8 
+
+Weibull distribution
+Loglik(model)= 1671.4   Loglik(intercept only)= 1663.1
+	Chisq= 16.48 on 4 degrees of freedom, p= 0.0024 
+Number of Newton-Raphson Iterations: 5 
+n= 1000 
+
+##----- MARGINAL -----#
+
+     estimate     bias std.error
+cde   1.6e-01 -1.1e-03   9.2e-02
+pnde  1.2e+00 -1.7e-03   7.4e-02
+tnde  1.2e+00 -1.7e-03   7.5e-02
+pnie  1.0e+00  9.6e-05   6.0e-03
+tnie  1.0e+00  7.5e-05   5.6e-03
+te    1.2e+00 -1.6e-03   7.5e-02
+pm    1.3e-02  6.8e-03   6.8e-02
+      95% CIL  95% CIU      z   pval    
+cde  -3.4e-02  3.1e-01   55.2 <2e-16 ***
+pnde  1.0e+00  1.3e+00  492.3 <2e-16 ***
+tnde  1.0e+00  1.3e+00  489.7 <2e-16 ***
+pnie  9.9e-01  1.0e+00 5289.2 <2e-16 ***
+tnie  9.9e-01  1.0e+00 5621.3 <2e-16 ***
+te    1.0e+00  1.3e+00  489.4 <2e-16 ***
+pm   -8.8e-02  2.3e-01    6.2  7e-10 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate     bias std.error
+cde   0.16037 -0.00146   0.07502
+pnde  1.15379 -0.00070   0.06713
+tnde  1.15572 -0.00033   0.06713
+pnie  1.00013 -0.00056   0.00468
+tnie  1.00180 -0.00023   0.00529
+te    1.15587 -0.00103   0.06633
+pm    0.01330 -0.00478   0.06957
+      95% CIL  95% CIU    z   pval    
+cde   0.01069  0.30027   68 <2e-16 ***
+pnde  1.03261  1.31841  544 <2e-16 ***
+tnde  1.03406  1.31668  544 <2e-16 ***
+pnie  0.99090  1.01075 6765 <2e-16 ***
+tnie  0.98920  1.02027 5986 <2e-16 ***
+te    1.03310  1.31223  551 <2e-16 ***
+pm   -0.12085  0.15295    6  2e-09 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1

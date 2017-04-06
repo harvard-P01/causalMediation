@@ -1,0 +1,110 @@
+     estimate     bias std.error  95% CIL  95% CIU        z pval
+cde  -1.3e-02 -9.0e-04   5.1e-02 -1.0e-01  1.0e-01 -8.3e+00    0
+pnde  1.0e+00 -1.4e-03   3.7e-02  9.4e-01  1.1e+00  8.7e+02    0
+tnde  1.0e+00 -1.4e-03   3.7e-02  9.4e-01  1.1e+00  8.6e+02    0
+pnie  1.0e+00  3.9e-04   4.9e-03  1.0e+00  1.0e+00  6.4e+03    0
+tnie  1.0e+00  4.5e-04   3.7e-03  1.0e+00  1.0e+00  8.6e+03    0
+te    1.0e+00 -1.0e-03   3.6e-02  9.4e-01  1.1e+00  8.7e+02    0
+pm    5.5e-01 -3.8e-01   1.5e+00 -2.2e+00  4.9e+00  1.2e+01    0
+     estimate     bias std.error  95% CIL  95% CIU        z pval
+cde  -1.3e-02 -7.9e-03   4.9e-02 -1.1e-01  1.0e-01 -8.6e+00  0.0
+pnde  1.0e+00 -3.4e-05   3.7e-02  9.3e-01  1.1e+00  8.6e+02  0.0
+tnde  1.0e+00 -3.1e-04   3.7e-02  9.3e-01  1.1e+00  8.6e+02  0.0
+pnie  1.0e+00  8.7e-05   4.4e-03  1.0e+00  1.0e+00  7.1e+03  0.0
+tnie  1.0e+00 -2.0e-04   3.7e-03  1.0e+00  1.0e+00  8.5e+03  0.0
+te    1.0e+00 -2.5e-04   3.6e-02  9.4e-01  1.1e+00  8.7e+02  0.0
+pm    5.5e-01  1.6e+01   1.7e+02 -8.0e-01  3.3e+00  1.0e-01  0.9
+##----- MEDIATOR ------#
+
+Call:
+glm(formula = M_bin ~ A + C, family = binomial(), data = "data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -1.47   -1.14   -0.92    1.18    1.51  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -0.432      0.109    -4.0    8e-05 ***
+A              0.231      0.128     1.8     0.07 .  
+C              0.251      0.063     4.0    8e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1385.1  on 999  degrees of freedom
+Residual deviance: 1365.8  on 997  degrees of freedom
+AIC: 1372
+
+Number of Fisher Scoring iterations: 4
+
+##----- OUTCOME -----#
+
+Call:
+glm(formula = Y_count_int ~ A + M_bin + A * M_bin + C, family = quasipoisson(), 
+    data = "data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -2.60   -0.70    0.00    0.59    3.80  
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  1.18993    0.03686    32.3   <2e-16 ***
+A            0.00085    0.05177     0.0      1.0    
+M_bin       -0.08585    0.05234    -1.6      0.1    
+C           -0.06244    0.01865    -3.3    8e-04 ***
+A:M_bin     -0.00736    0.07629    -0.1      0.9    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for quasipoisson family taken to be 1.05658)
+
+    Null deviance: 1188.5  on 999  degrees of freedom
+Residual deviance: 1168.4  on 995  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 5
+
+##----- MARGINAL -----#
+
+     estimate     bias std.error  95% CIL  95% CIU      z   pval
+cde  -0.01332 -0.00090   0.05097 -0.10086  0.10299   -8.3  4e-16
+pnde  1.00243 -0.00143   0.03660  0.93664  1.08016  866.1 <2e-16
+tnde  1.00087 -0.00136   0.03659  0.93897  1.07796  865.0 <2e-16
+pnie  1.00457  0.00039   0.00494  0.99776  1.01669 6428.2 <2e-16
+tnie  1.00300  0.00045   0.00370  0.99837  1.01259 8575.5 <2e-16
+te    1.00544 -0.00100   0.03640  0.94184  1.08344  873.6 <2e-16
+pm    0.55300 -0.38341   1.46565 -2.15488  4.93709   11.9 <2e-16
+        
+cde  ***
+pnde ***
+tnde ***
+pnie ***
+tnie ***
+te   ***
+pm   ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate     bias std.error  95% CIL  95% CIU      z   pval
+cde  -1.3e-02 -7.9e-03   4.9e-02 -1.1e-01  1.0e-01   -8.6 <2e-16
+pnde  1.0e+00 -3.4e-05   3.7e-02  9.3e-01  1.1e+00  863.8 <2e-16
+tnde  1.0e+00 -3.1e-04   3.7e-02  9.3e-01  1.1e+00  858.5 <2e-16
+pnie  1.0e+00  8.7e-05   4.4e-03  1.0e+00  1.0e+00 7145.3 <2e-16
+tnie  1.0e+00 -2.0e-04   3.7e-03  1.0e+00  1.0e+00 8523.0 <2e-16
+te    1.0e+00 -2.5e-04   3.6e-02  9.4e-01  1.1e+00  871.9 <2e-16
+pm    5.5e-01  1.6e+01   1.7e+02 -8.0e-01  3.3e+00    0.1    0.9
+        
+cde  ***
+pnde ***
+tnde ***
+pnie ***
+tnie ***
+te   ***
+pm      
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

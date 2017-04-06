@@ -1,0 +1,155 @@
+     estimate std.error 95% CIL 95% CIU
+cde    0.0528    0.0963 -0.1360  0.2417
+pnde   1.1312    0.8830 -0.5994  2.8618
+tnde   1.1226    0.0115  1.1000  1.1451
+pnie   1.0185    0.0115  0.9960  1.0410
+tnie   1.0108    0.0038  1.0033  1.0182
+te     1.1434    0.8925 -0.6059  2.8926
+pm     0.0849    0.4630 -0.8225  0.9923
+          z   pval    
+cde    17.3 <2e-16 ***
+pnde   40.5 <2e-16 ***
+tnde 3091.2 <2e-16 ***
+pnie 2804.8 <2e-16 ***
+tnie 8426.4 <2e-16 ***
+te     40.5 <2e-16 ***
+pm      5.8  9e-09 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
+     estimate std.error 95% CIL 95% CIU
+cde    0.0528    0.0963 -0.1360  0.2417
+pnde   1.1316    0.8931 -0.6189  2.8820
+tnde   1.1229    0.0115  1.1004  1.1454
+pnie   1.0186    0.0115  0.9960  1.0411
+tnie   1.0108    0.0038  1.0033  1.0182
+te     1.1437    0.9027 -0.6256  2.9131
+pm     0.0847    0.4659 -0.8284  0.9978
+          z   pval    
+cde    17.3 <2e-16 ***
+pnde   40.1 <2e-16 ***
+tnde 3090.3 <2e-16 ***
+pnie 2803.1 <2e-16 ***
+tnie 8426.0 <2e-16 ***
+te     40.1 <2e-16 ***
+pm      5.7  1e-08 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
+##----- MEDIATOR ------#
+
+Call:
+glm(formula = M_bin ~ A + C, family = binomial(), data = "data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -1.57   -1.17    0.89    1.15    1.53  
+
+Coefficients:
+            Estimate Std. Error z value
+(Intercept)   -0.362      0.108    -3.4
+A              0.205      0.130     1.6
+C              0.294      0.064     4.6
+            Pr(>|z|)    
+(Intercept)    8e-04 ***
+A                0.1    
+C              4e-06 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1386.1  on 999  degrees of freedom
+Residual deviance: 1361.7  on 997  degrees of freedom
+AIC: 1368
+
+Number of Fisher Scoring iterations: 4
+
+##----- OUTCOME -----#
+Call:
+coxph(formula = Surv(Ycen_int, event) ~ A + M_bin + A * M_bin + 
+    C, data = "data")
+
+  n= 1000, number of events= 750 
+
+          coef exp(coef) se(coef)    z
+A       -0.053     0.949    0.103 -0.5
+M_bin   -0.209     0.811    0.096 -2.2
+C       -0.102     0.903    0.036 -2.8
+A:M_bin -0.152     0.859    0.149 -1.0
+        Pr(>|z|)   
+A          0.608   
+M_bin      0.030 * 
+C          0.005 **
+A:M_bin    0.308   
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
+
+        exp(coef) exp(-coef) lower .95
+A            0.95        1.1      0.78
+M_bin        0.81        1.2      0.67
+C            0.90        1.1      0.84
+A:M_bin      0.86        1.2      0.64
+        upper .95
+A            1.16
+M_bin        0.98
+C            0.97
+A:M_bin      1.15
+
+Concordance= 0.56  (se = 0.011 )
+Rsquare= 0.029   (max possible= 1 )
+Likelihood ratio test= 30  on 4 df,   p=5.6e-06
+Wald test            = 29  on 4 df,   p=7e-06
+Score (logrank) test = 30  on 4 df,   p=6.2e-06
+
+##----- MARGINAL -----#
+
+     estimate std.error 95% CIL 95% CIU
+cde    0.0528    0.0963 -0.1360  0.2417
+pnde   1.1312    0.8830 -0.5994  2.8618
+tnde   1.1226    0.0115  1.1000  1.1451
+pnie   1.0185    0.0115  0.9960  1.0410
+tnie   1.0108    0.0038  1.0033  1.0182
+te     1.1434    0.8925 -0.6059  2.8926
+pm     0.0849    0.4630 -0.8225  0.9923
+          z   pval    
+cde    17.3 <2e-16 ***
+pnde   40.5 <2e-16 ***
+tnde 3091.2 <2e-16 ***
+pnie 2804.8 <2e-16 ***
+tnie 8426.4 <2e-16 ***
+te     40.5 <2e-16 ***
+pm      5.8  9e-09 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate std.error 95% CIL 95% CIU
+cde    0.0528    0.0963 -0.1360  0.2417
+pnde   1.1316    0.8931 -0.6189  2.8820
+tnde   1.1229    0.0115  1.1004  1.1454
+pnie   1.0186    0.0115  0.9960  1.0411
+tnie   1.0108    0.0038  1.0033  1.0182
+te     1.1437    0.9027 -0.6256  2.9131
+pm     0.0847    0.4659 -0.8284  0.9978
+          z   pval    
+cde    17.3 <2e-16 ***
+pnde   40.1 <2e-16 ***
+tnde 3090.3 <2e-16 ***
+pnie 2803.1 <2e-16 ***
+tnie 8426.0 <2e-16 ***
+te     40.1 <2e-16 ***
+pm      5.7  1e-08 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’
+  0.1 ‘ ’ 1
