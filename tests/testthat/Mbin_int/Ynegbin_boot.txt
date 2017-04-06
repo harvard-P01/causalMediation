@@ -1,0 +1,135 @@
+     estimate     bias std.error  95% CIL  95% CIU
+cde   1.3e-02  3.3e-03   5.1e-02 -9.4e-02  1.3e-01
+pnde  1.0e+00  4.1e-03   3.7e-02  9.3e-01  1.1e+00
+tnde  1.0e+00  3.5e-03   3.7e-02  9.3e-01  1.1e+00
+pnie  1.0e+00 -5.0e-05   3.5e-03  9.9e-01  1.0e+00
+tnie  1.0e+00 -6.6e-04   5.6e-03  9.8e-01  1.0e+00
+te    9.9e-01  3.4e-03   3.7e-02  9.3e-01  1.1e+00
+pm    8.4e-01 -1.6e+00   1.0e+01 -1.1e+01  9.4e+00
+            z pval
+cde   8.3e+00    0
+pnde  8.5e+02    0
+tnde  8.5e+02    0
+pnie  9.0e+03    0
+tnie  5.6e+03    0
+te    8.6e+02    0
+pm    2.6e+00    0
+     estimate     bias std.error  95% CIL  95% CIU
+cde   1.3e-02  2.0e-03   6.3e-02 -9.6e-02  1.4e-01
+pnde  1.0e+00 -6.0e-04   4.7e-02  9.2e-01  1.1e+00
+tnde  1.0e+00 -8.2e-04   4.6e-02  9.2e-01  1.1e+00
+pnie  1.0e+00  4.1e-04   3.7e-03  9.9e-01  1.0e+00
+tnie  1.0e+00  2.3e-04   4.6e-03  9.9e-01  1.0e+00
+te    9.9e-01 -4.2e-04   4.6e-02  9.2e-01  1.1e+00
+pm    8.3e-01 -7.9e-01   7.9e-01 -1.5e+00  2.4e+00
+            z pval
+cde   6.7e+00    0
+pnde  6.7e+02    0
+tnde  6.8e+02    0
+pnie  8.6e+03    0
+tnie  6.8e+03    0
+te    6.8e+02    0
+pm    3.4e+01    0
+##----- MEDIATOR ------#
+
+Call:
+glm(formula = M_bin ~ A + C, family = binomial(), data = "data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+  -1.6    -1.2     0.9     1.1     1.5  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -0.379      0.106    -3.6    4e-04 ***
+A              0.342      0.130     2.6    0.009 ** 
+C              0.299      0.065     4.6    4e-06 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1385.6  on 999  degrees of freedom
+Residual deviance: 1357.5  on 997  degrees of freedom
+AIC: 1363
+
+Number of Fisher Scoring iterations: 4
+
+##----- OUTCOME -----#
+
+Call:
+glm.nb(formula = Y_count_int ~ A + M_bin + A * M_bin + C, data = "data", 
+    init.theta = 19.7226479, link = log)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -2.42   -0.59   -0.03    0.53    3.26  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   1.1014     0.0392    28.1   <2e-16 ***
+A             0.0398     0.0576     0.7      0.5    
+M_bin        -0.0466     0.0530    -0.9      0.4    
+C            -0.0215     0.0198    -1.1      0.3    
+A:M_bin       0.0024     0.0804     0.0      1.0    
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for Negative Binomial(19.7226) family taken to be 1)
+
+    Null deviance: 1079.5  on 999  degrees of freedom
+Residual deviance: 1075.7  on 995  degrees of freedom
+AIC: 3939
+
+Number of Fisher Scoring iterations: 1
+
+
+              Theta:  19.72 
+          Std. Err.:  6.76 
+
+ 2 x log-likelihood:  -3927.356 
+##----- MARGINAL -----#
+
+     estimate     bias std.error  95% CIL  95% CIU
+cde   1.3e-02  3.3e-03   5.1e-02 -9.4e-02  1.3e-01
+pnde  1.0e+00  4.1e-03   3.7e-02  9.3e-01  1.1e+00
+tnde  1.0e+00  3.5e-03   3.7e-02  9.3e-01  1.1e+00
+pnie  1.0e+00 -5.0e-05   3.5e-03  9.9e-01  1.0e+00
+tnie  1.0e+00 -6.6e-04   5.6e-03  9.8e-01  1.0e+00
+te    9.9e-01  3.4e-03   3.7e-02  9.3e-01  1.1e+00
+pm    8.4e-01 -1.6e+00   1.0e+01 -1.1e+01  9.4e+00
+          z   pval    
+cde     8.3  3e-16 ***
+pnde  854.4 <2e-16 ***
+tnde  846.9 <2e-16 ***
+pnie 9045.2 <2e-16 ***
+tnie 5627.9 <2e-16 ***
+te    857.6 <2e-16 ***
+pm      2.6   0.01 *  
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate     bias std.error  95% CIL  95% CIU
+cde   0.01342  0.00199   0.06315 -0.09553  0.14408
+pnde  0.99909 -0.00060   0.04747  0.92114  1.09729
+tnde  0.99752 -0.00082   0.04636  0.91851  1.09270
+pnie  0.99701  0.00041   0.00366  0.98787  1.00483
+tnie  0.99544  0.00023   0.00462  0.98523  1.00466
+te    0.99454 -0.00042   0.04624  0.91580  1.08874
+pm    0.83318 -0.78968   0.78546 -1.46908  2.36942
+          z   pval    
+cde     6.7  3e-11 ***
+pnde  665.6 <2e-16 ***
+tnde  680.5 <2e-16 ***
+pnie 8616.2 <2e-16 ***
+tnie 6807.5 <2e-16 ***
+te    680.1 <2e-16 ***
+pm     33.5 <2e-16 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
