@@ -1,0 +1,167 @@
+     estimate     bias std.error
+cde   0.01847 -0.00224   0.06602
+pnde  0.01765 -0.00320   0.06709
+tnde  0.03560 -0.00256   0.06523
+pnie  0.01411  0.00014   0.00952
+tnie  0.03205  0.00077   0.01542
+te    0.04971 -0.00243   0.06603
+pm    0.47584 -0.92692   3.71944
+      95% CIL  95% CIU        z
+cde  -0.11398  0.15348  8.84724
+pnde -0.11754  0.15344  8.32080
+tnde -0.10589  0.16449 17.25611
+pnie  0.00025  0.03799 46.85434
+tnie  0.00309  0.06887 65.71480
+te   -0.09384  0.17889 23.80579
+pm   -5.68249  1.49845  4.04562
+     pval
+cde     0
+pnde    0
+tnde    0
+pnie    0
+tnie    0
+te      0
+pm      0
+     estimate     bias std.error
+cde   1.8e-02  1.6e-03   6.4e-02
+pnde  1.8e-02  1.9e-03   6.4e-02
+tnde  3.6e-02  1.1e-03   6.5e-02
+pnie  1.4e-02 -4.2e-04   9.7e-03
+tnie  3.2e-02 -1.2e-03   1.6e-02
+te    5.0e-02  6.5e-04   6.5e-02
+pm    4.7e-01 -2.9e+00   1.5e+01
+      95% CIL  95% CIU        z
+cde  -1.3e-01  1.4e-01  9.1e+00
+pnde -1.3e-01  1.4e-01  8.9e+00
+tnde -1.2e-01  1.6e-01  1.7e+01
+pnie -1.3e-03  3.6e-02  4.6e+01
+tnie -4.4e-04  6.5e-02  6.2e+01
+te   -1.0e-01  1.8e-01  2.5e+01
+pm   -4.9e+01  2.4e+00  9.6e-01
+     pval
+cde   0.0
+pnde  0.0
+tnde  0.0
+pnie  0.0
+tnie  0.0
+te    0.0
+pm    0.3
+##----- MEDIATOR ------#
+
+Call:
+lm(formula = M_cont ~ A + C, data = "data")
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -2.80  -0.72   0.00   0.69   3.42 
+
+Coefficients:
+            Estimate Std. Error
+(Intercept)   -0.210      0.055
+A              0.081      0.068
+C              0.207      0.033
+            t value Pr(>|t|)    
+(Intercept)    -3.8    2e-04 ***
+A               1.2      0.2    
+C               6.3    4e-10 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
+  0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.1 on 997 degrees of freedom
+Multiple R-squared:  0.04,	Adjusted R-squared:  0.038 
+F-statistic:  21 on 2 and 997 DF,  p-value: 1.3e-09
+
+##----- OUTCOME -----#
+
+Call:
+lm(formula = Y_cont_int ~ A + M_cont + A * M_cont + C, data = "data")
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -3.52  -0.68   0.03   0.63   3.40 
+
+Coefficients:
+            Estimate Std. Error
+(Intercept)   -3.104      0.051
+A              0.024      0.063
+M_cont         0.175      0.040
+C              0.069      0.031
+A:M_cont      -0.033      0.057
+            t value Pr(>|t|)    
+(Intercept)   -60.6   <2e-16 ***
+A               0.4     0.70    
+M_cont          4.4    1e-05 ***
+C               2.2     0.02 *  
+A:M_cont       -0.6     0.57    
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
+  0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.98 on 995 degrees of freedom
+Multiple R-squared:  0.041,	Adjusted R-squared:  0.037 
+F-statistic:  11 on 4 and 995 DF,  p-value: 2.4e-08
+
+##----- MARGINAL -----#
+
+     estimate     bias std.error
+cde   0.01847 -0.00224   0.06602
+pnde  0.01765 -0.00320   0.06709
+tnde  0.03560 -0.00256   0.06523
+pnie  0.01411  0.00014   0.00952
+tnie  0.03205  0.00077   0.01542
+te    0.04971 -0.00243   0.06603
+pm    0.47584 -0.92692   3.71944
+      95% CIL  95% CIU    z   pval
+cde  -0.11398  0.15348  8.8 <2e-16
+pnde -0.11754  0.15344  8.3  3e-16
+tnde -0.10589  0.16449 17.3 <2e-16
+pnie  0.00025  0.03799 46.9 <2e-16
+tnie  0.00309  0.06887 65.7 <2e-16
+te   -0.09384  0.17889 23.8 <2e-16
+pm   -5.68249  1.49845  4.0  6e-05
+        
+cde  ***
+pnde ***
+tnde ***
+pnie ***
+tnie ***
+te   ***
+pm   ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
+  0.05 ‘.’ 0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate     bias std.error
+cde   1.8e-02  1.6e-03   6.4e-02
+pnde  1.8e-02  1.9e-03   6.4e-02
+tnde  3.6e-02  1.1e-03   6.5e-02
+pnie  1.4e-02 -4.2e-04   9.7e-03
+tnie  3.2e-02 -1.2e-03   1.6e-02
+te    5.0e-02  6.5e-04   6.5e-02
+pm    4.7e-01 -2.9e+00   1.5e+01
+      95% CIL  95% CIU    z   pval
+cde  -1.3e-01  1.4e-01  9.1 <2e-16
+pnde -1.3e-01  1.4e-01  8.9 <2e-16
+tnde -1.2e-01  1.6e-01 17.4 <2e-16
+pnie -1.3e-03  3.6e-02 45.9 <2e-16
+tnie -4.4e-04  6.5e-02 62.4 <2e-16
+te   -1.0e-01  1.8e-01 24.5 <2e-16
+pm   -4.9e+01  2.4e+00  1.0    0.3
+        
+cde  ***
+pnde ***
+tnde ***
+pnie ***
+tnie ***
+te   ***
+pm      
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
+  0.05 ‘.’ 0.1 ‘ ’ 1
