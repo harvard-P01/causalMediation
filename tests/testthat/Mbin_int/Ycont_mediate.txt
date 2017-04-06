@@ -1,0 +1,55 @@
+
+Causal Mediation Analysis 
+
+Quasi-Bayesian Confidence Intervals
+
+                         Estimate
+ACME (control)            0.00995
+ACME (treated)            0.01535
+ADE (control)             0.14689
+ADE (treated)             0.15229
+Total Effect              0.16223
+Prop. Mediated (control)  0.05239
+Prop. Mediated (treated)  0.08108
+ACME (average)            0.01265
+ADE (average)             0.14959
+Prop. Mediated (average)  0.06674
+                         95% CI Lower
+ACME (control)               -0.00388
+ACME (treated)               -0.00328
+ADE (control)                 0.02366
+ADE (treated)                 0.02263
+Total Effect                  0.04239
+Prop. Mediated (control)     -0.02652
+Prop. Mediated (treated)     -0.02459
+ACME (average)               -0.00330
+ADE (average)                 0.02440
+Prop. Mediated (average)     -0.02515
+                         95% CI Upper
+ACME (control)                0.03158
+ACME (treated)                0.04091
+ADE (control)                 0.25413
+ADE (treated)                 0.26459
+Total Effect                  0.27698
+Prop. Mediated (control)      0.41399
+Prop. Mediated (treated)      0.39145
+ACME (average)                0.03152
+ADE (average)                 0.25496
+Prop. Mediated (average)      0.37119
+                         p-value
+ACME (control)              0.20
+ACME (treated)              0.14
+ADE (control)               0.04
+ADE (treated)               0.04
+Total Effect                0.02
+Prop. Mediated (control)    0.22
+Prop. Mediated (treated)    0.16
+ACME (average)              0.14
+ADE (average)               0.04
+Prop. Mediated (average)    0.16
+
+Sample Size Used: 1000 
+
+
+Simulations: 100 
+

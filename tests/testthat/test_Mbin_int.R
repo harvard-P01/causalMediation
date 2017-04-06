@@ -34,14 +34,14 @@ f <- function(outcome = "Y_cont_int", yreg = "linear",
   
   cm$mediation()
   sink(files[3])
-  cm$mediation()
+  print(cm$mediation())
   sink()
   
   return(cm)
 }
 
 data(Mbin_int_data)
-o <- f(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int", data = Mbin_int_data)
+f(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int", data = Mbin_int_data)
 f(outcome = "Y_bin_int", yreg = "loglinear", file_name = "Yloglin", folder = "Mbin_int", data = Mbin_int_data)
 f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Ybin", folder = "Mbin_int", data = Mbin_int_data)
 f(outcome = "Y_count_int", yreg = "quasipoisson", file_name = "Yqpoi", folder = "Mbin_int", data = Mbin_int_data)
