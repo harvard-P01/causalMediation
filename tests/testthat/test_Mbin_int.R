@@ -1,6 +1,7 @@
 set.seed(1234)
 
-f <- function(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int",
+f <- function(outcome = "Y_cont_int", yreg = "linear",
+              file_name = "Ycont", folder = "Mbin_int",
               event = NULL, casecontrol = FALSE, data) {
   cm <- causmed$new(data = data,
                     outcome = outcome,
@@ -15,32 +16,27 @@ f <- function(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", fold
                     yreg = yreg, mreg = "logistic",
                     boot = TRUE, nboot = 100)
   
-  files <- paste0(paste0(folder, "/", file_name, c("_delta.txt", "_boot.txt", "_mediate.txt", "_medflex.txt")))
+  files <- paste0(paste0(folder, "/", file_name, c("_delta.txt", "_boot.txt", "_mediate.txt")))
   
   cm$delta_marginal()
   cm$delta_conditional()
   cm$print_output(type = "full")
-  # sink(files[1])
-  # cm$print_output(type = "full")
-  # sink()
+  sink(files[1])
+  cm$print_output(type = "full")
+  sink()
   
-  # cm$bootstrap_marginal()
-  # cm$bootstrap_conditional()
-  # cm$print_output(type = "full")
-  # sink(files[2])
-  # cm$print_output(type = "full")
-  # sink()
+  cm$bootstrap_marginal()
+  cm$bootstrap_conditional()
+  cm$print_output(type = "full")
+  sink(files[2])
+  cm$print_output(type = "full")
+  sink()
   
   cm$mediation()
   sink(files[3])
   cm$mediation()
   sink()
   
-  # debugonce(cm$medflex)
-  # cm$medflex()
-  # sink(files[4])
-  # cm$medflex()
-  # sink()
   return(cm)
 }
 
