@@ -530,11 +530,13 @@ causmed$methods(
     s <- gsub(pattern = .self$treatment,
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
+    assign("tmp_data", .self$data, envir = globalenv())
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
-    f <- tempfile()
-    write.csv(.self$data, f)
-    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = read.csv(f))
+    assign("medflex_formula", medflex_formula, envir = globalenv())
+    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = tmp_data)
+    assign("medflex_data", medflex_data, envir = globalenv())
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    rm(medflex_formula, tmp_data, medflex_data, envir = globalenv())
     return(summary(result))
   }
 )
@@ -544,11 +546,13 @@ causmed$methods(
     s <- gsub(pattern = .self$treatment,
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
+    assign("tmp_data", .self$data, envir = globalenv())
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
-    f <- tempfile()
-    write.csv(.self$data, f)
-    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = read.csv(f))
+    assign("medflex_formula", medflex_formula, envir = globalenv())
+    medflex_data <- medflex::neWeight(as.formula(.self$mediator_formula), data = tmp_data)
+    assign("medflex_data", medflex_data, envir = globalenv())
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    rm(medflex_formula, tmp_data, medflex_data, envir = globalenv())
     return(summary(result))
   }
 )
@@ -559,13 +563,15 @@ causmed$methods(
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    assign("medflex_formula", medflex_formula, envir = globalenv())
     s <- gsub(pattern = .self$treatment,
               replacement = paste0("factor(", .self$treatment, ")"),
               .self$outcome_formula)
-    f <- tempfile()
-    write.csv(.self$data, f)
-    medflex_data <- medflex::neImpute(as.formula(s), data = read.csv(f))
+    assign("tmp_data", .self$data, envir = globalenv())
+    medflex_data <- medflex::neImpute(as.formula(s), data = tmp_data)
+    assign("medflex_data", medflex_data, envir = globalenv())
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    rm(medflex_formula, tmp_data, medflex_data, envir = globalenv())
     return(summary(result))
   }
 )
@@ -576,13 +582,15 @@ causmed$methods(
               replacement = paste0(.self$treatment, "0"),
               .self$outcome_formula)
     medflex_formula <- gsub(pattern = .self$mediator, replacement =  paste0(.self$treatment, "1"), s)
+    assign("medflex_formula", medflex_formula, envir = globalenv())
     s <- gsub(pattern = .self$treatment,
               replacement = paste0("factor(", .self$treatment, ")"),
               .self$outcome_formula)
-    f <- tempfile()
-    write.csv(.self$data, f)
-    medflex_data <- medflex::neImpute(as.formula(s), data = read.csv(f))
+    assign("tmp_data", .self$data, envir = globalenv())
+    medflex_data <- medflex::neImpute(as.formula(s), data = tmp_data)
+    assign("medflex_data", medflex_data, envir = globalenv())
     result <- medflex::neModel(as.formula(medflex_formula), expData = medflex_data, se = "robust")
+    rm(medflex_formula, tmp_data, medflex_data, envir = globalenv())
     return(summary(result))
   }
 )
