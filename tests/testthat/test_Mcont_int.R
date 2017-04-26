@@ -42,7 +42,7 @@ f <- function(outcome = "Y_cont_int", yreg = "linear",
   return(cm)
 }
 
-# data(Mbin_int_data)
+data(Mcont_int_data)
 
 # Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data_10000.csv")
 d <- read.csv("../../inst/data/Mcont_int_data.csv")
