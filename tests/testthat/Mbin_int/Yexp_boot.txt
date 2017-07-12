@@ -1,58 +1,81 @@
-     estimate     bias std.error  95% CIL  95% CIU
-cde   5.4e-02 -5.3e-03   1.0e-01 -1.5e-01  2.4e-01
-pnde  1.1e+00  6.7e-03   9.0e-02  9.7e-01  1.4e+00
-tnde  1.2e+00  8.6e-03   9.1e-02  9.9e-01  1.4e+00
-pnie  1.0e+00 -1.1e-03   7.1e-03  1.0e+00  1.0e+00
-tnie  1.0e+00  4.7e-04   1.2e-02  1.0e+00  1.0e+00
-te    1.2e+00  7.4e-03   9.2e-02  9.9e-01  1.4e+00
-pm    1.3e-01  5.5e-02   1.1e+00 -4.9e-01  5.7e-01
-            z pval
-cde   1.7e+01    0
-pnde  4.0e+02    0
-tnde  4.0e+02    0
-pnie  4.5e+03    0
-tnie  2.7e+03    0
-te    4.0e+02    0
-pm    3.5e+00    0
-     estimate     bias std.error  95% CIL  95% CIU
-cde   5.4e-02  3.2e-03   9.6e-02 -1.5e-01  2.6e-01
-pnde  1.1e+00  1.7e-03   8.4e-02  9.9e-01  1.4e+00
-tnde  1.2e+00  9.6e-04   8.7e-02  9.9e-01  1.4e+00
-pnie  1.0e+00 -3.2e-04   9.6e-03  1.0e+00  1.0e+00
-tnie  1.0e+00 -1.1e-03   1.4e-02  9.9e-01  1.0e+00
-te    1.2e+00  5.5e-04   8.8e-02  1.0e+00  1.4e+00
-pm    1.2e-01  1.3e-02   1.6e-01 -1.5e-01  6.5e-01
-            z pval
-cde   1.8e+01    0
-pnde  4.3e+02    0
-tnde  4.2e+02    0
-pnie  3.3e+03    0
-tnie  2.3e+03    0
-te    4.2e+02    0
-pm    2.5e+01    0
+     estimate     bias std.error
+cde   5.4e-02  1.5e-03   9.8e-02
+pnde  1.1e+00  3.6e-03   8.4e-02
+tnde  1.2e+00  3.3e-03   8.7e-02
+pnie  1.0e+00 -3.3e-04   9.2e-03
+tnie  1.0e+00 -7.0e-04   1.4e-02
+te    1.2e+00  2.9e-03   8.8e-02
+pm    1.3e-01  1.7e-02   1.2e-01
+      95% CIL  95% CIU        z
+cde  -1.3e-01  2.6e-01  1.8e+01
+pnde  1.0e+00  1.4e+00  4.3e+02
+tnde  1.0e+00  1.4e+00  4.2e+02
+pnie  1.0e+00  1.0e+00  3.5e+03
+tnie  1.0e+00  1.1e+00  2.4e+03
+te    1.0e+00  1.4e+00  4.2e+02
+pm   -3.8e-02  5.3e-01  3.2e+01
+     pval
+cde     0
+pnde    0
+tnde    0
+pnie    0
+tnie    0
+te      0
+pm      0
+     estimate     bias std.error
+cde   5.4e-02 -3.3e-03   1.0e-01
+pnde  1.1e+00 -8.4e-04   8.7e-02
+tnde  1.2e+00 -2.5e-05   8.9e-02
+pnie  1.0e+00 -3.9e-04   9.6e-03
+tnie  1.0e+00  3.3e-04   1.6e-02
+te    1.2e+00 -5.9e-04   8.9e-02
+pm    1.2e-01  6.8e-02   5.7e-01
+      95% CIL  95% CIU        z
+cde  -1.6e-01  2.1e-01  1.7e+01
+pnde  9.7e-01  1.3e+00  4.2e+02
+tnde  1.0e+00  1.3e+00  4.1e+02
+pnie  1.0e+00  1.0e+00  3.3e+03
+tnie  9.9e-01  1.1e+00  2.0e+03
+te    1.0e+00  1.4e+00  4.2e+02
+pm   -2.0e-01  1.1e+00  6.9e+00
+     pval
+cde     0
+pnde    0
+tnde    0
+pnie    0
+tnie    0
+te      0
+pm      0
 ##----- MEDIATOR ------#
 
 Call:
 glm(formula = M_bin ~ A + C, family = binomial(), data = "data")
 
 Deviance Residuals: 
-   Min      1Q  Median      3Q     Max  
- -1.56   -1.14   -0.88    1.18    1.56  
+   Min      1Q  Median      3Q  
+ -1.48   -1.14   -0.94    1.18  
+   Max  
+  1.52  
 
 Coefficients:
-            Estimate Std. Error z value Pr(>|z|)    
-(Intercept)   -0.476      0.108    -4.4    1e-05 ***
-A              0.159      0.130     1.2      0.2    
-C              0.332      0.063     5.3    1e-07 ***
+            Estimate Std. Error
+(Intercept)   -0.420      0.109
+A              0.256      0.129
+C              0.242      0.063
+            z value Pr(>|z|)    
+(Intercept)    -3.9    1e-04 ***
+A               2.0     0.05 *  
+C               3.8    1e-04 ***
 ---
 Signif. codes:  
-0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
+  0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 1385.4  on 999  degrees of freedom
-Residual deviance: 1355.1  on 997  degrees of freedom
-AIC: 1361
+    Null deviance: 1385.5  on 999  degrees of freedom
+Residual deviance: 1366.9  on 997  degrees of freedom
+AIC: 1373
 
 Number of Fisher Scoring iterations: 4
 
@@ -61,53 +84,45 @@ Number of Fisher Scoring iterations: 4
 Call:
 survreg(formula = Surv(Ycen_int, event) ~ A + M_bin + A * M_bin + 
     C, data = "data", dist = "exponential")
-             Value Std. Error      z       p
-(Intercept) -3.205      0.069 -46.28 0.0e+00
-A           -0.013      0.102  -0.13 9.0e-01
-M_bin       -0.027      0.095  -0.28 7.8e-01
-C            0.157      0.036   4.37 1.2e-05
-A:M_bin      0.492      0.151   3.25 1.2e-03
+              Value Std. Error
+(Intercept) -3.3104      0.069
+A           -0.0057      0.100
+M_bin        0.2075      0.095
+C            0.1215      0.036
+A:M_bin      0.3114      0.148
+                  z       p
+(Intercept) -48.037 0.00000
+A            -0.056 0.95498
+M_bin         2.187 0.02871
+C             3.393 0.00069
+A:M_bin       2.100 0.03573
 
 Scale fixed at 1 
 
 Exponential distribution
-Loglik(model)= 1481   Loglik(intercept only)= 1457.3
-	Chisq= 47.36 on 4 degrees of freedom, p= 1.3e-09 
+Loglik(model)= 1560   Loglik(intercept only)= 1536.9
+	Chisq= 46.31 on 4 degrees of freedom, p= 2.1e-09 
 Number of Newton-Raphson Iterations: 4 
 n= 1000 
 
 ##----- MARGINAL -----#
 
-     estimate     bias std.error  95% CIL  95% CIU
-cde   0.05405 -0.00535   0.10208 -0.14547  0.24178
-pnde  1.14723  0.00670   0.08960  0.96875  1.35537
-tnde  1.15588  0.00860   0.09116  0.98639  1.36128
-pnie  1.01074 -0.00113   0.00710  0.99805  1.02687
-tnie  1.01836  0.00047   0.01195  0.99917  1.04633
-te    1.16829  0.00738   0.09233  0.98844  1.37329
-pm    0.12514  0.05485   1.14024 -0.49351  0.57336
-          z   pval    
-cde    16.7 <2e-16 ***
-pnde  404.9 <2e-16 ***
-tnde  401.0 <2e-16 ***
-pnie 4499.4 <2e-16 ***
-tnie 2695.6 <2e-16 ***
-te    400.2 <2e-16 ***
-pm      3.5  5e-04 ***
----
-Signif. codes:  
-0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-##----- CONDITIONAL -----#
-
-     estimate     bias std.error  95% CIL  95% CIU    z
-cde   0.05405  0.00321   0.09626 -0.14528  0.26418   18
-pnde  1.14761  0.00168   0.08405  0.99418  1.35589  432
-tnde  1.15625  0.00096   0.08704  0.99171  1.36182  420
-pnie  1.01073 -0.00032   0.00958  0.99567  1.03426 3337
-tnie  1.01834 -0.00108   0.01389  0.99479  1.04927 2318
-te    1.16866  0.00055   0.08782  0.99808  1.35665  421
-pm    0.12479  0.01326   0.15942 -0.14923  0.65121   25
+     estimate     bias std.error
+cde   0.05405  0.00152   0.09754
+pnde  1.14723  0.00361   0.08444
+tnde  1.15588  0.00334   0.08740
+pnie  1.01074 -0.00033   0.00924
+tnie  1.01836 -0.00070   0.01352
+te    1.16829  0.00292   0.08787
+pm    0.12514  0.01655   0.12474
+      95% CIL  95% CIU    z
+cde  -0.12629  0.26411   18
+pnde  1.01263  1.35273  430
+tnde  1.01413  1.35424  418
+pnie  0.99780  1.03351 3457
+tnie  0.99620  1.05244 2382
+te    1.01610  1.35836  420
+pm   -0.03776  0.53086   32
        pval    
 cde  <2e-16 ***
 pnde <2e-16 ***
@@ -118,4 +133,36 @@ te   <2e-16 ***
 pm   <2e-16 ***
 ---
 Signif. codes:  
-0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
+  0.05 ‘.’ 0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate     bias std.error
+cde   5.4e-02 -3.3e-03   1.0e-01
+pnde  1.1e+00 -8.4e-04   8.7e-02
+tnde  1.2e+00 -2.5e-05   8.9e-02
+pnie  1.0e+00 -3.9e-04   9.6e-03
+tnie  1.0e+00  3.3e-04   1.6e-02
+te    1.2e+00 -5.9e-04   8.9e-02
+pm    1.2e-01  6.8e-02   5.7e-01
+      95% CIL  95% CIU      z
+cde  -1.6e-01  2.1e-01   16.8
+pnde  9.7e-01  1.3e+00  418.8
+tnde  1.0e+00  1.3e+00  411.6
+pnie  1.0e+00  1.0e+00 3342.5
+tnie  9.9e-01  1.1e+00 2034.2
+te    1.0e+00  1.4e+00  415.0
+pm   -2.0e-01  1.1e+00    6.9
+       pval    
+cde  <2e-16 ***
+pnde <2e-16 ***
+tnde <2e-16 ***
+pnie <2e-16 ***
+tnie <2e-16 ***
+te   <2e-16 ***
+pm    1e-11 ***
+---
+Signif. codes:  
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
+  0.05 ‘.’ 0.1 ‘ ’ 1

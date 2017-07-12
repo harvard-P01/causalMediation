@@ -329,7 +329,7 @@ total_NDE_contbin_delta <- function(thetas, vecc, variance, interaction,
                                                "\\bvariance\\b" = as.character(variance)))
   
   for (i in 1:j) {
-    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), vecc[i])
+    ss <- stringr::str_replace_all(s, paste("vecc", i, sep = "_"), as.character(vecc[i]))
   }
   
   return(as.formula(ss))

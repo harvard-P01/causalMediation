@@ -30,6 +30,8 @@ causmed <- setRefClass("causmed",
                          mediator_regression = "ANY",
                          outcome_regression = "ANY",
                          
+                         variance = "numeric", # variance
+                         
                          betas = "ANY", # coefficients from mediator regression
                          thetas = "ANY", # coefficients from outcome regression
                          vcov_betas = "matrix", # covariance from mediator regression
@@ -210,6 +212,8 @@ causmed$methods(
     .self$outcome_regression$call$formula <- as.formula(.self$outcome_formula)
     .self$mediator_regression$call$data <- .self$data_name
     .self$outcome_regression$call$data <- .self$data_name
+    
+    .self$variance <- (summary(.self$mediator_regression)$sigma)^2
   }
 )
 
