@@ -1,144 +1,138 @@
      estimate std.error 95% CIL
-cde    0.0540    0.1029 -0.1476
-pnde   1.1472    0.8186 -0.4571
-tnde   1.1559    0.0084  1.1394
-pnie   1.0107    0.0084  0.9943
-tnie   1.0184    0.0130  0.9929
-te     1.1683    0.8337 -0.4658
-pm     0.1251    0.5362 -0.9258
-     95% CIU      z   pval    
-cde   0.2557   16.6 <2e-16 ***
-pnde  2.7516   44.3 <2e-16 ***
-tnde  1.1723 4358.7 <2e-16 ***
-pnie  1.0272 3811.3 <2e-16 ***
-tnie  1.0438 2477.6 <2e-16 ***
-te    2.8024   44.3 <2e-16 ***
-pm    1.1760    7.4  3e-13 ***
+cde    0.1636    0.0744  0.0178
+pnde   1.1892    0.0886  1.0155
+tnde   1.2080    0.0088  1.1907
+pnie   1.0091    0.0088  0.9919
+tnie   1.0250    0.0137  0.9982
+te     1.2190    0.0923  1.0380
+pm     0.1360    0.0793 -0.0194
+     95% CIU    z   pval    
+cde   0.3095   70 <2e-16 ***
+pnde  1.3629  424 <2e-16 ***
+tnde  1.2252 4345 <2e-16 ***
+pnie  1.0263 3630 <2e-16 ***
+tnie  1.0519 2363 <2e-16 ***
+te    1.3999  418 <2e-16 ***
+pm    0.2914   54 <2e-16 ***
 ---
 Signif. codes:  
-  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
-  0.05 ‘.’ 0.1 ‘ ’ 1
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05
+  ‘.’ 0.1 ‘ ’ 1
      estimate std.error 95% CIL
-cde    0.0540    0.1029 -0.1476
-pnde   1.1476    0.8285 -0.4762
-tnde   1.1562    0.0084  1.1398
-pnie   1.0107    0.0084  0.9943
-tnie   1.0183    0.0130  0.9929
-te     1.1687    0.8438 -0.4851
-pm     0.1248    0.5397 -0.9330
-     95% CIU      z   pval    
-cde   0.2557   16.6 <2e-16 ***
-pnde  2.7714   43.8 <2e-16 ***
-tnde  1.1727 4363.7 <2e-16 ***
-pnie  1.0272 3814.5 <2e-16 ***
-tnie  1.0438 2480.5 <2e-16 ***
-te    2.8225   43.8 <2e-16 ***
-pm    1.1826    7.3  5e-13 ***
+cde    0.1636    0.0744  0.0178
+pnde   1.1898    0.0887  1.0159
+tnde   1.2085    0.0088  1.1913
+pnie   1.0091    0.0088  0.9919
+tnie   1.0250    0.0137  0.9982
+te     1.2196    0.0924  1.0385
+pm     0.1357    0.0791 -0.0193
+     95% CIU    z   pval    
+cde   0.3095   70 <2e-16 ***
+pnde  1.3636  424 <2e-16 ***
+tnde  1.2258 4347 <2e-16 ***
+pnie  1.0263 3630 <2e-16 ***
+tnie  1.0519 2363 <2e-16 ***
+te    1.4006  417 <2e-16 ***
+pm    0.2907   54 <2e-16 ***
 ---
 Signif. codes:  
-  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
-  0.05 ‘.’ 0.1 ‘ ’ 1
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05
+  ‘.’ 0.1 ‘ ’ 1
 ##----- MEDIATOR ------#
 
 Call:
-glm(formula = M_bin ~ A + C, family = binomial(), data = "data")
+lm(formula = M_cont ~ A + C, data = "data")
 
-Deviance Residuals: 
-   Min      1Q  Median      3Q  
- -1.57   -1.17    0.89    1.15  
-   Max  
-  1.53  
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -3.24  -0.72   0.01   0.69   3.36 
 
 Coefficients:
             Estimate Std. Error
-(Intercept)   -0.362      0.108
-A              0.205      0.130
-C              0.294      0.064
-            z value Pr(>|z|)    
-(Intercept)    -3.4    8e-04 ***
-A               1.6      0.1    
-C               4.6    4e-06 ***
+(Intercept)   -0.177      0.055
+A              0.168      0.067
+C              0.169      0.032
+            t value Pr(>|t|)    
+(Intercept)    -3.2    0.001 ** 
+A               2.5    0.013 *  
+C               5.2    2e-07 ***
 ---
 Signif. codes:  
-  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
-  0.05 ‘.’ 0.1 ‘ ’ 1
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05
+  ‘.’ 0.1 ‘ ’ 1
 
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 1386.1  on 999  degrees of freedom
-Residual deviance: 1361.7  on 997  degrees of freedom
-AIC: 1368
-
-Number of Fisher Scoring iterations: 4
+Residual standard error: 1 on 997 degrees of freedom
+Multiple R-squared:  0.032,	Adjusted R-squared:  0.03 
+F-statistic:  17 on 2 and 997 DF,  p-value: 7.6e-08
 
 ##----- OUTCOME -----#
 
 Call:
-survreg(formula = Surv(Ycen_int, event) ~ A + M_bin + A * M_bin + 
+survreg(formula = Surv(Ycen_int, event) ~ A + M_cont + A * M_cont + 
     C, data = "data", dist = "exponential")
-             Value Std. Error
-(Intercept) -3.225      0.070
-A            0.054      0.103
-M_bin        0.210      0.096
-C            0.101      0.036
-A:M_bin      0.150      0.149
-                 z      p
-(Intercept) -46.02 0.0000
-A             0.53 0.5994
-M_bin         2.18 0.0295
-C             2.78 0.0055
-A:M_bin       1.01 0.3130
+             Value Std. Error     z
+(Intercept) -3.196      0.059 -54.2
+A            0.164      0.074   2.2
+M_cont       0.054      0.047   1.1
+C            0.095      0.036   2.6
+A:M_cont     0.093      0.071   1.3
+                 p
+(Intercept) 0.0000
+A           0.0279
+M_cont      0.2517
+C           0.0084
+A:M_cont    0.1908
 
 Scale fixed at 1 
 
 Exponential distribution
-Loglik(model)= 1482.3   Loglik(intercept only)= 1467.4
-	Chisq= 29.77 on 4 degrees of freedom, p= 5.5e-06 
+Loglik(model)= 1524   Loglik(intercept only)= 1512.2
+	Chisq= 23.6 on 4 degrees of freedom, p= 9.6e-05 
 Number of Newton-Raphson Iterations: 4 
 n= 1000 
 
 ##----- MARGINAL -----#
 
      estimate std.error 95% CIL
-cde    0.0540    0.1029 -0.1476
-pnde   1.1472    0.8186 -0.4571
-tnde   1.1559    0.0084  1.1394
-pnie   1.0107    0.0084  0.9943
-tnie   1.0184    0.0130  0.9929
-te     1.1683    0.8337 -0.4658
-pm     0.1251    0.5362 -0.9258
-     95% CIU      z   pval    
-cde   0.2557   16.6 <2e-16 ***
-pnde  2.7516   44.3 <2e-16 ***
-tnde  1.1723 4358.7 <2e-16 ***
-pnie  1.0272 3811.3 <2e-16 ***
-tnie  1.0438 2477.6 <2e-16 ***
-te    2.8024   44.3 <2e-16 ***
-pm    1.1760    7.4  3e-13 ***
+cde    0.1636    0.0744  0.0178
+pnde   1.1892    0.0886  1.0155
+tnde   1.2080    0.0088  1.1907
+pnie   1.0091    0.0088  0.9919
+tnie   1.0250    0.0137  0.9982
+te     1.2190    0.0923  1.0380
+pm     0.1360    0.0793 -0.0194
+     95% CIU    z   pval    
+cde   0.3095   70 <2e-16 ***
+pnde  1.3629  424 <2e-16 ***
+tnde  1.2252 4345 <2e-16 ***
+pnie  1.0263 3630 <2e-16 ***
+tnie  1.0519 2363 <2e-16 ***
+te    1.3999  418 <2e-16 ***
+pm    0.2914   54 <2e-16 ***
 ---
 Signif. codes:  
-  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
-  0.05 ‘.’ 0.1 ‘ ’ 1
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05
+  ‘.’ 0.1 ‘ ’ 1
 
 ##----- CONDITIONAL -----#
 
      estimate std.error 95% CIL
-cde    0.0540    0.1029 -0.1476
-pnde   1.1476    0.8285 -0.4762
-tnde   1.1562    0.0084  1.1398
-pnie   1.0107    0.0084  0.9943
-tnie   1.0183    0.0130  0.9929
-te     1.1687    0.8438 -0.4851
-pm     0.1248    0.5397 -0.9330
-     95% CIU      z   pval    
-cde   0.2557   16.6 <2e-16 ***
-pnde  2.7714   43.8 <2e-16 ***
-tnde  1.1727 4363.7 <2e-16 ***
-pnie  1.0272 3814.5 <2e-16 ***
-tnie  1.0438 2480.5 <2e-16 ***
-te    2.8225   43.8 <2e-16 ***
-pm    1.1826    7.3  5e-13 ***
+cde    0.1636    0.0744  0.0178
+pnde   1.1898    0.0887  1.0159
+tnde   1.2085    0.0088  1.1913
+pnie   1.0091    0.0088  0.9919
+tnie   1.0250    0.0137  0.9982
+te     1.2196    0.0924  1.0385
+pm     0.1357    0.0791 -0.0193
+     95% CIU    z   pval    
+cde   0.3095   70 <2e-16 ***
+pnde  1.3636  424 <2e-16 ***
+tnde  1.2258 4347 <2e-16 ***
+pnie  1.0263 3630 <2e-16 ***
+tnie  1.0519 2363 <2e-16 ***
+te    1.4006  417 <2e-16 ***
+pm    0.2907   54 <2e-16 ***
 ---
 Signif. codes:  
-  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’
-  0.05 ‘.’ 0.1 ‘ ’ 1
+  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05
+  ‘.’ 0.1 ‘ ’ 1

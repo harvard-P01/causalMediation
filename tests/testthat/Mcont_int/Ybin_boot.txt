@@ -1,0 +1,126 @@
+     estimate     bias std.error  95% CIL  95% CIU
+cde   2.3e-01 -3.0e-02   2.7e-01 -4.0e-01  7.4e-01
+pnde  1.3e+00 -1.0e-03   3.3e-01  6.8e-01  2.1e+00
+tnde  1.3e+00 -6.8e-03   3.2e-01  6.8e-01  2.1e+00
+pnie  1.0e+00  4.1e-03   2.9e-02  9.6e-01  1.1e+00
+tnie  1.0e+00  1.1e-03   3.3e-02  9.8e-01  1.1e+00
+te    1.3e+00 -1.5e-03   3.3e-01  7.2e-01  2.1e+00
+pm    1.3e-01 -5.3e-01   4.6e+00 -2.2e+00  1.1e+00
+            z pval
+cde   2.8e+01  0.0
+pnde  1.2e+02  0.0
+tnde  1.3e+02  0.0
+pnie  1.1e+03  0.0
+tnie  1.0e+03  0.0
+te    1.3e+02  0.0
+pm    8.7e-01  0.4
+     estimate     bias std.error  95% CIL  95% CIU
+cde    0.2347   0.0046    0.3527  -0.5446   1.0563
+pnde   1.2867   0.0672    0.4769   0.6153   2.7819
+tnde   1.3145   0.0586    0.4695   0.6316   2.7319
+pnie   1.0105   0.0031    0.0387   0.9471   1.1177
+tnie   1.0324  -0.0020    0.0361   0.9759   1.1227
+te     1.3284   0.0645    0.4913   0.6695   2.8437
+pm     0.1268   0.0720    1.1645  -0.3964   3.6834
+            z pval
+cde   21.0446    0
+pnde  85.3232    0
+tnde  88.5456    0
+pnie 825.6278    0
+tnie 904.4176    0
+te    85.4938    0
+pm     3.4426    0
+##----- MEDIATOR ------#
+
+Call:
+lm(formula = M_cont ~ A + C, data = "data")
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -2.82  -0.64   0.03   0.65   3.34 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.166      0.053    -3.1    0.002 ** 
+A              0.130      0.066     2.0    0.049 *  
+C              0.198      0.032     6.3    6e-10 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1 on 997 degrees of freedom
+Multiple R-squared:  0.041,	Adjusted R-squared:  0.04 
+F-statistic:  22 on 2 and 997 DF,  p-value: 6.8e-10
+
+##----- OUTCOME -----#
+
+Call:
+glm(formula = Y_bin_int ~ A + M_cont + A * M_cont + C, family = binomial(), 
+    data = "data")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -0.53   -0.35   -0.31   -0.28    2.70  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -3.061      0.251   -12.2   <2e-16 ***
+A             -0.338      0.321    -1.1      0.3    
+M_cont         0.078      0.183     0.4      0.7    
+C              0.189      0.144     1.3      0.2    
+A:M_cont       0.179      0.281     0.6      0.5    
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 397.03  on 999  degrees of freedom
+Residual deviance: 392.35  on 995  degrees of freedom
+AIC: 402.3
+
+Number of Fisher Scoring iterations: 6
+
+##----- MARGINAL -----#
+
+     estimate    bias std.error 95% CIL 95% CIU      z
+cde    0.2347 -0.0296    0.2692 -0.3979  0.7438   27.6
+pnde   1.2859 -0.0010    0.3253  0.6773  2.0665  125.0
+tnde   1.3137 -0.0068    0.3234  0.6836  2.0727  128.5
+pnie   1.0105  0.0041    0.0294  0.9630  1.0908 1086.7
+tnie   1.0324  0.0011    0.0325  0.9814  1.1150 1004.1
+te     1.3275 -0.0015    0.3303  0.7203  2.1176  127.1
+pm     0.1270 -0.5286    4.6355 -2.2162  1.0660    0.9
+       pval    
+cde  <2e-16 ***
+pnde <2e-16 ***
+tnde <2e-16 ***
+pnie <2e-16 ***
+tnie <2e-16 ***
+te   <2e-16 ***
+pm      0.4    
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+##----- CONDITIONAL -----#
+
+     estimate    bias std.error 95% CIL 95% CIU     z
+cde    0.2347  0.0046    0.3527 -0.5446  1.0563  21.0
+pnde   1.2867  0.0672    0.4769  0.6153  2.7819  85.3
+tnde   1.3145  0.0586    0.4695  0.6316  2.7319  88.5
+pnie   1.0105  0.0031    0.0387  0.9471  1.1177 825.6
+tnie   1.0324 -0.0020    0.0361  0.9759  1.1227 904.4
+te     1.3284  0.0645    0.4913  0.6695  2.8437  85.5
+pm     0.1268  0.0720    1.1645 -0.3964  3.6834   3.4
+       pval    
+cde  <2e-16 ***
+pnde <2e-16 ***
+tnde <2e-16 ***
+pnie <2e-16 ***
+tnie <2e-16 ***
+te   <2e-16 ***
+pm    6e-04 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

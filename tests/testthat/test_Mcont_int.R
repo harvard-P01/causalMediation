@@ -48,20 +48,22 @@ data(Mcont_int_data)
 d <- read.csv("../../inst/data/Mcont_int_data.csv")
 o <- f(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mcont_int", data = d)
 o <- f(outcome = "Y_bin_int", yreg = "loglinear", file_name = "Yloglin", folder = "Mcont_int", data = d)
-# o <- f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Ybin", folder = "Mcont_int", data = d)
-# o <- f(outcome = "Y_count_int", yreg = "quasipoisson", file_name = "Yqpoi", folder = "Mcont_int", data = d)
-# o <- f(outcome = "Y_count_int", yreg = "poisson", file_name = "Ypoi", folder = "Mcont_int", data = d)
+o <- f(outcome = "Y_bin_int", yreg = "logistic", file_name = "Ybin", folder = "Mcont_int", data = d)
+o <- f(outcome = "Y_count_int", yreg = "quasipoisson", file_name = "Yqpoi", folder = "Mcont_int", data = d)
+o <- f(outcome = "Y_count_int", yreg = "poisson", file_name = "Ypoi", folder = "Mcont_int", data = d)
 o <- f(outcome = "Y_count_int", yreg = "negbin", file_name = "Ynegbin", folder = "Mcont_int", data = d)
+
+d$event <- 1 - Mbin_int_data$delta
+o <- f(outcome = "Ycen_int", yreg = "coxph", file_name = "Ycox", event = "event", folder = "Mbin_int", data = d, mediation = FALSE)
+o <- f(outcome = "Ycen_int", yreg = "aft_exp", file_name = "Yexp", event = "event", folder = "Mbin_int", data = d, mediation = FALSE)
 # 
-# Mbin_int_data$event <- 1 - Mbin_int_data$delta
-# o <- f(outcome = "Ycen_int", yreg = "coxph", file_name = "Ycox", event = "event", folder = "Mbin_int", data = Mbin_int_data, mediation = FALSE)
-# o <- f(outcome = "Ycen_int", yreg = "aft_exp", file_name = "Yexp", event = "event", folder = "Mbin_int", data = Mbin_int_data, mediation = FALSE)
-# 
-# # data(Mbin_wei_int_data)
-# Mbin_wei_int_data <- read.csv("../../inst/data/Mbin_wei_int_data.csv")
-# Mbin_wei_int_data$event <- 1 - Mbin_wei_int_data$delta
-# o <- f(outcome = "Ycen_int", yreg = "aft_weibull", file_name = "Ywei", event = "event", folder = "Mbin_int", data = Mbin_wei_int_data, mediation = FALSE)
-# 
+# # # data(Mbin_wei_int_data)
+# d <- read.csv("../../inst/data/Mbin_wei_int_data.csv")
+# # Mbin_wei_int_data <- read.csv("../../inst/data/Mbin_wei_int_data.csv")
+# d$event <- 1 - d$delta
+# o <- f(outcome = "Ycen_int", yreg = "aft_weibull", file_name = "Ywei", event = "event",
+#        folder = "Mcont_int", data = d, mediation = FALSE)
+#
 # # data(Mbin_cc_int_data)
 # Mbin_cc_int_data <- read.csv("../../inst/data/Mbin_cc_int_data.csv")
 # names(Mbin_cc_int_data)[4] <- "M_bin"
