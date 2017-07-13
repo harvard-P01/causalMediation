@@ -19,8 +19,8 @@ cm <- causmed$new(data = d,
                   casecontrol = FALSE,
                   baseline = NULL)
 
-
-files <- paste0(paste0(folder, "/", file_name, c("_delta.txt", "_boot.txt", "_mediate.txt")))
+files <- paste0(paste0(folder, "/", file_name,
+                       c("_delta.txt", "_boot.txt", "_mediate.txt", "_medflex.txt")))
 
 cm$delta_marginal()
 cm$delta_conditional()
@@ -43,6 +43,13 @@ if (mediation) {
   cm$mediation()
   sink(files[3])
   print(cm$mediation())
+  sink()
+}
+
+if (medflex) {
+  cm$medflex_weight_continuous()
+  sink(files[4])
+  print(cm$medflex_weight_continuous())
   sink()
 }
 
