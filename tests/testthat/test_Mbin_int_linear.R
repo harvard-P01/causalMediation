@@ -45,3 +45,7 @@ if (mediation) {
   print(cm$mediation())
   sink()
 }
+
+sas <- read.csv("../../inst/sasoutput/Mbin_int_linear.csv")
+sas <- sas[!is.na(sas$Obs), ]
+sas
