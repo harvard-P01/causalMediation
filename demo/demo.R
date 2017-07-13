@@ -29,6 +29,9 @@ cm$medflex_weight_continuous()
 cm$medflex_imputation_categorical()
 cm$medflex_imputation_continuous()
 
+summary(cm$mediator_regression)
+summary(cm$outcome_regression)
+
 cm <- causmed$new(data = Mbin_int_data,
                   outcome = "Y_cont_int",
                   treatment = 'contexp',
