@@ -46,6 +46,7 @@ f <- function(outcome = "Y_cont_int", yreg = "linear",
 
 # Mbin_int_data <- read.csv("../../inst/data/Mbin_int_data_10000.csv")
 d <- read.csv("../../inst/data/Mbin_int_data.csv")
+dim(d)
 names(d)
 o <- f(outcome = "Y_cont_int", yreg = "linear", file_name = "Ycont", folder = "Mbin_int", data = d)
 o <- f(outcome = "Y_bin_int", yreg = "loglinear", file_name = "Yloglin", folder = "Mbin_int", data = d)
