@@ -84,7 +84,7 @@ d <- read.csv("../../inst/data/Mbin_noint_data.csv")
 names(d)
 #noint & delta
 cm <- causmed$new(data = d,
-                  outcome = "Y_bin_int",
+                  outcome = "Y_bin",
                   treatment = "A",
                   mediator = "M_bin",
                   covariates = "C",
@@ -102,7 +102,7 @@ cm <- causmed$new(data = d,
                   baseline = NULL)
 #noint & boot
 cm <- causmed$new(data = d,
-                  outcome = "Y_bin_int",
+                  outcome = "Y_bin",
                   treatment = "A",
                   mediator = "M_bin",
                   covariates = "C",
@@ -124,7 +124,7 @@ cm <- causmed$new(data = d,
 d <- read.csv("../../inst/data/Mbin_cc_noint_data.csv")
 names(d)
 cm <- causmed$new(data = d,
-                  outcome = "Y_bin_int",
+                  outcome = "Y_bin",
                   treatment = "A",
                   mediator = "M_bin",
                   covariates = "C",
@@ -142,7 +142,7 @@ cm <- causmed$new(data = d,
                   baseline = NULL)
 #noint & boot & case control
 cm <- causmed$new(data = d,
-                  outcome = "Y_bin_int",
+                  outcome = "Y_bin",
                   treatment = "A",
                   mediator = "M_bin",
                   covariates = "C",
