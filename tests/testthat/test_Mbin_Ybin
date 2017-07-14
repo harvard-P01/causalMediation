@@ -41,7 +41,7 @@ cm <- causmed$new(data = d,
 
 
 #int & delta & case control
-d <- read.csv("../../inst/data/Mbin_int_data.csv")
+d <- read.csv("../../inst/data/Mbin_cc_int_data.csv")
 names(d)
 cm <- causmed$new(data = d,
                   outcome = "Y_bin_int",
@@ -80,7 +80,7 @@ cm <- causmed$new(data = d,
                   baseline = NULL)
 
 #######################################
-d <- read.csv("../../inst/data/Mbin_data.csv")
+d <- read.csv("../../inst/data/Mbin_noint_data.csv")
 names(d)
 #noint & delta
 cm <- causmed$new(data = d,
@@ -121,7 +121,7 @@ cm <- causmed$new(data = d,
 
 
 #noint & delta & case control
-d <- read.csv("../../inst/data/Mbin_int_data.csv")
+d <- read.csv("../../inst/data/Mbin_cc_noint_data.csv")
 names(d)
 cm <- causmed$new(data = d,
                   outcome = "Y_bin_int",
