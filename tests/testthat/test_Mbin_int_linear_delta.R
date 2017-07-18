@@ -19,37 +19,14 @@ cm <- causmed$new(data = d,
                   casecontrol = FALSE,
                   baseline = NULL)
 
-files <- paste0(paste0("Mbin_int", "/", "linear",
-                       c("_delta.txt", "_boot.txt", "_mediate.txt", "_medflex.txt")))
-
 cm$delta_marginal()
 cm$delta_conditional()
 cm$print_output(type = "full")
-sink(files[1])
+cm$print_output(type = "reduced")
+sink("Mbin_int/linear_delta.txt")
 cm$print_output(type = "full")
 sink()
 
-cm$bootstrap_marginal()
-cm$bootstrap_conditional()
-cm$print_output(type = "full")
-sink(files[2])
-cm$print_output(type = "full")
-sink()
-
-if (mediation) {
-  cm$mediation()
-  sink(files[3])
-  print(cm$mediation())
-  sink()
-}
-
-if (medflex) {
-  cm$medflex_weight_continuous()
-  sink(files[4])
-  print(cm$medflex_weight_continuous())
-  sink()
-}
-
-sas <- read.csv("../../inst/sasoutput/Mbin_int_linear.csv")
+sas <- read.csv("../../inst/sasoutput/Mbin_int_linear_delta.csv")
 sas <- sas[!is.na(sas$Obs), ]
 sas

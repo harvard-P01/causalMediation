@@ -69,6 +69,12 @@ causmed <- setRefClass("causmed",
                          boot_out_conditional = "ANY", # bootstrap output
                          delta_out_conditional = "list", # delta output
                          
+                         summary_mediator = "ANY",
+                         summary_outcome = "ANY",
+                         summary_coef = "ANY",
+                         summary_coef_marginal = "ANY",
+                         summary_coef_conditional = "ANY",
+                         
                          conf = "numeric", # confidence level
                          
                          authors = "character" # Package authors
@@ -478,37 +484,37 @@ causmed$methods(
   print_output = function(digits = 2, conf = 0.95, summary = TRUE, type = c("reduced", "full")) {
     if (!is.null(conf))
       .self$conf <- conf
-    summary_mediator <- summary(.self$mediator_regression)
-    summary_outcome <- summary(.self$outcome_regression)
+    .self$summary_mediator <- summary(.self$mediator_regression)
+    .self$summary_outcome <- summary(.self$outcome_regression)
     if (type == "reduced") {
       if (.self$boot)
-        summary_coef <- .self$print_boot(digits = digits, conf = .self$conf, type = "marginal")
+        .self$summary_coef <- .self$print_boot(digits = digits, conf = .self$conf, type = "marginal")
       else
-        summary_coef <- .self$print_delta(digits = digits, conf = .self$conf, type = "marginal")
+        .self$summary_coef <- .self$print_delta(digits = digits, conf = .self$conf, type = "marginal")
       cat("##----- MEDIATOR ------#\n")
-      print(summary_mediator, digits = digits)
+      print(.self$summary_mediator, digits = digits)
       cat("##----- OUTCOME -----#\n")
-      print(summary_outcome, digits = digits)
+      print(.self$summary_outcome, digits = digits)
       cat("##----- MARGINAL -----#\n\n")
-      printCoefmat(summary_coef[c("cde", "pnde", "tnie", "te", "pm"), ], digits = digits, has.Pvalue = TRUE)
+      printCoefmat(.self$summary_coef[c("cde", "pnde", "tnie", "te", "pm"), ], digits = digits, has.Pvalue = TRUE)
     }
     if (type == "full") {
       if (.self$boot) {
-        summary_coef_marginal <- .self$print_boot(digits = digits, conf = .self$conf, type = "marginal")
-        summary_coef_conditional <- .self$print_boot(digits = digits, conf = .self$conf, type = "conditional")
+        .self$summary_coef_marginal <- .self$print_boot(digits = digits, conf = .self$conf, type = "marginal")
+        .self$summary_coef_conditional <- .self$print_boot(digits = digits, conf = .self$conf, type = "conditional")
       }
       else {
-        summary_coef_marginal <- .self$print_delta(digits = digits, conf = .self$conf, type = "marginal")
-        summary_coef_conditional <- .self$print_delta(digits = digits, conf = .self$conf, type = "conditional")
+        .self$summary_coef_marginal <- .self$print_delta(digits = digits, conf = .self$conf, type = "marginal")
+        .self$summary_coef_conditional <- .self$print_delta(digits = digits, conf = .self$conf, type = "conditional")
       }
       cat("##----- MEDIATOR ------#\n")
-      print(summary_mediator, digits = digits)
+      print(.self$summary_mediator, digits = digits)
       cat("##----- OUTCOME -----#\n")
-      print(summary_outcome, digits = digits)
+      print(.self$summary_outcome, digits = digits)
       cat("##----- MARGINAL -----#\n\n")
-      printCoefmat(summary_coef_marginal, digits = digits, has.Pvalue = TRUE)
+      printCoefmat(.self$summary_coef_marginal, digits = digits, has.Pvalue = TRUE)
       cat("\n##----- CONDITIONAL -----#\n\n")
-      printCoefmat(summary_coef_conditional, digits = digits, has.Pvalue = TRUE)
+      printCoefmat(.self$summary_coef_conditional, digits = digits, has.Pvalue = TRUE)
     }
   }
 )
