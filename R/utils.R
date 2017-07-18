@@ -64,4 +64,30 @@ format_df_delta <- function(delta.out, conf = 0.95, n) {
   return(cbind(d_all, add_columns(d_all, n = n)))
 }
 
+run_test <- function(cm,
+                     filename = "Mbin_int/linear_delta.txt",
+                     sas = read.csv("../../inst/sasoutput/Mbin_int_linear_delta.csv")) {
+  cm$delta_marginal()
+  cm$delta_conditional()
+  cm$print_output(type = "full")
+  
+  cm$summary_coef_conditional
+  r_marginal <- cm$summary_coef_marginal[1:6, c(1:4, 6)]
+  r_conditional <- cm$summary_coef_marginal[1:6, c(1:4, 6)]
+  
+  sas <- sas[!is.na(sas$Obs), ]
+  sas_marginal <- sas[1:6, c(3, 4, 6, 7, 5)]
+  sas_conditional <- sas[7:12, c(3, 4, 6, 7, 5)]
+  
+  sink(filename)
+  print("r_marginal")
+  r_marginal
+  print("sas_marginal")
+  sas_marginal
+  print("r_marginal - sas_marginal")
+  r_marginal - sas_marginal
+  print("sum(r_marginal - sas_marginal)")
+  sum(r_marginal - sas_marginal)
+  sink()
+}
 
