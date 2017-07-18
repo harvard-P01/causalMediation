@@ -23,10 +23,25 @@ cm$delta_marginal()
 cm$delta_conditional()
 cm$print_output(type = "full")
 cm$print_output(type = "reduced")
-sink("Mbin_int/linear_delta.txt")
-cm$print_output(type = "full")
-sink()
+
+cm$summary_coef_conditional
+r_marginal <- cm$summary_coef_marginal[1:6, c(1:4, 6)]
 
 sas <- read.csv("../../inst/sasoutput/Mbin_int_linear_delta.csv")
 sas <- sas[!is.na(sas$Obs), ]
-sas
+
+sas_marginal <- sas[1:6, c(3, 4, 6, 7, 5)]
+
+sink("Mbin_int/linear_delta.txt")
+print("r_marginal")
+r_marginal
+print("sas_marginal")
+sas_marginal
+print("r_marginal - sas_marginal")
+r_marginal - sas_marginal
+print("sum(r_marginal - sas_marginal)")
+sum(r_marginal - sas_marginal)
+sink()
+
+r_marginal - sas_marginal
+
