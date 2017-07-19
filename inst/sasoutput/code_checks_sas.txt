@@ -1,0 +1,618 @@
+*proc printto LOG = "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/checkslog1132017.log" NEW;
+*run;
+
+ods pdf file="/nfs/home/L/lvaleri/sasmacro/checks/datachecks/checksoutput1132017.pdf"  style = minimal;
+
+
+﻿%INCLUDE "/nfs/home/L/lvaleri/sasmacro/checks/SAS_macro_for_checks.txt";
+
+
+*********MCONT NO INT
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mcont_noint_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+%mediation(data=sim,yvar=Y_cont_noint,avar=A,mvar=M_cont,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+
+
+
+
+%mediation(data= sim,yvar=Y_cont_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=survCox,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar=M_cont,cvar=C,a0=0,a1=1,m=0,yreg= survCox,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_exp,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar=M,cvar=C,a0=0,a1=1,m=0,yreg= survAFT_exp,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mcont_wei_noint_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+%mediation(data=sim,yvar=Ycen_noint,avar=A,mvar=M_cont,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_weibull,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar=M_cont,cvar=C,a0=0,a1=1,m=0,yreg= survAFT_weibull,mreg=linear,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+ods pdf close;
+
+
+
+ods pdf file="/nfs/home/L/lvaleri/sasmacro/checks/datachecks/MCONTINTchecksoutput1132017.pdf"  style = minimal;
+
+
+
+*********MCONT INT
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mcont_int_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+%mediation(data=sim,yvar=Y_cont_int,avar=A,mvar=M_cont,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_cont_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+
+
+*********
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=survCox,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg= survCox,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_exp,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg= survAFT_exp,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mcont_wei_int_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_cont,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_weibull,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar=M_cont,cvar=C,a0=0,a1=1,m=0,yreg= survAFT_weibull,mreg=linear,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+ods pdf close;
+
+
+
+
+
+
+ods pdf file="/nfs/home/L/lvaleri/sasmacro/checks/datachecks/MBINNOINTchecksoutput1132017.pdf"  style = minimal;
+
+
+*********MBIN NO INT
+
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mbin_noint_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+%mediation(data=sim,yvar=Y_cont_noint,avar=A,mvar=M_bin,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_cont_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+
+
+*********
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+
+%mediation(data= sim,yvar=Y_count_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=survCox,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar=M_bin,cvar=C,a0=0,a1=1,m=0,yreg= survCox,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_exp,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar=M_bin,cvar=C,a0=0,a1=1,m=0,yreg= survAFT_exp,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mbin_wei_noint_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_weibull,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_noint,avar=A,mvar=M_bin,cvar=C,a0=0,a1=1,m=0,yreg= survAFT_weibull,mreg=logistic,
+interaction=false,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+ods pdf close;
+
+
+
+
+ods pdf file="/nfs/home/L/lvaleri/sasmacro/checks/datachecks/MBININTchecksoutput1132017.pdf"  style = minimal;
+
+*********MBIN INT
+
+
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mbin_int_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+
+%mediation(data=sim,yvar=Y_cont_int,avar=A,mvar=M_bin,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_cont_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=linear,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bin_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=loglinear,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=poisson,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=);
+run;
+
+
+%mediation(data= sim,yvar=Y_count_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=negbin,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens=);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=survCox,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg= survCox,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_exp,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg= surAFT_exp,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+
+
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mbin_wei_int_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE ;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar= M_bin,cvar=C,a0=0,a1=1,m=0,yreg=survAFT_weibull,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=,cens=delta);
+run;
+
+
+%mediation(data= sim,yvar=Ycen_int,avar=A,mvar=M_bin,cvar=C,a0=0,a1=1,m=0,yreg= survAFT_weibull,mreg=logistic,
+interaction=true,casecontrol=,output=full,c=1,boot=100,cens= delta);
+run;
+
+*********
+
+ods pdf close;
+
+
+
+
+
+
+ods pdf file="/nfs/home/L/lvaleri/sasmacro/checks/datachecks/CCchecksoutput1132017.pdf"  style = minimal;
+
+******CASE CONTROL
+
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mcont_cc_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+%mediation(data= sim,yvar=Y_bincc,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=false,casecontrol=true,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bincc,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=false,casecontrol=true,output=full,c=1,boot=100,cens=);
+run;
+
+
+******
+
+
+
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mcont_cc_int_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE ;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+%mediation(data= sim,yvar=Y_bincc_int,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=true,casecontrol=true,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bincc_int,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=linear,
+interaction=true,casecontrol=true,output=full,c=1,boot=100,cens=);
+run;
+
+
+
+
+
+
+******CASE CONTROL
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mbin_cc_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE ;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+%mediation(data= sim,yvar=Y_bincc,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=false,casecontrol=true,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bincc,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=false,casecontrol=true,output=full,c=1,boot=100,cens=);
+run;
+
+
+******
+
+
+
+Filename sim "/nfs/home/L/lvaleri/sasmacro/checks/datachecks/data/Mbin_cc_int_data.csv" lrecl=100;
+
+ PROC IMPORT OUT= WORK.sim 
+            DATAFILE= sim 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+ RUN;
+
+
+
+
+%mediation(data= sim,yvar=Y_bincc_int,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=true,casecontrol=true,output=full,c=1,boot=,cens=);
+run;
+
+%mediation(data= sim,yvar=Y_bincc_int,avar=A,mvar= M,cvar=C,a0=0,a1=1,m=0,yreg=logistic,mreg=logistic,
+interaction=true,casecontrol=true,output=full,c=1,boot=100,cens=);
+run;
+
+
+
+
+
+ods pdf close;
+
