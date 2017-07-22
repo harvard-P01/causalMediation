@@ -1,12 +1,12 @@
-## SAS code line 401
-## PDF pp. 1--5
+## SAS code line ??
+## PDF pp. 738--742
 
 d <- read.csv("../../inst/data/Mbin_int_data.csv")
 names(d)
 
 cm <- causmed$new(
   data = d,
-  outcome = "Y_cont_int",
+  outcome = "Y_bin_int",
   treatment = "A",
   mediator = "M_bin",
   covariates = "C",
@@ -15,8 +15,8 @@ cm <- causmed$new(
   boot = FALSE,
   nboot = 100,
   mreg = "logistic",
-  yreg = "linear",
-  event = NULL,
+  yreg = "aft_weibull",
+  event = "delta",
   m = 0,
   a_star = 0,
   a = 1,
@@ -27,5 +27,5 @@ cm <- causmed$new(
 run_test(
   cm,
   filename = "Mbin_int/linear_delta.txt",
-  sas = read.csv("../../inst/sasoutput/Mbin_int_linear.csv")
+  sas = read.csv("../../inst/sasoutput/Mbin_int_logistic_wei.csv")
 )

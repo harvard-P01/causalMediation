@@ -1,3 +1,6 @@
+## SAS code line 411
+## PDF pp. 15??
+
 d <- read.csv("../../inst/data/Mbin_int_data.csv")
 names(d)
 
@@ -24,5 +27,5 @@ cm <- causmed$new(
 run_test(
   cm,
   filename = "Mbin_int/linear_delta.txt",
-  sas = read.csv("../../inst/sasoutput/Mbin_int_linear_delta.csv")
+  sas = read.csv("../../inst/sasoutput/Mbin_int_logistic_log.csv")
 )
