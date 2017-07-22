@@ -1,3 +1,6 @@
+## SAS code line 401
+## PDF pp. 1--5
+
 d <- read.csv("../../inst/data/Mbin_int_data.csv")
 names(d)
 
