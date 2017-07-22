@@ -81,13 +81,13 @@ run_test <- function(cm,
   
   sink(filename)
   print("r_marginal")
-  r_marginal
+  print(r_marginal)
   print("sas_marginal")
-  sas_marginal
+  print(sas_marginal)
   print("r_marginal - sas_marginal")
-  r_marginal - sas_marginal
+  print(r_marginal - sas_marginal)
   print("sum(r_marginal - sas_marginal)")
-  sum(r_marginal - sas_marginal)
+  print(sum(r_marginal - sas_marginal))
   sink()
 }
 
