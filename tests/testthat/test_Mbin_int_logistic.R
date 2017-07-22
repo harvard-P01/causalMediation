@@ -1,10 +1,9 @@
 d <- read.csv("../../inst/data/Mbin_int_data.csv")
 names(d)
 
-
 cm <- causmed$new(
   data = d,
-  outcome = "Y_cont_int",
+  outcome = "Y_bin_int",
   treatment = "A",
   mediator = "M_bin",
   covariates = "C",
@@ -13,7 +12,7 @@ cm <- causmed$new(
   boot = FALSE,
   nboot = 100,
   mreg = "logistic",
-  yreg = "linear",
+  yreg = "logistic",
   event = NULL,
   m = 0,
   a_star = 0,
