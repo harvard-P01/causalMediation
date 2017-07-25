@@ -64,6 +64,23 @@ format_df_delta <- function(delta.out, conf = 0.95, n) {
   return(cbind(d_all, add_columns(d_all, n = n)))
 }
 
+print_test <- function(r, sas, type = "marginal") {
+  r_string <- paste("r", type, sep = "_")
+  sas_string <- paste("sas", type, sep = "_")
+  cat("\n")
+  cat(r_string)
+  cat("\n")
+  print(r)
+  cat("\n")
+  cat(sas_string)
+  cat("\n")
+  print(sas)
+  cat("\nDifference\n")
+  print(r - sas)
+  cat("\nSum difference\n")
+  print(sum(r - sas))
+}
+
 run_test <- function(cm,
                      filename = "Mbin_int/linear_delta.txt",
                      sas = read.csv("../../inst/sasoutput/Mbin_int_linear_delta.csv")) {
@@ -80,14 +97,7 @@ run_test <- function(cm,
   sas_conditional <- sas[7:12, c(3, 4, 6, 7, 5)]
   
   sink(filename)
-  print("r_marginal")
-  print(r_marginal)
-  print("sas_marginal")
-  print(sas_marginal)
-  print("r_marginal - sas_marginal")
-  print(r_marginal - sas_marginal)
-  print("sum(r_marginal - sas_marginal)")
-  print(sum(r_marginal - sas_marginal))
+  print_test(r_marginal, sas_marginal, type = "marginal")
   sink()
 }
 
